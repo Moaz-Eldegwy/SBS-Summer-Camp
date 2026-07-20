@@ -15,7 +15,7 @@ no server, no dependencies. Open a file locally or hit the GitHub Pages URL.
 
 Start at the course hub:
 
-**https://moaz-eldegwy.github.io/sbs-summer-camp/**
+**https://moaz-eldegwy.github.io/SBS-Summer-Camp/**
 
 From there you can open any published session deck or take any quiz. Direct links:
 
@@ -57,7 +57,7 @@ hallucination, bias, privacy and cost · a roadmap for what to learn next.
 ## Repository layout
 
 ```
-sbs-summer-camp/
+SBS-Summer-Camp/
 ├── index.html              Course hub — links to every session and quiz
 ├── assets/                 Shared logo and fonts
 ├── sessions/

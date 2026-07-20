@@ -10,7 +10,7 @@ Slides not published yet. When they are, this folder holds `presenter.html`
 plus `slide1.html … slideN.html`, and the deck opens at:
 
 ```
-https://moaz-eldegwy.github.io/sbs-summer-camp/sessions/session-2/presenter.html
+https://moaz-eldegwy.github.io/SBS-Summer-Camp/sessions/session-2/presenter.html
 ```
 
 ## Notebooks
