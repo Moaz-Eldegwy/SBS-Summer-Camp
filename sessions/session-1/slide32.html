@@ -16,53 +16,64 @@ body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
 @keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
 
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px;flex:1;align-content:stretch}
-.mod{padding:22px 26px;position:relative}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;flex:1;align-content:stretch}
+.mod{padding:20px 24px;position:relative;display:block;text-decoration:none;color:inherit;
+  transition:transform .15s ease,box-shadow .15s ease}
+.mod:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(29,37,48,.13)}
 .mod .head{display:flex;align-items:center;gap:12px}
-.mod .tag{flex:none;width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font:700 17px/1 var(--fd);color:#fff}
-.mod.a .tag{background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
-.mod.b .tag{background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
-.mod b{font:700 19px/1.25 var(--fd);letter-spacing:-.2px}
-.mod .time{margin-left:auto;font:700 12.5px/1 var(--fb);color:var(--muted);background:#F2F5F6;border-radius:16px;padding:8px 12px;flex:none}
-.mod p{margin-top:10px;font:400 14px/1.55 var(--fb);color:var(--muted)}
-.mod p b{color:var(--ink);font:600 14px/1.4 var(--fb)}
-.tools{margin-top:10px;display:flex;flex-wrap:wrap;gap:7px}
-.tool{font:600 12px/1 var(--fb);color:var(--accent-dark);background:rgba(78,205,196,.1);border:1px solid rgba(78,205,196,.3);
-  border-radius:16px;padding:7px 11px}
-.mod.care{border-color:rgba(255,107,107,.4)}
-.mod.care .caret{display:inline-block;margin-top:10px;font:600 12.5px/1.3 var(--fb);color:var(--primary-dark);
-  background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.3);border-radius:12px;padding:8px 12px}
+.mod .tag{flex:none;width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.mod.a .tag{background:rgba(255,107,107,.1)}
+.mod.b .tag{background:rgba(78,205,196,.13)}
+.mod b{font:700 18px/1.25 var(--fd);letter-spacing:-.2px}
+.mod .open{margin-left:auto;font:700 12px/1 var(--fb);color:var(--accent-dark);background:rgba(78,205,196,.1);
+  border:1px solid rgba(78,205,196,.3);border-radius:16px;padding:8px 12px;flex:none}
+.mod.a .open{color:var(--primary-dark);background:rgba(255,107,107,.08);border-color:rgba(255,107,107,.3)}
+.mod .url{margin-top:8px;font:700 13.5px/1.3 ui-monospace,Consolas,monospace;color:var(--accent-dark);word-break:break-all}
+.mod.a .url{color:var(--primary-dark)}
+.mod p{margin-top:7px;font:400 13.5px/1.5 var(--fb);color:var(--muted)}
+.mod p b{color:var(--ink);font:600 13.5px/1.4 var(--fb)}
 </style>
 
 <div class="slide">
-  <div class="kicker in">Extensions — only if the room wants more</div>
-  <div class="title in d1">Bonus <span class="grad">modules</span> <small>self-contained · drop in wherever the energy asks for it · stretches 90 → 180 min</small></div>
+  <div class="kicker in">Keep going — everything is free</div>
+  <div class="title in d1">Want more? <span class="grad">Start here.</span> <small>click any card to open it · all free, no signup walls · zero pressure — play with what looks fun</small></div>
 
   <div class="grid">
-    <div class="card mod a in d1">
-      <div class="head"><span class="tag">A</span><b>The AI-detection gauntlet</b><span class="time">~15 min</span></div>
-      <p><b>Competitive rounds across modalities:</b> faces → AI music vs. real → AI video vs. real. Keep a live scoreboard; debrief which modality fooled the room most, and why.</p>
-      <div class="tools">
-        <span class="tool">whichfaceisreal.com</span><span class="tool">whichoneisreal.com/real-or-ai</span>
-        <span class="tool">sightengine.com/ai-or-not</span><span class="tool">Google AI experiments</span>
-      </div>
-    </div>
+    <a class="card mod a in d1" href="https://chatgpt.com" target="_blank" rel="noopener">
+      <div class="head"><span class="tag">💬</span><b>ChatGPT</b><span class="open">open ↗</span></div>
+      <div class="url">chatgpt.com</div>
+      <p>The chatbot from tonight. <b>Best first step:</b> use it for a week — drafts, summaries, explanations — and notice where it shines and where it slips.</p>
+    </a>
 
-    <div class="card mod b in d2">
-      <div class="head"><span class="tag">B</span><b>“Where would YOU use this?”</b><span class="time">~15 min</span></div>
-      <p><b>Small groups by faculty/major.</b> Each lists 3 places GenAI could help their field — and 1 place it would be dangerous to trust. Share out. Makes it personal, and surfaces the “verify the 20%” lesson organically.</p>
-    </div>
+    <a class="card mod b in d2" href="https://gemini.google.com" target="_blank" rel="noopener">
+      <div class="head"><span class="tag">✨</span><b>Google Gemini</b><span class="open">open ↗</span></div>
+      <div class="url">gemini.google.com</div>
+      <p>Google’s chatbot — the same family as the model that painted our images live tonight. <b>Try the same prompt in both</b> and compare personalities.</p>
+    </a>
 
-    <div class="card mod b in d3">
-      <div class="head"><span class="tag">C</span><b>Prompt taste-test</b><span class="time">~10 min</span></div>
-      <p>Lazy prompt — <b>“write about climate”</b> — vs. a good one: <b>“a 5-sentence, hopeful summary of climate solutions for high-schoolers.”</b> Compare live. A one-slide teaser for Session 3’s prompt-engineering deep dive.</p>
-    </div>
+    <a class="card mod b in d3" href="https://www.whichfaceisreal.com" target="_blank" rel="noopener">
+      <div class="head"><span class="tag">🕵️</span><b>Which Face Is Real</b><span class="open">open ↗</span></div>
+      <div class="url">whichfaceisreal.com</div>
+      <p>The game we played. <b>Keep training your eye</b> — challenge your family; watch them fall for the same tells you now know.</p>
+    </a>
 
-    <div class="card mod a care in d4">
-      <div class="head"><span class="tag">D</span><b>Deepfakes &amp; responsibility</b><span class="time">~10 min</span></div>
-      <p>Short, sober segment: voice cloning and face-swaps are easy now — what that means for trust, consent, and news.</p>
-      <span class="caret">⚖️ No fear-mongering. Frame it as “understanding this is a civic skill” — and preview Session 4.</span>
-    </div>
+    <a class="card mod a in d4" href="https://www.youtube.com/watch?v=zjkBMFhNj_g" target="_blank" rel="noopener">
+      <div class="head"><span class="tag">🎬</span><b>“Intro to Large Language Models”</b><span class="open">watch ↗</span></div>
+      <div class="url">youtube.com — Andrej Karpathy</div>
+      <p>A famous <b>1-hour, plain-English talk</b> — tonight’s ideas, one level deeper, no math. The single best next video to watch.</p>
+    </a>
+
+    <a class="card mod b in d5" href="https://poloclub.github.io/transformer-explainer/" target="_blank" rel="noopener">
+      <div class="head"><span class="tag">🔬</span><b>Transformer Explainer</b><span class="open">open ↗</span></div>
+      <div class="url">poloclub.github.io/transformer-explainer</div>
+      <p>For the curious: a real model running <b>in your browser</b>, showing its next-word guesses live as you type. A sneak peek of Session 2.</p>
+    </a>
+
+    <a class="card mod a in d5" href="https://aistudio.google.com" target="_blank" rel="noopener">
+      <div class="head"><span class="tag">🧪</span><b>Google AI Studio</b><span class="open">open ↗</span></div>
+      <div class="url">aistudio.google.com</div>
+      <p>Where tonight’s API key came from. <b>Free playground</b> for text and image models — the tool we’ll lean on when we start building.</p>
+    </a>
   </div>
 </div>
 
