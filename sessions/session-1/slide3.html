@@ -1,0 +1,103 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:60px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 46px/1.1 var(--fd);letter-spacing:-1px;margin-top:14px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}.d5{animation-delay:.5s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:30px}
+.sess{padding:24px 22px;cursor:pointer;position:relative;transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
+.sess:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(29,37,48,.12)}
+.sess.active{border-color:var(--accent-dark);box-shadow:0 0 0 2px rgba(78,205,196,.3),var(--shadow)}
+.sess .num{font:700 15px/1 var(--fd);letter-spacing:.08em;color:var(--faint)}
+.sess h3{font:700 21px/1.25 var(--fd);letter-spacing:-.3px;margin-top:10px;min-height:52px}
+.sess p{font:400 14.5px/1.5 var(--fb);color:var(--muted);margin-top:10px;min-height:86px}
+.sess .date{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font:600 13px/1 var(--fb);color:var(--muted);
+  background:#F5F7F8;border-radius:20px;padding:8px 13px}
+.sess .date i{width:7px;height:7px;border-radius:50%;background:var(--accent-dark);font-style:normal}
+.sess.tonight{border-color:rgba(255,107,107,.55)}
+.sess.tonight .num{color:var(--primary-dark)}
+.sess.tonight .date i{background:var(--primary)}
+.badge{position:absolute;top:-12px;right:16px;font:700 11px/1 var(--fb);letter-spacing:.14em;color:#fff;
+  background:linear-gradient(90deg,var(--primary),var(--primary-dark));border-radius:20px;padding:7px 12px;
+  box-shadow:0 6px 14px rgba(255,107,107,.4)}
+
+.detail{margin-top:22px;padding:20px 26px;display:flex;align-items:center;gap:16px;min-height:88px}
+.detail .tag{flex:none;font:700 13px/1 var(--fd);letter-spacing:.1em;color:var(--accent-dark);
+  background:rgba(78,205,196,.13);border-radius:20px;padding:9px 14px}
+.detail p{font:400 16px/1.55 var(--fb);color:var(--ink)}
+.detail .hint{font:400 14.5px/1.5 var(--fb);color:var(--faint)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">The roadmap</div>
+  <div class="title in d1">Four evenings. <span class="grad">Zero&nbsp;→&nbsp;shipping.</span></div>
+
+  <div class="grid">
+    <div class="card sess tonight in d1" data-i="0">
+      <div class="badge">TONIGHT</div>
+      <div class="num">SESSION 1</div>
+      <h3>Welcome to Generative AI</h3>
+      <p>Explain what GenAI is — and walk out having <b>used</b> several kinds yourself.</p>
+      <div class="date"><i></i>Mon 20 Jul</div>
+    </div>
+    <div class="card sess in d2" data-i="1">
+      <div class="num">SESSION 2</div>
+      <h3>Under the Hood + Run One Yourself</h3>
+      <p>How LLMs work (intuition, no scary math) — then load &amp; run your own model.</p>
+      <div class="date"><i></i>Thu 23 Jul</div>
+    </div>
+    <div class="card sess in d3" data-i="2">
+      <div class="num">SESSION 3</div>
+      <h3>Make Models Do What You Want</h3>
+      <p>Prompt like a pro — and choose between prompting, RAG &amp; fine-tuning.</p>
+      <div class="date"><i></i>Mon 27 Jul</div>
+    </div>
+    <div class="card sess in d4" data-i="3">
+      <div class="num">SESSION 4</div>
+      <h3>Build &amp; Ship + Use It Responsibly</h3>
+      <p>Ship a small GenAI app — and know the risks and what to learn next.</p>
+      <div class="date"><i></i>Thu 30 Jul</div>
+    </div>
+  </div>
+
+  <div class="card detail in d5">
+    <div class="tag" id="dtag">TIP</div>
+    <p class="hint" id="dbody">Click any session card for the fuller picture.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var details=[
+    ['S1 · TONIGHT','What “generating” means vs. AI that just classifies · a fast tour across text / image / audio / code · why it exploded now · an honest map of strengths and weaknesses — plus the planted teaser: these systems just predict the next piece.'],
+    ['S2 · UNDER THE HOOD','Next-token prediction and everything that falls out of it — fluency, hallucination, temperature · tokens &amp; embeddings by analogy · what pretraining is · then loading a pretrained model with a Hugging Face pipeline.'],
+    ['S3 · STEERING','Three levers in order of effort — prompt engineering (zero/few-shot, roles, structure, chain-of-thought intuition), RAG, fine-tuning — plus the decision framework: when to prompt vs. RAG vs. fine-tune vs. (almost never) pretrain.'],
+    ['S4 · SHIPPING','Assemble a doc-Q&amp;A chatbot with RAG · a look at other modalities and agents · hallucination, bias, privacy, cost · a roadmap for what to learn next.']
+  ];
+  var tag=document.getElementById('dtag'), body=document.getElementById('dbody');
+  document.querySelectorAll('.sess').forEach(function(c){
+    c.addEventListener('click',function(){
+      var on=c.classList.contains('active');
+      document.querySelectorAll('.sess').forEach(function(x){x.classList.remove('active')});
+      if(on){ tag.textContent='TIP'; body.className='hint'; body.textContent='Click any session card for the fuller picture.'; return; }
+      c.classList.add('active');
+      var d=details[+c.dataset.i];
+      tag.textContent=d[0]; body.className=''; body.innerHTML=d[1];
+    });
+  });
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

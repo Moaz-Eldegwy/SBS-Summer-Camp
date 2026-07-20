@@ -1,0 +1,74 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:56px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}.d4{animation-delay:.52s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.stepper{position:absolute;top:60px;right:84px;display:flex;gap:9px}
+.stp{display:flex;align-items:center;gap:8px;font:700 13px/1 var(--fd);border-radius:24px;padding:10px 15px;color:var(--faint);background:#F2F5F6}
+.stp.done{color:var(--accent-dark);background:rgba(78,205,196,.13)}
+.stp.on{color:#fff;background:linear-gradient(92deg,var(--primary),var(--accent-dark));box-shadow:0 6px 16px rgba(255,107,107,.35)}
+
+.hero{text-align:center;margin-top:24px}
+.hero .word{font:700 88px/1 var(--fd);letter-spacing:-3px;
+  background:linear-gradient(94deg,var(--primary) 8%,var(--accent-dark) 92%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .yr{font:700 30px/1 var(--fd);color:var(--faint);vertical-align:super;margin-left:12px}
+.hero .cap{margin-top:16px;font:500 21px/1.4 var(--fb);color:var(--muted)}
+.gpt{display:inline-flex;font:700 26px/1 var(--fd);margin-left:8px;background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:11px 16px;box-shadow:0 4px 14px rgba(29,37,48,.07);letter-spacing:1px}
+.gpt b{color:var(--primary-dark);position:relative}
+.gpt b::after{content:'';position:absolute;left:-2px;right:-2px;bottom:-6px;height:4px;border-radius:2px;background:var(--primary)}
+.notyet{margin-top:14px;font:600 14.5px/1 var(--fb);color:var(--accent-dark)}
+
+.river{margin-top:26px;position:relative;flex:1;min-height:0}
+.river svg{display:block;width:100%;height:100%}
+.rl{position:absolute;font:700 15px/1 var(--fd);display:flex;align-items:center;gap:8px}
+.rl i{width:11px;height:11px;border-radius:50%;font-style:normal;flex:none}
+.rl small{display:block;font:500 12px/1.2 var(--fb);color:var(--faint)}
+.riverlabel{position:absolute;right:30px;top:50%;transform:translateY(-50%);text-align:right}
+.riverlabel b{font:700 24px/1.2 var(--fd);background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+.riverlabel span{display:block;font:500 14px/1.4 var(--fb);color:var(--muted);margin-top:4px}
+.dash{stroke-dasharray:10 8;animation:flow 1.4s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-18}}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Why now · ingredient 3 of 3</div>
+  <div class="stepper in">
+    <span class="stp done">✓ Data</span><span class="stp done">✓ Compute</span><span class="stp on">3 · The idea</span>
+  </div>
+
+  <div class="hero">
+    <div class="in d1"><span class="word">TRANSFORMER</span><span class="yr">2017</span></div>
+    <div class="cap in d2">a research paper introduced a smarter recipe — literally the <span class="gpt">Chat<b>G P T</b></span></div>
+    <div class="notyet in d2">🔒 we are NOT opening that box tonight — that’s Session 2, and only the intuition</div>
+  </div>
+
+  <div class="river in d3">
+    <svg viewBox="0 0 1110 240" fill="none" preserveAspectRatio="xMidYMid meet">
+      <path class="dash" d="M60 40 C 300 40, 420 108, 640 116" stroke="#3DB3AB" stroke-width="7" stroke-linecap="round"/>
+      <path class="dash" d="M60 120 C 300 120, 420 120, 640 120" stroke="#E05353" stroke-width="7" stroke-linecap="round" style="animation-delay:.3s"/>
+      <path class="dash" d="M60 200 C 300 200, 420 132, 640 124" stroke="#F2A65A" stroke-width="7" stroke-linecap="round" style="animation-delay:.6s"/>
+      <path d="M640 120 C 760 120, 860 120, 980 120" stroke="url(#riv)" stroke-width="26" stroke-linecap="round" opacity=".9"/>
+      <circle cx="640" cy="120" r="13" fill="#fff" stroke="#E05353" stroke-width="4"/>
+      <defs><linearGradient id="riv" x1="640" x2="980" y1="120" y2="120" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#FF6B6B"/><stop offset="1" stop-color="#3DB3AB"/></linearGradient></defs>
+    </svg>
+    <div class="rl" style="left:84px;top:6px;color:var(--accent-dark)"><i style="background:var(--accent-dark)"></i>Data<small>&nbsp;— the internet, stacked</small></div>
+    <div class="rl" style="left:84px;top:44%;color:var(--primary-dark)"><i style="background:var(--primary)"></i>Compute<small>&nbsp;— GPUs at scale</small></div>
+    <div class="rl" style="left:84px;bottom:8px;color:#D18434"><i style="background:#F2A65A"></i>The idea<small>&nbsp;— the transformer</small></div>
+    <div class="riverlabel"><b>Three streams,<br>one river.</b><span>miss any one, and none of this happens</span></div>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

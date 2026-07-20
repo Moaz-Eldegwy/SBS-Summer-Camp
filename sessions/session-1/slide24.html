@@ -1,0 +1,137 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:56px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.stagewrap{display:flex;gap:44px;margin-top:24px;flex:1;align-items:stretch}
+.sentcard{flex:1.25;padding:30px 34px;display:flex;flex-direction:column}
+.sentcard .lbl{font:600 12px/1 var(--fb);letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.sent{margin-top:18px;font:700 40px/1.35 var(--fd);letter-spacing:-1px;flex:1}
+.sent .w{display:inline-block;margin-right:12px}
+.sent .w.new{animation:pop .45s cubic-bezier(.2,1.4,.4,1) both;color:var(--accent-dark)}
+@keyframes pop{from{opacity:0;transform:scale(.4) translateY(10px)}to{opacity:1;transform:none}}
+.sent .blank{display:inline-block;width:150px;height:44px;border-bottom:5px dashed var(--primary-light);vertical-align:-6px;position:relative}
+.sent .blank::after{content:'?';position:absolute;left:50%;top:-4px;transform:translateX(-50%);font:700 30px/1 var(--fd);color:var(--primary-light)}
+.loopnote{display:flex;align-items:center;gap:11px;font:600 15px/1.4 var(--fb);color:var(--muted)}
+.loopnote svg{flex:none;animation:spin 3.2s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loopnote b{color:var(--primary-dark)}
+
+.probcard{flex:1;padding:26px 30px}
+.probcard .lbl{font:600 12px/1 var(--fb);letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.bars{margin-top:16px}
+.brow{display:flex;align-items:center;gap:12px;margin-top:13px;opacity:0;animation:bin .4s ease both}
+@keyframes bin{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+.brow .w{flex:none;width:110px;font:600 16.5px/1.2 var(--fb);text-align:right;color:var(--ink)}
+.brow.top .w{font-weight:800}
+.brow .track{flex:1;height:15px;border-radius:5px;background:#F0F3F5;overflow:hidden}
+.brow .fill{height:100%;border-radius:4px;background:var(--accent-dark);width:0;transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.brow.top .fill{background:linear-gradient(90deg,var(--accent-dark),var(--accent))}
+.brow .pc{flex:none;width:52px;font:700 14.5px/1 var(--fd);color:var(--muted)}
+.brow.top .pc{color:var(--ink)}
+.brow .pick{flex:none;font:700 11px/1 var(--fb);letter-spacing:.08em;color:var(--primary-dark);
+  background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.35);border-radius:16px;padding:6px 10px;
+  opacity:0;transition:opacity .3s ease .4s}
+.brow.top .pick{opacity:1}
+
+.punch{margin-top:20px;padding:18px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.punch p{font:600 19px/1.45 var(--fd)}
+.punch p b{color:var(--primary-dark)}
+.hint{flex:none;font:600 13.5px/1 var(--fb);color:var(--faint);letter-spacing:.05em}
+.hint b{color:var(--accent-dark)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">The one secret</div>
+  <div class="title in d1">It predicts the next word. <span class="grad">That’s it. That’s the whole trick.</span></div>
+
+  <div class="stagewrap">
+    <div class="card sentcard in d1">
+      <div class="lbl">The sentence so far</div>
+      <div class="sent" id="sent"></div>
+      <div class="loopnote">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3a8 8 0 1 1-7.5 5.2" stroke="#E05353" stroke-width="2.4" stroke-linecap="round"/><path d="m1.5 5 2-3.2L6.7 4" stroke="#E05353" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>look at the words so far → guess the next → <b>add it → look again</b> → repeat, thousands of times</span>
+      </div>
+    </div>
+
+    <div class="card probcard in d2">
+      <div class="lbl">“What probably comes next?”</div>
+      <div class="bars" id="bars"></div>
+    </div>
+  </div>
+
+  <div class="card punch in d3">
+    <p>No plan. No sentence it’s aiming for. Just: <b>next word, next word, next word.</b></p>
+    <div class="hint">press <b>→</b> to add the next word · <b>←</b> rewinds</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* scripted next-word chain: [distribution before choosing], choice = first entry */
+  var chain=[
+    {have:['The','sky','is'], dist:[['blue',61],['gray',12],['clear',7],['falling',4],['endless',3]]},
+    {have:null, dist:[['and',34],['today',22],['because',11],['.',9],['over',6]]},
+    {have:null, dist:[['the',28],['full',17],['so',12],['very',8],['cats',2]]},
+    {have:null, dist:[['sun',36],['clouds',21],['stars',14],['moon',9],['wifi',2]]},
+    {have:null, dist:[['is',41],['shines',20],['feels',9],['sings',5],['left',3]]},
+    {have:null, dist:[['warm',33],['bright',24],['out',13],['golden',9],['tired',3]]},
+  ];
+  var step=0, words=['The','sky','is'];
+  var sent=document.getElementById('sent'), bars=document.getElementById('bars');
+
+  function renderSent(newWord){
+    sent.innerHTML='';
+    words.forEach(function(w,i){
+      var s=document.createElement('span');
+      s.className='w'+(newWord&&i===words.length-1?' new':'');
+      s.textContent=w; sent.appendChild(s);
+    });
+    var b=document.createElement('span'); b.className='blank'; sent.appendChild(b);
+  }
+  function renderBars(){
+    bars.innerHTML='';
+    if(step>=chain.length){
+      bars.innerHTML='<div style="margin-top:20px;font:600 17px/1.6 var(--fb);color:var(--muted)">…and that’s how every essay, poem and program you saw tonight gets written.<br><b style="color:var(--ink)">One trick. Unimaginable scale.</b></div>';
+      return;
+    }
+    chain[step].dist.forEach(function(d,i){
+      var r=document.createElement('div');
+      r.className='brow'+(i===0?' top':'');
+      r.style.animationDelay=(i*.09)+'s';
+      r.innerHTML='<span class="w">'+d[0]+'</span><div class="track"><div class="fill"></div></div><span class="pc">'+d[1]+'%</span>'+(i===0?'<span class="pick">← picks this</span>':'');
+      bars.appendChild(r);
+      requestAnimationFrame(function(){requestAnimationFrame(function(){ r.querySelector('.fill').style.width=(d[1]/61*100)+'%'; });});
+    });
+  }
+  function fwd(){
+    if(step>=chain.length)return false;
+    words.push(chain[step].dist[0][0]); step++;
+    renderSent(true); renderBars(); return true;
+  }
+  function back(){
+    if(step===0)return false;
+    words.pop(); step--;
+    renderSent(false); renderBars(); return true;
+  }
+  window.sbsStep=function(dir){ return dir>0?fwd():back(); };
+  bars.addEventListener('click',fwd);
+  renderSent(false); renderBars();
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

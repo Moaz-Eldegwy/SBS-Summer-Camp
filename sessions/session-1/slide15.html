@@ -1,0 +1,112 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:56px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 48px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}.d4{animation-delay:.52s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.cols{display:flex;gap:34px;margin-top:28px;flex:1;align-items:stretch}
+.qrcard{flex:none;width:300px;padding:26px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.qrcard img{width:200px;height:200px;border-radius:16px;border:1px solid var(--line)}
+.qrcard .u{margin-top:14px;font:700 21px/1 var(--fd);color:var(--accent-dark)}
+.qrcard .s{margin-top:7px;font:400 13.5px/1.45 var(--fb);color:var(--muted)}
+
+.mid{flex:1;display:flex;flex-direction:column;gap:18px}
+.promptcard{flex:1;padding:26px 30px;position:relative;overflow:hidden}
+.promptcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,var(--primary),var(--accent))}
+.promptcard .lbl{font:600 12px/1 var(--fb);letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.promptcard .txt{margin-top:12px;font:600 27px/1.45 var(--fd);letter-spacing:-.3px}
+.promptcard .txt mark{background:linear-gradient(0deg,rgba(255,107,107,.22),rgba(255,107,107,.22));color:var(--primary-dark);padding:2px 8px;border-radius:8px}
+.steps{display:flex;gap:12px}
+.step{flex:1;padding:14px 16px;display:flex;align-items:center;gap:11px;font:600 14px/1.35 var(--fb);color:var(--muted)}
+.step i{flex:none;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 13px/1 var(--fd);color:#fff;font-style:normal;
+  background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+
+.timer{flex:none;width:250px;padding:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;user-select:none}
+.ring{position:relative;width:168px;height:168px}
+.ring svg{transform:rotate(-90deg)}
+.ring .t{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 42px/1 var(--fd);letter-spacing:-1px}
+.timer .st{margin-top:12px;font:700 13px/1 var(--fb);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-dark)}
+.timer.running .st{color:var(--primary-dark)}
+
+.peek{margin-top:20px;display:flex;align-items:center;gap:14px;padding:16px 22px}
+.peek p{font:500 16.5px/1.5 var(--fb)}
+.peek b{color:var(--primary-dark)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Your turn · Everyone, phones out 📱</div>
+  <div class="title in d1">Same prompt. <span class="grad">150 different answers.</span></div>
+
+  <div class="cols">
+    <div class="card qrcard in d1">
+      <img src="assets/qr-chatbot.png" alt="QR to chatgpt.com">
+      <div class="u">chatgpt.com</div>
+      <div class="s">or Claude / Gemini — any free tier works, no signup needed</div>
+    </div>
+
+    <div class="mid in d2">
+      <div class="card promptcard">
+        <div class="lbl">Paste this — swap in your own major</div>
+        <div class="txt">“Explain <mark>[my field of study]</mark> to a 6-year-old, then write a 4-line rap about it.”</div>
+      </div>
+      <div class="steps">
+        <div class="card step"><i>1</i>Scan &amp; open</div>
+        <div class="card step"><i>2</i>Paste + your major</div>
+        <div class="card step"><i>3</i>Hit enter ↵</div>
+      </div>
+    </div>
+
+    <div class="card timer in d3" id="tm" title="click to start / pause · double-click to reset">
+      <div class="ring">
+        <svg width="168" height="168" viewBox="0 0 168 168">
+          <circle cx="84" cy="84" r="74" fill="none" stroke="#EDF1F3" stroke-width="12"/>
+          <circle id="prog" cx="84" cy="84" r="74" fill="none" stroke="url(#gr)" stroke-width="12" stroke-linecap="round"
+            stroke-dasharray="465" stroke-dashoffset="0"/>
+          <defs><linearGradient id="gr" x1="0" y1="0" x2="168" y2="168"><stop stop-color="#FF6B6B"/><stop offset="1" stop-color="#3DB3AB"/></linearGradient></defs>
+        </svg>
+        <div class="t" id="clock">2:00</div>
+      </div>
+      <div class="st" id="tstate">▶ click to start</div>
+    </div>
+  </div>
+
+  <div class="card peek in d4">
+    <span style="font-size:26px">👀</span>
+    <p>Done? <b>Glance at your neighbor’s screen.</b> Same prompt, different answer — it isn’t looking up a stored reply. It’s <b>generating a fresh one, just for you, every single time.</b> Hold that thought.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var TOTAL=120, left=TOTAL, run=false, iv=null;
+  var clock=document.getElementById('clock'), prog=document.getElementById('prog'),
+      tm=document.getElementById('tm'), st=document.getElementById('tstate');
+  var C=465;
+  function draw(){
+    var m=Math.floor(left/60), s=left%60;
+    clock.textContent=m+':'+(s<10?'0':'')+s;
+    prog.style.strokeDashoffset=(C*(1-left/TOTAL)).toFixed(1);
+    if(left===0){ clock.textContent='GO!'; st.textContent='⏰ time — peek at a neighbor!'; stop(); }
+  }
+  function tick(){ if(left>0){ left--; draw(); } }
+  function stop(){ run=false; clearInterval(iv); tm.classList.remove('running'); }
+  function start(){ if(left===0)return; run=true; iv=setInterval(tick,1000); tm.classList.add('running'); st.textContent='⏸ running — click to pause'; }
+  tm.addEventListener('click',function(){ run?(stop(),st.textContent='▶ paused — click to resume'):start(); });
+  tm.addEventListener('dblclick',function(){ stop(); left=TOTAL; st.textContent='▶ click to start'; draw(); });
+  draw();
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

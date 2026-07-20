@@ -1,0 +1,111 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:56px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.cols{display:flex;gap:52px;margin-top:26px;flex:1;align-items:center}
+
+.faces{display:flex;gap:22px}
+.face{position:relative;width:224px;border-radius:20px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);padding:10px 10px 12px}
+.face img{width:204px;height:230px;object-fit:cover;object-position:center 20%;border-radius:12px;display:block;filter:saturate(.98)}
+.face .tag{position:absolute;top:18px;left:18px;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font:700 17px/1 var(--fd);color:#fff}
+.face.a .tag{background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.face.b .tag{background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.stamp{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%) rotate(-9deg) scale(3);
+  font:700 19px/1 var(--fd);letter-spacing:.14em;padding:11px 16px;border-radius:10px;white-space:nowrap;
+  border:3px solid var(--primary-dark);color:var(--primary-dark);background:rgba(255,255,255,.88);
+  opacity:0;transition:all .35s cubic-bezier(.2,1.4,.4,1)}
+.stamp.real{border-color:var(--accent-dark);color:var(--accent-dark)}
+.reveal .stamp{opacity:1;transform:translate(-50%,-50%) rotate(-9deg) scale(1)}
+.verdict{margin-top:18px;font:700 24px/1.3 var(--fd);opacity:0;transform:translateY(12px);transition:all .45s ease .2s}
+.reveal2 .verdict{opacity:1;transform:none}
+
+.stat{flex:1;padding:34px 38px;position:relative;overflow:hidden;opacity:0;transform:translateY(16px);transition:all .5s ease}
+.reveal2 .stat{opacity:1;transform:none}
+.stat::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(420px 260px at 110% -20%, rgba(255,107,107,.1), transparent 65%),
+  radial-gradient(420px 260px at -10% 120%, rgba(78,205,196,.12), transparent 65%)}
+.stat *{position:relative}
+.stat .lbl{font:600 13.5px/1 var(--fb);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.big{display:flex;align-items:baseline;gap:14px;margin-top:14px}
+.big .n{font:700 124px/1 var(--fd);letter-spacing:-5px;color:var(--primary-dark)}
+.big .of{font:600 30px/1.15 var(--fd);color:var(--ink)}
+.stat p{margin-top:14px;font:400 18px/1.55 var(--fb);color:var(--ink)}
+.stat p b{color:var(--primary-dark)}
+.conf{margin-top:18px;display:flex;gap:12px;align-items:flex-start;background:rgba(255,107,107,.07);
+  border:1px solid rgba(255,107,107,.25);border-radius:14px;padding:14px 16px}
+.conf svg{flex:none;margin-top:2px}
+.conf span{font:500 15.5px/1.5 var(--fb)}
+.credit{margin-top:16px;font:400 12.5px/1.5 var(--fb);color:var(--faint)}
+
+.hint{position:fixed;bottom:26px;right:34px;font:600 13px/1 var(--fb);color:var(--faint);letter-spacing:.06em}
+.hint b{color:var(--primary-dark)}
+</style>
+
+<div class="slide" id="root">
+  <div class="kicker in">Cold open · The reveal</div>
+  <div class="title in d1" id="ttl">So… who was it?</div>
+
+  <div class="cols">
+    <div class="in d1">
+      <div class="faces">
+        <div class="face a"><span class="tag">A</span><img src="assets/face-a.jpg" alt="Portrait A"><div class="stamp" id="stA">AI-GENERATED</div></div>
+        <div class="face b"><span class="tag">B</span><img src="assets/face-b.jpg" alt="Portrait B"><div class="stamp" id="stB">AI-GENERATED</div></div>
+      </div>
+      <div class="verdict" id="verdict"></div>
+    </div>
+
+    <div class="card stat">
+      <div class="lbl">The uncomfortable part</div>
+      <div class="big"><span class="n">2<span style="color:var(--ink);font-size:64px"> / </span>3</span></div>
+      <p>On average, people label <b>2 out of 3 AI faces</b> as <b>“human.”</b> In the study, fake faces were called real <i>more often</i> than real ones.</p>
+      <div class="conf">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2 1.5 19h19L11 2Z" stroke="#E05353" stroke-width="2" stroke-linejoin="round"/><path d="M11 9v4.5" stroke="#E05353" stroke-width="2" stroke-linecap="round"/><circle cx="11" cy="16.2" r="1.2" fill="#E05353"/></svg>
+        <span>And the punchline: the <b>most confident</b> guessers were the ones getting it <b>most wrong</b>.</span>
+      </div>
+      <div class="credit">Miller, Steward, Witkower, Sutherland, Krumhuber &amp; Dawel — “AI Hyperrealism”, <i>Psychological Science</i>, 2023.</div>
+    </div>
+  </div>
+</div>
+<div class="hint">press <b>→</b> to reveal</div>
+
+<script>
+(function(){
+  /* Which face is REAL: 'A' | 'B' | 'NONE'.
+     As shipped, both images come from thispersondoesnotexist.com, so 'NONE' (the trick-question twist) is the honest default.
+     If you replace assets/face-a.jpg with a real photo you have rights to, set this to 'A'. */
+  var REAL_FACE='NONE';
+  var step=0, root=document.getElementById('root');
+  function reveal(){
+    var sa=document.getElementById('stA'), sb=document.getElementById('stB'),
+        v=document.getElementById('verdict'), t=document.getElementById('ttl');
+    if(REAL_FACE==='A'){ sa.textContent='REAL'; sa.classList.add('real'); v.innerHTML='B never existed. <span style="color:var(--primary-dark)">A is a real person.</span>'; }
+    else if(REAL_FACE==='B'){ sb.textContent='REAL'; sb.classList.add('real'); v.innerHTML='A never existed. <span style="color:var(--primary-dark)">B is a real person.</span>'; }
+    else { t.innerHTML='Trick question — <span class="grad">neither of them exists.</span>'; v.innerHTML='Both were dreamed up by a computer.'; }
+    root.classList.add('reveal');
+  }
+  window.sbsStep=function(dir){
+    if(dir>0&&step===0){ step=1; reveal(); return true; }
+    if(dir>0&&step===1){ step=2; root.classList.add('reveal2'); document.querySelector('.hint').style.opacity=0; return true; }
+    if(dir<0&&step>0){ step=0; root.classList.remove('reveal','reveal2'); return true; }
+    return false;
+  };
+  document.querySelector('.faces').addEventListener('click',function(){ window.sbsStep(1); });
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

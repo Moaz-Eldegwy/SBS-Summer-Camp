@@ -1,0 +1,71 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:56px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 40px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.title small{font:500 17px/1.4 var(--fb);letter-spacing:0;color:var(--muted);display:block;margin-top:8px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.22s}.d3{animation-delay:.34s}.d4{animation-delay:.46s}.d5{animation-delay:.58s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px;flex:1;align-content:stretch}
+.mod{padding:22px 26px;position:relative}
+.mod .head{display:flex;align-items:center;gap:12px}
+.mod .tag{flex:none;width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font:700 17px/1 var(--fd);color:#fff}
+.mod.a .tag{background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.mod.b .tag{background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.mod b{font:700 19px/1.25 var(--fd);letter-spacing:-.2px}
+.mod .time{margin-left:auto;font:700 12.5px/1 var(--fb);color:var(--muted);background:#F2F5F6;border-radius:16px;padding:8px 12px;flex:none}
+.mod p{margin-top:10px;font:400 14px/1.55 var(--fb);color:var(--muted)}
+.mod p b{color:var(--ink);font:600 14px/1.4 var(--fb)}
+.tools{margin-top:10px;display:flex;flex-wrap:wrap;gap:7px}
+.tool{font:600 12px/1 var(--fb);color:var(--accent-dark);background:rgba(78,205,196,.1);border:1px solid rgba(78,205,196,.3);
+  border-radius:16px;padding:7px 11px}
+.mod.care{border-color:rgba(255,107,107,.4)}
+.mod.care .caret{display:inline-block;margin-top:10px;font:600 12.5px/1.3 var(--fb);color:var(--primary-dark);
+  background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.3);border-radius:12px;padding:8px 12px}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Extensions — only if the room wants more</div>
+  <div class="title in d1">Bonus <span class="grad">modules</span> <small>self-contained · drop in wherever the energy asks for it · stretches 90 → 180 min</small></div>
+
+  <div class="grid">
+    <div class="card mod a in d1">
+      <div class="head"><span class="tag">A</span><b>The AI-detection gauntlet</b><span class="time">~15 min</span></div>
+      <p><b>Competitive rounds across modalities:</b> faces → AI music vs. real → AI video vs. real. Keep a live scoreboard; debrief which modality fooled the room most, and why.</p>
+      <div class="tools">
+        <span class="tool">whichfaceisreal.com</span><span class="tool">whichoneisreal.com/real-or-ai</span>
+        <span class="tool">sightengine.com/ai-or-not</span><span class="tool">Google AI experiments</span>
+      </div>
+    </div>
+
+    <div class="card mod b in d2">
+      <div class="head"><span class="tag">B</span><b>“Where would YOU use this?”</b><span class="time">~15 min</span></div>
+      <p><b>Small groups by faculty/major.</b> Each lists 3 places GenAI could help their field — and 1 place it would be dangerous to trust. Share out. Makes it personal, and surfaces the “verify the 20%” lesson organically.</p>
+    </div>
+
+    <div class="card mod b in d3">
+      <div class="head"><span class="tag">C</span><b>Prompt taste-test</b><span class="time">~10 min</span></div>
+      <p>Lazy prompt — <b>“write about climate”</b> — vs. a good one: <b>“a 5-sentence, hopeful summary of climate solutions for high-schoolers.”</b> Compare live. A one-slide teaser for Session 3’s prompt-engineering deep dive.</p>
+    </div>
+
+    <div class="card mod a care in d4">
+      <div class="head"><span class="tag">D</span><b>Deepfakes &amp; responsibility</b><span class="time">~10 min</span></div>
+      <p>Short, sober segment: voice cloning and face-swaps are easy now — what that means for trust, consent, and news.</p>
+      <span class="caret">⚖️ No fear-mongering. Frame it as “understanding this is a civic skill” — and preview Session 4.</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

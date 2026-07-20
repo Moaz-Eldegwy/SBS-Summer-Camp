@@ -1,0 +1,72 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:60px 84px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before,.kicker::after{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.12s}.d2{animation-delay:.28s}.d3{animation-delay:.46s}.d4{animation-delay:.64s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.date{margin-top:26px;font:700 84px/1.05 var(--fd);letter-spacing:-3px}
+.date .g{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{margin-top:8px;font:500 21px/1.4 var(--fb);color:var(--muted)}
+
+.chatbox{margin-top:36px;width:640px;padding:18px 20px;display:flex;align-items:center;gap:14px;border-radius:60px;
+  box-shadow:0 20px 50px rgba(29,37,48,.14);border:1px solid var(--line)}
+.chatbox .q{flex:1;text-align:left;font:500 18px/1 var(--fb);color:var(--muted);white-space:nowrap;overflow:hidden}
+.chatbox .cur{display:inline-block;width:10px;height:20px;background:var(--accent-dark);border-radius:2px;vertical-align:-3px;animation:bl .8s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+.chatbox .send{flex:none;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));box-shadow:0 8px 18px rgba(255,107,107,.4)}
+
+.stats{margin-top:36px;display:flex;gap:16px}
+.stat{padding:16px 24px;font:600 15.5px/1.4 var(--fb);color:var(--muted);display:flex;align-items:center;gap:11px}
+.stat b{color:var(--ink)}
+.stat .em{font-size:22px}
+
+.punch{margin-top:34px;font:600 25px/1.4 var(--fd);letter-spacing:-.3px}
+.punch b{background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Why now · the moment it hit your pocket</div>
+
+  <div class="date in d1">November <span class="g">2022</span></div>
+  <div class="sub in d1">years of quiet lab work — wrapped, at last, in a box anyone could type into</div>
+
+  <div class="card chatbox in d2">
+    <div class="q"><span id="tp"></span><span class="cur"></span></div>
+    <div class="send"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10h13M11 4.5 16.5 10 11 15.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  </div>
+
+  <div class="stats in d3">
+    <div class="card stat"><span class="em">🚀</span><span><b>Fastest-adopted</b> consumer technology of its era</span></div>
+    <div class="card stat"><span class="em">🌍</span><span>The whole world met it <b>in the same month</b></span></div>
+  </div>
+
+  <div class="punch in d4">It wasn’t sudden. It was a slow build — <b>with a very loud front door.</b></div>
+</div>
+
+<script>
+(function(){
+  var msgs=["Ask me anything…","Explain quantum physics like I'm five","Write my CV in 30 seconds","Plan my trip to Alexandria","Debug my Python homework"];
+  var el=document.getElementById('tp'), m=0, i=0, del=false;
+  function loop(){
+    var t=msgs[m];
+    if(!del){ i++; el.textContent=t.slice(0,i); if(i===t.length){ del=true; return setTimeout(loop,1600);} return setTimeout(loop,55); }
+    i--; el.textContent=t.slice(0,i);
+    if(i===0){ del=false; m=(m+1)%msgs.length; return setTimeout(loop,350); }
+    setTimeout(loop,22);
+  }
+  loop();
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

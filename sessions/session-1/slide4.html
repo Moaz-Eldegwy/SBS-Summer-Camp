@@ -1,0 +1,95 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:52px 84px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before,.kicker::after{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 42px/1.12 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.12s}.d2{animation-delay:.26s}.d3{animation-delay:.4s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+.faces{display:flex;align-items:center;gap:34px;margin-top:30px}
+.face{position:relative;width:330px;border-radius:26px;background:#fff;border:1px solid var(--line);
+  box-shadow:var(--shadow);padding:14px 14px 18px;transition:transform .2s ease}
+.face:hover{transform:translateY(-6px) scale(1.01)}
+.face img{width:302px;height:330px;object-fit:cover;object-position:center 20%;border-radius:16px;display:block}
+.face .tag{position:absolute;top:26px;left:26px;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font:700 24px/1 var(--fd);color:#fff;box-shadow:0 8px 18px rgba(29,37,48,.3)}
+.face.a .tag{background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.face.b .tag{background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.qmark{width:84px;height:84px;border-radius:50%;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);
+  display:flex;align-items:center;justify-content:center;font:700 44px/1 var(--fd);
+  background-image:linear-gradient(135deg,rgba(255,107,107,.12),rgba(78,205,196,.14));
+  animation:pulse 2.2s ease-in-out infinite}
+.qmark span{background:linear-gradient(120deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+
+.prompt{margin-top:26px;font:500 20px/1.45 var(--fb);color:var(--muted)}
+.prompt b{color:var(--ink)}
+.cta{margin-top:16px;display:inline-flex;align-items:center;gap:12px;cursor:pointer;border:0;
+  font:700 18px/1 var(--fd);letter-spacing:.02em;color:#fff;border-radius:40px;padding:17px 34px;
+  background:linear-gradient(92deg,var(--primary),var(--primary-dark));
+  box-shadow:0 12px 28px rgba(255,107,107,.4);transition:transform .15s ease}
+.cta:hover{transform:scale(1.05)}
+
+/* countdown overlay */
+#count{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50;
+  background:rgba(255,255,255,.88);backdrop-filter:blur(10px)}
+#count.show{display:flex}
+#cnum{font:700 300px/1 var(--fd);letter-spacing:-10px;
+  background:linear-gradient(120deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+#cnum.shout{font-size:150px;letter-spacing:-4px}
+@keyframes zoom{0%{transform:scale(.4);opacity:0}25%{transform:scale(1.06);opacity:1}80%{transform:scale(1);opacity:1}100%{transform:scale(1.4);opacity:0}}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Cold open · Can you even tell?</div>
+  <div class="title in d1">One of these people <span class="grad">does not exist.</span></div>
+
+  <div class="faces">
+    <div class="face a in d1"><span class="tag">A</span><img src="assets/face-a.jpg" alt="Portrait A"></div>
+    <div class="qmark in d2"><span>?</span></div>
+    <div class="face b in d2"><span class="tag">B</span><img src="assets/face-b.jpg" alt="Portrait B"></div>
+  </div>
+
+  <div class="prompt in d3">No birth certificate. No parents. No childhood — a computer dreamed one of them up.<br><b>Point at the fake one. Out loud.</b></div>
+  <button class="cta in d3" id="go">▶&nbsp; Count us down — 3 · 2 · 1</button>
+</div>
+
+<div id="count"><div id="cnum">3</div></div>
+
+<script>
+(function(){
+  var used=false;
+  function run(){
+    if(used)return; used=true;
+    var ov=document.getElementById('count'), n=document.getElementById('cnum');
+    ov.classList.add('show');
+    var seq=['3','2','1','SHOUT IT!'], i=0;
+    function tick(){
+      if(i>=seq.length){ ov.classList.remove('show'); return; }
+      n.textContent=seq[i];
+      n.className=(seq[i].length>1)?'shout':'';
+      n.style.animation='none'; void n.offsetWidth;
+      n.style.animation='zoom 1s ease both';
+      i++; setTimeout(tick, i===seq.length?1400:1000);
+    }
+    tick();
+  }
+  document.getElementById('go').addEventListener('click',run);
+  /* first → runs the countdown, after that → moves on */
+  window.sbsStep=function(dir){
+    if(dir>0 && !used){ run(); return true; }
+    return false;
+  };
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

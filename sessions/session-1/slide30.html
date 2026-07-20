@@ -1,0 +1,73 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:60px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}.d4{animation-delay:.58s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.cols{display:flex;gap:60px;margin-top:26px;flex:1;align-items:center}
+.left{flex:none;width:380px;text-align:center}
+.fan{position:relative;height:300px}
+.ff{position:absolute;width:210px;border-radius:18px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);padding:9px}
+.ff img{width:100%;height:220px;object-fit:cover;object-position:center 20%;border-radius:11px;display:block}
+.ff.f1{left:20px;top:12px;transform:rotate(-7deg)}
+.ff.f2{right:20px;top:0;transform:rotate(6deg)}
+.ff .st{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-9deg);font:700 13px/1 var(--fd);letter-spacing:.1em;
+  color:var(--primary-dark);border:2.5px solid var(--primary-dark);border-radius:8px;padding:7px 10px;background:rgba(255,255,255,.85);white-space:nowrap}
+.left p{margin-top:20px;font:500 16.5px/1.55 var(--fb);color:var(--muted)}
+.left p b{color:var(--ink)}
+
+.right{flex:1}
+.right h1{font:700 52px/1.12 var(--fd);letter-spacing:-1.5px}
+.right h1 b{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.next{margin-top:24px;display:flex;flex-direction:column;gap:12px}
+.nx{display:flex;align-items:center;gap:14px;padding:15px 20px;font:500 16.5px/1.4 var(--fb)}
+.nx i{flex:none;width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font:700 14px/1 var(--fd);color:#fff;font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.nx b{color:var(--ink)}
+.cta{margin-top:26px;display:flex;align-items:center;gap:16px}
+.laptop{display:inline-flex;align-items:center;gap:12px;font:700 20px/1 var(--fd);color:#fff;border-radius:40px;padding:18px 30px;
+  background:linear-gradient(92deg,var(--primary),var(--primary-dark));box-shadow:0 14px 32px rgba(255,107,107,.42)}
+.when{display:inline-flex;align-items:center;gap:9px;font:600 15.5px/1 var(--fb);color:var(--muted);
+  background:#fff;border:1px solid var(--line);border-radius:40px;padding:17px 22px;box-shadow:0 2px 8px rgba(29,37,48,.04)}
+.when i{width:8px;height:8px;border-radius:50%;background:var(--accent-dark);font-style:normal}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Wrap · next session</div>
+
+  <div class="cols">
+    <div class="left in d1">
+      <div class="fan">
+        <div class="ff f1"><img src="assets/face-a.jpg" alt="face A"><div class="st">AI-GENERATED</div></div>
+        <div class="ff f2"><img src="assets/face-b.jpg" alt="face B"><div class="st">AI-GENERATED</div></div>
+      </div>
+      <p>Remember the face test — and the confidence trap?<br><b>Those images come from the very same “next step” idea we just unpacked.</b> Now you know why your eyes fooled you.</p>
+    </div>
+
+    <div class="right">
+      <h1 class="in d1">Next session:<br>we <b>crack it open.</b></h1>
+      <div class="next">
+        <div class="card nx in d2"><i>1</i><span>See exactly how “predict the next word” becomes <b>fluent text</b></span></div>
+        <div class="card nx in d3"><i>2</i><span>Play with a <b>live model in your browser</b> — watch it think</span></div>
+        <div class="card nx in d4"><i>3</i><span>Load &amp; run <b>your own AI model</b> — in a few lines of Python</span></div>
+      </div>
+      <div class="cta in d4">
+        <span class="laptop">💻 Bring a laptop</span>
+        <span class="when"><i></i>Session 2 · Thursday 23 July · 7:00 PM</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

@@ -1,0 +1,100 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:58px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 46px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.cols{display:flex;gap:44px;margin-top:24px;flex:1;align-items:center}
+.chat{width:600px;padding:22px 24px;position:relative}
+.chead{display:flex;align-items:center;gap:9px;padding-bottom:14px;border-bottom:1px solid var(--line);font:600 13.5px/1 var(--fb);color:var(--muted)}
+.chead i{width:9px;height:9px;border-radius:50%;background:var(--accent-dark);font-style:normal;box-shadow:0 0 0 3px rgba(78,205,196,.2)}
+.msg{max-width:85%;margin-top:16px;font:400 16px/1.55 var(--fb);border-radius:16px;padding:13px 17px}
+.msg.user{margin-left:auto;background:linear-gradient(120deg,var(--primary),var(--primary-dark));color:#fff;border-bottom-right-radius:5px;font-weight:500}
+.msg.bot{background:#F4F7F8;border-bottom-left-radius:5px}
+.msg.bot .conf{display:inline-block;margin-top:10px;font:600 12.5px/1 var(--fb);color:var(--accent-dark);background:rgba(78,205,196,.13);border-radius:20px;padding:7px 11px}
+.stamp{position:absolute;right:34px;bottom:70px;transform:rotate(-10deg) scale(3.2);opacity:0;
+  font:700 30px/1 var(--fd);letter-spacing:.1em;color:var(--primary-dark);
+  border:4px solid var(--primary-dark);border-radius:14px;padding:14px 22px;background:rgba(255,255,255,.85);
+  transition:all .32s cubic-bezier(.2,1.5,.4,1);pointer-events:none}
+.stamped .stamp{opacity:1;transform:rotate(-10deg) scale(1)}
+.truth{margin-top:14px;font:500 13.5px/1.5 var(--fb);color:var(--faint);opacity:0;transition:opacity .4s ease .25s}
+.stamped .truth{opacity:1}
+.truth b{color:var(--accent-dark)}
+
+.side{flex:1}
+.side .tryit{display:flex;align-items:center;gap:11px;font:600 14.5px/1.4 var(--fb);color:var(--primary-dark);
+  background:rgba(255,107,107,.07);border:1px solid rgba(255,107,107,.3);border-radius:14px;padding:14px 16px}
+.side .tryit .reddot{width:10px;height:10px;border-radius:50%;background:var(--primary);flex:none;animation:blink 1.1s ease infinite}
+@keyframes blink{50%{opacity:.25}}
+.deffo{margin-top:22px;opacity:0;transform:translateY(14px);transition:all .5s ease}
+.stamped2 .deffo{opacity:1;transform:none}
+.deffo .word{font:700 42px/1 var(--fd);letter-spacing:-1px;color:var(--primary-dark)}
+.deffo p{margin-top:12px;font:400 16.5px/1.6 var(--fb);color:var(--muted)}
+.deffo p b{color:var(--ink)}
+.rule{margin-top:20px;padding:18px 22px;border-radius:16px;color:#fff;
+  background:linear-gradient(96deg,var(--primary) -5%,var(--primary-dark) 60%);
+  box-shadow:0 14px 34px rgba(224,83,83,.35);font:600 19px/1.5 var(--fd)}
+.rule small{display:block;font:500 14px/1.4 var(--fb);opacity:.9;margin-top:5px}
+.hint{position:fixed;bottom:26px;right:34px;font:600 13px/1 var(--fb);color:var(--faint);letter-spacing:.06em}
+.hint b{color:var(--primary-dark)}
+</style>
+
+<div class="slide" id="root">
+  <div class="kicker in">The gotcha</div>
+  <div class="title in d1">Confidently <span class="grad">wrong.</span></div>
+
+  <div class="cols">
+    <div class="card chat in d1">
+      <div class="chead"><i></i>a totally confident AI</div>
+      <div class="msg user">How many times does the letter “r” appear in “strawberry raspberry”?</div>
+      <div class="msg bot" id="bot">
+        <span id="typed"></span>
+        <div id="badge" style="display:none"><span class="conf">✔ Confidence: absolutely certain</span></div>
+      </div>
+      <div class="truth">Count them yourself: st<b>r</b>awbe<b>rr</b>y — <b>r</b>aspbe<b>rr</b>y. The real answer is <b>6</b>.</div>
+      <div class="stamp">HALLUCINATION</div>
+    </div>
+
+    <div class="side in d2">
+      <div class="tryit"><span class="reddot"></span>Do it live if you like — made-up books and letter-counts are reliable traps. This saved one always works.</div>
+      <div class="deffo">
+        <div class="word">hallucination</div>
+        <p>The model isn’t lying, and it isn’t broken. It’s doing <b>exactly what it was built to do</b> — and by the end of tonight you’ll understand why this is <b>unavoidable</b>, not a bug.</p>
+        <div class="rule">It sounds equally confident whether it’s right or wrong.
+          <small>Fluent is not the same as true. Tattoo that on your brain.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="hint">press <b>→</b> for the reveal</div>
+
+<script>
+(function(){
+  var txt="Great question! The letter “r” appears exactly 4 times in “strawberry raspberry”: twice in strawberry and twice in raspberry.";
+  var el=document.getElementById('typed'), i=0;
+  (function t(){ if(i<=txt.length){ el.textContent=txt.slice(0,i); i+=2; setTimeout(t,26);} else document.getElementById('badge').style.display='block'; })();
+  var step=0, root=document.getElementById('root');
+  window.sbsStep=function(dir){
+    if(dir>0&&step===0){ step=1; root.classList.add('stamped'); return true; }
+    if(dir>0&&step===1){ step=2; root.classList.add('stamped2'); document.querySelector('.hint').style.opacity=0; return true; }
+    if(dir<0&&step>0){ step=0; root.classList.remove('stamped','stamped2'); return true; }
+    return false;
+  };
+  document.getElementById('bot').addEventListener('click',function(){ window.sbsStep(1); });
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

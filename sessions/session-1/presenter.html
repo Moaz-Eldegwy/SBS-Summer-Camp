@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SBS · Generative AI — Session 1: Welcome to Generative AI</title>
+<style>
+  /* ============ SBS DESIGN SYSTEM — PRESENTER SHELL ============ */
+  @font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+  @font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+  :root{
+    --primary:#FF6B6B; --primary-dark:#E05353; --primary-light:#FF8E8E;
+    --accent:#4ECDC4;  --accent-dark:#3DB3AB;
+    --ink:#1D2530; --muted:#5F6C7B; --faint:#8E9AA8;
+    --line:rgba(29,37,48,.09);
+    --fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;
+    --fb:'Inter','Segoe UI',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden}
+  body{
+    font-family:var(--fb);color:var(--ink);
+    background:
+      radial-gradient(1100px 760px at 88% -8%, rgba(255,107,107,.09), transparent 62%),
+      radial-gradient(1000px 720px at -6% 106%, rgba(78,205,196,.11), transparent 62%),
+      #ffffff;
+  }
+  /* soft brand blobs */
+  .bg-blob{position:fixed;border-radius:50%;filter:blur(80px);opacity:.35;z-index:0;pointer-events:none}
+  .b1{width:420px;height:420px;background:var(--primary);top:-140px;right:-120px}
+  .b2{width:340px;height:340px;background:var(--accent);bottom:-120px;left:-100px}
+  .b3{width:260px;height:260px;background:var(--accent);opacity:.14;top:38%;left:-140px}
+
+  /* ============ STAGE (16:9, scaled to fit) ============ */
+  #stage{
+    position:absolute;left:50%;top:50%;width:1280px;height:720px;
+    transform:translate(-50%,-50%) scale(var(--s,1));
+    z-index:1;
+  }
+  #stage iframe{
+    position:absolute;inset:0;width:1280px;height:720px;border:0;background:transparent;
+  }
+
+  /* ============ HUD ============ */
+  #hud{position:fixed;inset:0;z-index:5;pointer-events:none;transition:opacity .5s ease}
+  body.idle #hud{opacity:0}
+  #brand{
+    position:fixed;left:20px;bottom:14px;display:flex;align-items:center;gap:10px;
+    font:600 12px/1.2 var(--fb);letter-spacing:.06em;color:var(--faint);pointer-events:auto;
+  }
+  #brand img{width:26px;height:26px;object-fit:contain}
+  #brand b{color:var(--muted);font-weight:700}
+  #counter{
+    position:fixed;right:20px;bottom:14px;display:flex;align-items:center;gap:10px;pointer-events:auto;
+  }
+  #counter .num{font:600 13px/1 var(--fd);color:var(--muted);letter-spacing:.05em;min-width:64px;text-align:center}
+  .navbtn{
+    width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.85);
+    color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:all .15s ease;font-size:14px;
+  }
+  .navbtn:hover{border-color:var(--primary);color:var(--primary-dark);transform:scale(1.08)}
+  .navbtn.tool{width:26px;height:26px}
+  .navbtn.tool svg{width:13px;height:13px;display:block}
+  .navbtn.on{background:var(--primary);border-color:var(--primary);color:#fff}
+  .navbtn.on:hover{color:#fff}
+  #counter .sep{width:1px;height:18px;background:var(--line);margin:0 3px}
+  #bar{position:fixed;left:0;bottom:0;height:3px;width:100%;background:rgba(29,37,48,.06);z-index:6}
+
+  /* ============ TOOLS: whiteboard / pen / eraser / laser ============ */
+  #draw{position:fixed;inset:0;z-index:3;pointer-events:none}
+  #wb{
+    position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:min(1120px,88vw);height:min(650px,82vh);
+    background:#fff;border:1px solid var(--line);border-radius:24px;
+    box-shadow:0 34px 80px rgba(29,37,48,.24),0 12px 28px rgba(29,37,48,.12);
+    z-index:4;display:none;overflow:hidden;
+  }
+  #wb.show{display:block}
+  #wbc{position:absolute;inset:0;pointer-events:none}
+  body.tool-pen #draw,body.tool-eraser #draw,body.tool-laser #draw,
+  body.tool-pen #wbc,body.tool-eraser #wbc,body.tool-laser #wbc{pointer-events:auto}
+  body.tool-pen #draw,body.tool-pen #wbc{cursor:crosshair}
+  body.tool-eraser #draw,body.tool-eraser #wbc{cursor:cell}
+  body.tool-laser,body.tool-laser #draw,body.tool-laser #wbc{cursor:none}
+  #laser{
+    position:fixed;left:-100px;top:-100px;width:18px;height:18px;border-radius:50%;
+    z-index:12;pointer-events:none;display:none;transform:translate(-50%,-50%);
+    background:radial-gradient(circle,#ff2e2e 0%,rgba(255,46,46,.5) 48%,transparent 72%);
+    box-shadow:0 0 14px 5px rgba(255,46,46,.5);
+  }
+  body.tool-laser #laser{display:block}
+  #trail{position:fixed;inset:0;z-index:11;pointer-events:none;display:none}
+  body.tool-laser #trail{display:block}
+  #fill{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .35s cubic-bezier(.2,.7,.2,1)}
+
+  /* ============ OVERLAYS ============ */
+  .overlay{
+    position:fixed;inset:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);
+    display:none;overflow:auto;padding:48px 56px;
+  }
+  .overlay.show{display:block}
+  .overlay h2{font:700 24px/1.2 var(--fd);margin-bottom:20px}
+  .overlay h2 span{background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+  #grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+  .gcell{
+    border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px 14px;cursor:pointer;
+    transition:all .14s ease;box-shadow:0 2px 8px rgba(29,37,48,.04);
+  }
+  .gcell:hover{border-color:var(--accent-dark);transform:translateY(-2px);box-shadow:0 8px 20px rgba(29,37,48,.08)}
+  .gcell.cur{border-color:var(--primary);box-shadow:0 0 0 2px rgba(255,107,107,.25)}
+  .gcell .gnum{font:700 11px/1 var(--fd);color:var(--faint);letter-spacing:.12em;margin-bottom:6px}
+  .gcell .gtit{font:600 13.5px/1.3 var(--fb);color:var(--ink)}
+  .gcell .gpart{display:inline-block;margin-top:7px;font:600 9.5px/1 var(--fb);letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent-dark);background:rgba(78,205,196,.12);border-radius:20px;padding:4px 8px}
+  .gcell.pcoral .gpart{color:var(--primary-dark);background:rgba(255,107,107,.1)}
+
+  #notes{
+    position:fixed;right:18px;bottom:52px;width:390px;max-height:52vh;overflow:auto;z-index:9;
+    background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:16px;
+    box-shadow:0 16px 44px rgba(29,37,48,.14);padding:18px 20px;display:none;
+  }
+  #notes.show{display:block}
+  #notes .nt{font:700 11px/1 var(--fd);letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;
+    background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+  #notes .nb{font:400 13.5px/1.65 var(--fb);color:var(--ink);white-space:pre-line}
+
+  #help{max-width:520px;margin:auto;inset:0;height:fit-content;border-radius:20px;
+    border:1px solid var(--line);box-shadow:0 24px 70px rgba(29,37,48,.18);padding:32px 36px;background:#fff}
+  #help.overlay{background:#fff}
+  #help table{width:100%;border-collapse:collapse}
+  #help td{padding:7px 4px;font:400 13.5px/1.4 var(--fb);color:var(--muted);border-bottom:1px solid var(--line)}
+  #help td:first-child{width:150px}
+  kbd{
+    display:inline-block;font:600 11px/1 var(--fb);color:var(--ink);background:#F4F6F8;
+    border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:4px 8px;margin-right:4px;
+  }
+  #helpdim{background:rgba(29,37,48,.28);backdrop-filter:blur(4px)}
+</style>
+</head>
+<body>
+  <div class="bg-blob b1"></div>
+  <div class="bg-blob b2"></div>
+  <div class="bg-blob b3"></div>
+
+  <div id="stage">
+    <iframe id="frame" allowtransparency="true"></iframe>
+  </div>
+
+  <div id="hud">
+    <div id="brand">
+      <img src="assets/sbs-logo.png" alt="SBS">
+      <span><b>Shbab Btsad Shbab</b> · Generative AI · Session 1 — Welcome to Generative AI</span>
+    </div>
+    <div id="counter">
+      <button class="navbtn tool" id="penB" title="Pen (P)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+      </button>
+      <button class="navbtn tool" id="eraB" title="Eraser (E)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg>
+      </button>
+      <button class="navbtn tool" id="lasB" title="Laser pointer (L)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M19.1 4.9l-2.2 2.2M7.1 16.9l-2.2 2.2"/></svg>
+      </button>
+      <button class="navbtn tool" id="wbB" title="Whiteboard (W)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M12 17v4"/><path d="M8 21h8"/></svg>
+      </button>
+      <span class="sep"></span>
+      <button class="navbtn" id="prevB" title="Previous (←)">&#8592;</button>
+      <div class="num" id="num">1 / 1</div>
+      <button class="navbtn" id="nextB" title="Next (→)">&#8594;</button>
+    </div>
+  </div>
+  <div id="bar"><div id="fill"></div></div>
+
+  <div id="wb"><canvas id="wbc"></canvas></div>
+  <canvas id="draw"></canvas>
+  <canvas id="trail"></canvas>
+  <div id="laser"></div>
+
+  <div class="overlay" id="ov">
+    <h2><span>Slide overview</span> &nbsp;·&nbsp; click to jump &nbsp;·&nbsp; <small style="font:500 13px var(--fb);color:var(--faint)">G or Esc to close</small></h2>
+    <div id="grid"></div>
+  </div>
+
+  <div id="notes">
+    <div class="nt">Speaker notes — <span id="nslide"></span></div>
+    <div class="nb" id="nbody"></div>
+  </div>
+
+  <div class="overlay" id="helpdim"></div>
+  <div class="overlay" id="help">
+    <h2><span>Presenter controls</span></h2>
+    <table>
+      <tr><td><kbd>→</kbd><kbd>Space</kbd><kbd>PgDn</kbd></td><td>Next step / slide (clicker friendly)</td></tr>
+      <tr><td><kbd>←</kbd><kbd>PgUp</kbd></td><td>Previous slide</td></tr>
+      <tr><td><kbd>Home</kbd> / <kbd>End</kbd></td><td>First / last slide</td></tr>
+      <tr><td><kbd>G</kbd></td><td>Overview grid (jump anywhere)</td></tr>
+      <tr><td><kbd>P</kbd></td><td>Pen — draw on slide or whiteboard</td></tr>
+      <tr><td><kbd>E</kbd></td><td>Eraser — tap a line to remove all of it</td></tr>
+      <tr><td><kbd>L</kbd></td><td>Laser pointer — hold click for a fading tail</td></tr>
+      <tr><td><kbd>W</kbd></td><td>Whiteboard on / off</td></tr>
+      <tr><td><kbd>Esc</kbd></td><td>Put tool away / close whiteboard</td></tr>
+      <tr><td><kbd>N</kbd></td><td>Speaker notes on / off</td></tr>
+      <tr><td><kbd>F</kbd></td><td>Fullscreen</td></tr>
+      <tr><td><kbd>?</kbd></td><td>This help</td></tr>
+    </table>
+  </div>
+
+<script>
+/* ============ SLIDE MANIFEST ============ */
+const SLIDES = [
+ {f:'slide1.html',  t:'Generative AI — Title', p:'Front matter', c:1,
+  n:'Salam everyone, welcome. Over 4 sessions: from "not sure what this AI thing is" to building and shipping your own small AI app. Tonight is session one — the foundation.'},
+ {f:'slide2.html',  t:'Who’s talking to you', p:'Front matter', c:1,
+  n:'Quick intro, then move. AI engineer — LLMs, fine-tuning, RAG, agent systems daily. Freelanced web dev at 16 (2020 lockdowns), 65+ shipped projects, then all-in on AI. Everything here is the practical version. Links on screen.'},
+ {f:'slide3.html',  t:'The roadmap — 4 sessions', p:'Front matter', c:1,
+  n:'Tonight: what GenAI is + try a bunch. S2: crack open how it works, run your own model in a few lines. S3: the real meat — steering: prompting, RAG, fine-tuning. S4: build & ship one small app + honest talk about risks.\nTransition: "Enough about the plan. Let me show you why any of this matters — with a little test."'},
+ {f:'slide4.html',  t:'Two faces — can you tell?', p:'Cold open', c:1,
+  n:'One of these is real*, the other never existed — no birth certificate, no parents. Point at the fake one. Out loud. Use the on-screen 3-2-1 button, let the room shout. DO NOT reveal yet.\n(*As shipped, both images are AI — see assets/README. Reveal slide handles it as a twist.)'},
+ {f:'slide5.html',  t:'The reveal + the twist', p:'Cold open', c:1,
+  n:'Click to reveal. Uncomfortable part: in Psychological Science (Miller et al. 2023), people labeled AI faces "human" MORE often than real ones. And the most confident were the most wrong. That "I can obviously tell" feeling is exactly what this tech dismantles. Keep that humility.'},
+ {f:'slide6.html',  t:'The plan for tonight', p:'Tonight', c:1,
+  n:'No code tonight. No math. No unexplained jargon — flag me if I slip. By the end you can explain this at dinner to someone who’s never heard of it.'},
+ {f:'slide7.html',  t:'Most AI is a judge', p:'What is GenAI?', c:2,
+  n:'A decade of AI = look at something, put it in a box. Spam or not? Cat or dog? Cancel or stay? A judge: you bring something that exists, it hands you a label. Useful — but it never makes anything new.'},
+ {f:'slide8.html',  t:'Generative AI is an artist', p:'What is GenAI?', c:2,
+  n:'GenAI flips it: produces what didn’t exist a second ago. Definition to keep: makes NEW content — text, images, audio, video, code — from patterns learned from enormous examples. Hold onto "learned from examples" — it explains everything strange later.'},
+ {f:'slide9.html',  t:'One-line mental model', p:'What is GenAI?', c:2,
+  n:'If you forget everything else: old AI answers multiple-choice. Generative AI writes the essay. Everything else tonight is detail on top of this.'},
+ {f:'slide10.html', t:'The tour — Text', p:'The tour', c:2,
+  n:'The one you know: type a question, get human-sounding writing — essays, emails, summaries, translations. This is the flavor we build with for the rest of the course: most useful, easiest to build with.'},
+ {f:'slide11.html', t:'The tour — Images', p:'The tour', c:2,
+  n:'DEMO: take a silly prompt the room shouts, drop it into a free image generator live. You’re not searching for a picture — it makes one that never existed, pixel by pixel. The fake faces from the open came from here.'},
+ {f:'slide12.html', t:'The tour — Audio & voice', p:'The tour', c:2,
+  n:'Speaks in voices never recorded; composes songs from a description. Optional: play a 10s AI song / cloned voice. Ethically spicy — cloning needs seconds of audio. We return to responsibility in session 4.'},
+ {f:'slide13.html', t:'The tour — Code', p:'The tour', c:2,
+  n:'For the Python folks: write a comment, it writes the function — for YOUR specific situation, not a pasted snippet. Probably the biggest productivity shift in software right now.'},
+ {f:'slide14.html', t:'The tour — Video & the frontier', p:'The tour', c:2,
+  n:'Full video from a sentence — impossible 2 years ago, a product today. Don’t memorize names; they change every semester. The point: ONE idea — generate new content from patterns — across every medium.'},
+ {f:'slide15.html', t:'Your turn — phones out', p:'Hands-on', c:1,
+  n:'Whole room: scan QR, paste prompt, swap in your major, hit enter. Start the on-screen 2:00 timer. Then: glance at your neighbor’s screen. Same prompt, different answer — first clue: it isn’t looking up a stored answer, it GENERATES a fresh one every time.'},
+ {f:'slide16.html', t:'Share the best & weirdest', p:'Hands-on', c:1,
+  n:'Grab 2–3 volunteers to read theirs out. Celebrate the funny ones — this is where the room wakes up. "Nobody here wrote these, yet here they are. That’s the wow. Now the watch-out — they always arrive together."'},
+ {f:'slide17.html', t:'The gotcha — confidently wrong', p:'Hands-on', c:1,
+  n:'DEMO live or use the on-screen mock: ask something it gets confidently wrong (letter counts, made-up books). Name it: HALLUCINATION. Not lying, not broken — doing exactly its job; by tonight’s end you’ll see why it’s unavoidable. Tattoo the rule: equally confident right or wrong. Fluent ≠ true.'},
+ {f:'slide18.html', t:'Why now?', p:'Why now', c:2,
+  n:'Fair question — the ideas aren’t new. Why did the world change overnight around 2023? Three ingredients had to arrive at the same time. Miss one, none of this happens.'},
+ {f:'slide19.html', t:'Ingredient 1 — Data', p:'Why now', c:2,
+  n:'To learn the patterns of human language you need mind-bending amounts of it. We spent 20 years pouring the internet — articles, forums, books, code — into one place. First time in history there was enough raw material.'},
+ {f:'slide20.html', t:'Ingredient 2 — Compute', p:'Why now', c:2,
+  n:'Learning from all that takes staggering processing power. GPUs — chips built to render video games — turned out perfect for it, and got cheap and powerful at exactly the right moment.'},
+ {f:'slide21.html', t:'Ingredient 3 — The breakthrough', p:'Why now', c:2,
+  n:'2017 paper introduces the TRANSFORMER — literally the T in GPT. We are NOT opening that box tonight (that’s session 2, intuition only). A smarter recipe that could finally use all the data + compute. Data + compute + transformer: three streams, one river.'},
+ {f:'slide22.html', t:'Nov 2022 — it hit your pocket', p:'Why now', c:2,
+  n:'Ingredients cooked quietly in labs for years. Late 2022: wrapped in a simple chat box anyone could type into — the whole world met it in the same month. It FELT sudden. It wasn’t: slow build, very loud front door.'},
+ {f:'slide23.html', t:'Brace for an anticlimax', p:'The one secret', c:1,
+  n:'People picture something magical, maybe conscious. The real mechanism is so plain it’s almost disappointing. Ready?'},
+ {f:'slide24.html', t:'It predicts the next word', p:'The one secret', c:1,
+  n:'INTERACTIVE: press → to add words one at a time and watch probabilities. One job: look at the words so far, predict the most likely next word. Add it. Look again. Thousands of times. Everything tonight — essays, code, poems — is this one trick at scale. No plan, no target sentence.'},
+ {f:'slide25.html', t:'You already own a baby version', p:'The one secret', c:1,
+  n:'INTERACTIVE: phones out — type "I think that", keep tapping the MIDDLE suggestion. Grammatical nonsense, right? That’s a tiny language model, same job. Now scale: learned from the whole internet, weighs 50,000 options instead of 3 — that’s an LLM. Autocomplete that went to the library and read everything. (On-screen simulator mirrors it.)'},
+ {f:'slide26.html', t:'Now hallucination makes sense', p:'The one secret', c:1,
+  n:'Callback: it was never checking a fact — it chooses words that SOUND likely. Mostly the likely thing is also true (it learned from mostly-true text). When it isn’t, the model has no way to know. Not lying — autocompleting. Fluent ≠ true.'},
+ {f:'slide27.html', t:'The honest scorecard', p:'Strengths & limits', c:2,
+  n:'Straight talk, hype helps nobody. Great wherever plausible-and-fluent is the goal: drafts, rewrites, brainstorms, summaries, translation, explanations, unblocking code. Shaky wherever exact-and-verifiable matters: citations, arithmetic, fresh news, precise facts. And confidently biased — it learned from us.'},
+ {f:'slide28.html', t:'The intern mental model', p:'Strengths & limits', c:2,
+  n:'The picture to carry out: the most well-read intern you’ve ever had — lightning fast, knows a bit of everything, perfect first drafts — occasionally invents with a straight face. You’d never publish an intern’s work unchecked. Use it for the 80% drafting; verify the 20% that must be true.'},
+ {f:'slide29.html', t:'What you now know', p:'Wrap', c:1,
+  n:'90 minutes ago some of you had barely used this. Now: you can define it, you’ve used several kinds, you know why NOW, and you know the one secret. That’s a real foundation.'},
+ {f:'slide30.html', t:'Next session — crack it open', p:'Wrap', c:1,
+  n:'Callback: the face test + confidence trap — those images come from the same next-step idea. Next session: see exactly how next-word becomes fluent text, play with a live model in the browser, and load + run your OWN model. BRING A LAPTOP. Thu 23 Jul, 7 PM.'},
+ {f:'slide31.html', t:'Play-homework', p:'Wrap', c:1,
+  n:'One tiny fun homework: poloclub.github.io/transformer-explainer — type any sentence, watch live next-word guesses. Come back having SEEN the thing we described. See you Thursday.'},
+ {f:'slide32.html', t:'Extension modules (optional)', p:'Extensions', c:2,
+  n:'Only if the room’s energy wants more (stretches 90→180): A) AI-detection gauntlet with scoreboard. B) "Where would YOU use this?" by major. C) Prompt taste-test (S3 teaser). D) Deepfakes & responsibility — sober, no fear-mongering: a civic skill.'},
+];
+
+/* ============ ENGINE (single frame — robust over file:// and http) ============ */
+const frame=document.getElementById('frame');
+let cur=-1, navId=0, pendingNav=null;
+
+function clamp(i){return Math.max(0,Math.min(SLIDES.length-1,i))}
+function show(i){
+  i=clamp(i); if(i===cur)return;
+  cur=i;
+  frame.src=SLIDES[i].f+'?v='+(++navId);
+  document.getElementById('num').textContent=(i+1)+' / '+SLIDES.length;
+  document.getElementById('fill').style.width=((i+1)/SLIDES.length*100)+'%';
+  location.hash='#'+(i+1);
+  clearSlideInk();
+  refreshNotes(); markGrid();
+}
+
+/* ask current slide first (build steps), then move */
+function nav(dir){
+  const id=++navId;
+  let done=false;
+  const go=()=>{ if(done)return; done=true; show(cur+dir); };
+  pendingNav={id,consume:(c)=>{ if(done)return; done=true; if(!c)show(cur+dir); }};
+  try{ frame.contentWindow.postMessage({type:'sbs-nav',dir:dir,id:id},'*'); }catch(e){}
+  setTimeout(go,120);
+}
+
+window.addEventListener('message',e=>{
+  const d=e.data||{};
+  if(d.type==='sbs-nav-ack' && pendingNav && d.id===pendingNav.id){ pendingNav.consume(d.consumed); pendingNav=null; }
+  else if(d.type==='sbs-key'){ handleKey(d.key,true); }
+});
+
+/* ============ KEYS ============ */
+function handleKey(k){
+  const ov=document.getElementById('ov'), help=document.getElementById('help'), dim=document.getElementById('helpdim');
+  if(ov.classList.contains('show')||help.classList.contains('show')){
+    if(k==='Escape'||k==='g'||k==='G'||k==='?'){ov.classList.remove('show');help.classList.remove('show');dim.classList.remove('show');}
+    return;
+  }
+  switch(k){
+    case 'ArrowRight': case 'Right': case 'ArrowDown': case 'Down':
+    case ' ': case 'Spacebar': case 'PageDown': nav(1); break;
+    case 'ArrowLeft': case 'Left': case 'ArrowUp': case 'Up':
+    case 'PageUp': nav(-1); break;
+    case 'Home': show(0); break;
+    case 'End': show(SLIDES.length-1); break;
+    case 'g': case 'G': buildGrid(); ov.classList.add('show'); break;
+    case 'n': case 'N': toggleNotes(); break;
+    case 'f': case 'F': toggleFS(); break;
+    case 'p': case 'P': setTool('pen'); break;
+    case 'e': case 'E': setTool('eraser'); break;
+    case 'l': case 'L': setTool('laser'); break;
+    case 'w': case 'W': toggleWB(); break;
+    case 'Escape': if(tool)setTool(tool); else if(wbOn)toggleWB(); break;
+  }
+}
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowLeft','PageDown','PageUp','Home','End',' '].includes(e.key))e.preventDefault();
+  handleKey(e.key);
+});
+document.getElementById('prevB').onclick=()=>nav(-1);
+document.getElementById('nextB').onclick=()=>nav(1);
+document.getElementById('helpdim').onclick=()=>{document.getElementById('help').classList.remove('show');document.getElementById('helpdim').classList.remove('show');};
+
+function toggleFS(){ if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{}); else document.exitFullscreen(); }
+
+/* ============ OVERVIEW ============ */
+function buildGrid(){
+  const g=document.getElementById('grid');
+  if(g.childElementCount)return markGrid();
+  SLIDES.forEach((s,i)=>{
+    const d=document.createElement('div');
+    d.className='gcell'+(s.c===1?' pcoral':'');
+    d.innerHTML='<div class="gnum">SLIDE '+(i+1)+'</div><div class="gtit">'+s.t+'</div><span class="gpart">'+s.p+'</span>';
+    d.onclick=()=>{ document.getElementById('ov').classList.remove('show'); show(i); };
+    g.appendChild(d);
+  });
+  markGrid();
+}
+function markGrid(){
+  [...document.querySelectorAll('.gcell')].forEach((c,i)=>c.classList.toggle('cur',i===cur));
+}
+
+/* ============ NOTES ============ */
+let notesOn=false;
+function toggleNotes(){ notesOn=!notesOn; document.getElementById('notes').classList.toggle('show',notesOn); refreshNotes(); }
+function refreshNotes(){
+  if(!notesOn)return;
+  document.getElementById('nslide').textContent='slide '+(cur+1);
+  document.getElementById('nbody').textContent=SLIDES[cur].n;
+}
+
+/* ============ TOOLS: pen / eraser / laser / whiteboard ============ */
+const drawC=document.getElementById('draw'), wb=document.getElementById('wb'),
+      wbC=document.getElementById('wbc'), laserDot=document.getElementById('laser');
+let tool=null, wbOn=false;
+
+const trailC=document.getElementById('trail');
+
+function sizeCanvas(cv,w,h){
+  if(cv.width===w&&cv.height===h)return;
+  cv.width=w; cv.height=h;
+  if(cv._strokes)redrawInk(cv);
+}
+function sizeSurfaces(){
+  sizeCanvas(drawC,innerWidth,innerHeight);
+  sizeCanvas(trailC,innerWidth,innerHeight);
+  if(wbOn)sizeCanvas(wbC,wb.clientWidth,wb.clientHeight);
+}
+addEventListener('resize',sizeSurfaces);
+
+/* ink is stored as strokes (point lists) so the eraser can lift a whole stroke */
+function redrawInk(cv){
+  const ctx=cv.getContext('2d');
+  ctx.clearRect(0,0,cv.width,cv.height);
+  ctx.lineCap='round'; ctx.lineJoin='round';
+  ctx.strokeStyle='#FF6B6B'; ctx.lineWidth=3;
+  for(const s of cv._strokes){
+    ctx.beginPath();
+    ctx.moveTo(s[0][0],s[0][1]);
+    if(s.length===1)ctx.lineTo(s[0][0]+.01,s[0][1]+.01);
+    for(let i=1;i<s.length;i++)ctx.lineTo(s[i][0],s[i][1]);
+    ctx.stroke();
+  }
+}
+function distToSeg(x,y,ax,ay,bx,by){
+  const dx=bx-ax,dy=by-ay,len2=dx*dx+dy*dy;
+  const t=len2?Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/len2)):0;
+  return Math.hypot(ax+t*dx-x,ay+t*dy-y);
+}
+function strokeHit(s,x,y,r){
+  if(s.length===1)return Math.hypot(s[0][0]-x,s[0][1]-y)<=r;
+  for(let i=1;i<s.length;i++)if(distToSeg(x,y,s[i-1][0],s[i-1][1],s[i][0],s[i][1])<=r)return true;
+  return false;
+}
+function eraseAt(cv,x,y){
+  const keep=cv._strokes.filter(s=>!strokeHit(s,x,y,14));
+  if(keep.length!==cv._strokes.length){ cv._strokes=keep; redrawInk(cv); }
+}
+function attachInk(cv){
+  cv._strokes=[];
+  const ctx=cv.getContext('2d');
+  let down=false,cur=null,px=0,py=0;
+  const pos=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
+  const seg=(x,y)=>{
+    ctx.lineCap='round'; ctx.lineJoin='round';
+    ctx.strokeStyle='#FF6B6B'; ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(x,y);ctx.stroke();
+    px=x;py=y;
+  };
+  cv.addEventListener('pointerdown',e=>{
+    if(tool!=='pen'&&tool!=='eraser')return;
+    down=true; [px,py]=pos(e); cv.setPointerCapture(e.pointerId);
+    if(tool==='pen'){ cur=[[px,py]]; seg(px+.01,py+.01); }
+    else eraseAt(cv,px,py);
+  });
+  cv.addEventListener('pointermove',e=>{
+    if(!down)return;
+    const[x,y]=pos(e);
+    if(tool==='pen'&&cur){ cur.push([x,y]); seg(x,y); }
+    else if(tool==='eraser')eraseAt(cv,x,y);
+  });
+  const up=()=>{ if(cur){cv._strokes.push(cur);cur=null;} down=false; };
+  cv.addEventListener('pointerup',up); cv.addEventListener('pointercancel',up);
+}
+attachInk(drawC); attachInk(wbC);
+
+/* laser: dot follows the pointer; holding left click leaves a tail that fades out */
+let trail=[],trailRAF=null;
+function trailFrame(){
+  const ctx=trailC.getContext('2d'), now=performance.now(), LIFE=700;
+  trail=trail.filter(p=>now-p.t<LIFE);
+  ctx.clearRect(0,0,trailC.width,trailC.height);
+  ctx.lineCap='round';
+  ctx.shadowColor='rgba(255,46,46,.8)'; ctx.shadowBlur=8;
+  for(let i=1;i<trail.length;i++){
+    const a=trail[i-1], b=trail[i];
+    if(b.t-a.t>120)continue;            /* gap between separate drags */
+    const f=1-(now-b.t)/LIFE;
+    ctx.strokeStyle='rgba(255,46,46,'+(f*.8).toFixed(3)+')';
+    ctx.lineWidth=2+5*f;
+    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+  }
+  trailRAF=trail.length?requestAnimationFrame(trailFrame):null;
+}
+function trailAdd(e){
+  trail.push({x:e.clientX,y:e.clientY,t:performance.now()});
+  if(!trailRAF)trailRAF=requestAnimationFrame(trailFrame);
+}
+function trailClear(){
+  trail=[];
+  if(trailRAF){cancelAnimationFrame(trailRAF);trailRAF=null;}
+  trailC.getContext('2d').clearRect(0,0,trailC.width,trailC.height);
+}
+document.addEventListener('pointerdown',e=>{ if(tool==='laser'&&e.button===0)trailAdd(e); });
+document.addEventListener('pointermove',e=>{
+  if(tool!=='laser')return;
+  laserDot.style.left=e.clientX+'px'; laserDot.style.top=e.clientY+'px';
+  if(e.buttons&1)trailAdd(e);
+});
+
+function clearSlideInk(){ drawC._strokes=[]; drawC.getContext('2d').clearRect(0,0,drawC.width,drawC.height); }
+
+function setTool(t){
+  tool=(tool===t)?null:t;
+  document.body.classList.toggle('tool-pen',tool==='pen');
+  document.body.classList.toggle('tool-eraser',tool==='eraser');
+  document.body.classList.toggle('tool-laser',tool==='laser');
+  document.getElementById('penB').classList.toggle('on',tool==='pen');
+  document.getElementById('eraB').classList.toggle('on',tool==='eraser');
+  document.getElementById('lasB').classList.toggle('on',tool==='laser');
+  if(tool!=='laser')trailClear();
+}
+function toggleWB(){
+  wbOn=!wbOn;
+  wb.classList.toggle('show',wbOn);
+  document.getElementById('wbB').classList.toggle('on',wbOn);
+  if(wbOn){ sizeSurfaces(); if(!tool)setTool('pen'); }
+}
+document.getElementById('penB').onclick=()=>setTool('pen');
+document.getElementById('eraB').onclick=()=>setTool('eraser');
+document.getElementById('lasB').onclick=()=>setTool('laser');
+document.getElementById('wbB').onclick=()=>toggleWB();
+sizeSurfaces();
+
+/* ============ SCALE ============ */
+function fit(){
+  const s=Math.min(innerWidth/1320, innerHeight/790);
+  document.getElementById('stage').style.setProperty('--s', s.toFixed(4));
+}
+addEventListener('resize',fit); fit();
+
+/* ============ IDLE HUD ============ */
+let idleT;
+function poke(){ document.body.classList.remove('idle'); clearTimeout(idleT); idleT=setTimeout(()=>document.body.classList.add('idle'),3500); }
+addEventListener('mousemove',poke); addEventListener('keydown',poke); poke();
+
+/* ============ START ============ */
+const h=parseInt((location.hash||'').replace('#',''),10);
+show(isNaN(h)?0:clamp(h-1));
+</script>
+</body>
+</html>

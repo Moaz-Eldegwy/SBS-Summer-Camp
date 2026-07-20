@@ -1,0 +1,94 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:60px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}.d4{animation-delay:.52s}.d5{animation-delay:.66s}.d6{animation-delay:.8s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.hero{display:flex;align-items:center;gap:46px;margin-top:30px}
+.gen{font:700 92px/1 var(--fd);letter-spacing:-3px}
+.gen .g{background:linear-gradient(94deg,var(--primary) 8%,var(--accent-dark) 92%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gen small{display:block;font:500 20px/1.4 var(--fb);letter-spacing:0;color:var(--muted);margin-top:12px}
+.gen small b{color:var(--ink)}
+
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;max-width:560px;margin-left:auto}
+.tile{padding:18px 20px;position:relative;overflow:hidden;opacity:0;animation:tin .8s cubic-bezier(.2,.9,.3,1.2) both}
+.t1{animation-delay:.5s}.t2{animation-delay:.85s}.t3{animation-delay:1.2s}.t4{animation-delay:1.55s}
+@keyframes tin{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+.tile .h{display:flex;align-items:center;gap:9px;font:700 14.5px/1 var(--fd);letter-spacing:.06em;margin-bottom:12px}
+.tile .h i{width:9px;height:9px;border-radius:3px;font-style:normal}
+.tile.p .h i{background:var(--primary)}
+.tile.a .h i{background:var(--accent-dark)}
+.tl{height:8px;border-radius:4px;background:#EDF1F3;margin-bottom:7px;overflow:hidden}
+.tl div{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--primary-light),var(--primary));width:0;animation:fill 1.2s ease forwards}
+.tl:nth-child(3) div{animation-delay:.25s;background:linear-gradient(90deg,var(--accent),var(--accent-dark))}
+.tl:nth-child(4) div{animation-delay:.5s}
+@keyframes fill{to{width:var(--w)}}
+.wave{display:flex;align-items:center;gap:3.5px;height:44px}
+.wave i{width:5px;border-radius:3px;background:linear-gradient(180deg,var(--accent),var(--accent-dark));animation:eq 1s ease-in-out infinite alternate}
+@keyframes eq{from{height:22%}to{height:100%}}
+.pic{height:52px;border-radius:10px;background:linear-gradient(135deg,rgba(255,107,107,.25),rgba(78,205,196,.3));position:relative;overflow:hidden}
+.pic::before{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#FFD166;top:7px;right:12px}
+.pic::after{content:'';position:absolute;bottom:-6px;left:0;right:0;height:26px;
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));clip-path:polygon(0 100%,22% 18%,45% 78%,68% 8%,100% 62%,100% 100%)}
+.code{font:600 13px/1.7 ui-monospace,Consolas,monospace;color:var(--muted)}
+.code .k{color:var(--primary-dark)}.code .f{color:var(--accent-dark)}
+
+.def{margin-top:26px;padding:24px 30px;border-left:6px solid transparent;
+  border-image:linear-gradient(180deg,var(--primary),var(--accent)) 1;
+  background:#fff;box-shadow:var(--shadow);border-radius:0 var(--r) var(--r) 0}
+.def p{font:500 20px/1.55 var(--fb)}
+.def b{color:var(--primary-dark)}
+.def mark{background:linear-gradient(0deg,rgba(78,205,196,.3),rgba(78,205,196,.3));color:var(--ink);padding:2px 6px;border-radius:6px;font-weight:700}
+.def small{display:block;margin-top:8px;font:400 14.5px/1.4 var(--fb);color:var(--muted)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">What is generative AI, really? · 2 of 3</div>
+
+  <div class="hero">
+    <div class="gen in d1"><span class="g">GENERATE</span>
+      <small>This one doesn’t sort what exists.<br>It <b>produces what didn’t exist a second ago.</b></small>
+    </div>
+
+    <div class="tiles">
+      <div class="card tile p t1">
+        <div class="h"><i></i>A paragraph nobody wrote</div>
+        <div class="tl"><div style="--w:96%"></div></div>
+        <div class="tl"><div style="--w:88%"></div></div>
+        <div class="tl"><div style="--w:64%"></div></div>
+      </div>
+      <div class="card tile a t2">
+        <div class="h"><i></i>A picture nobody painted</div>
+        <div class="pic"></div>
+      </div>
+      <div class="card tile a t3">
+        <div class="h"><i></i>A voice nobody recorded</div>
+        <div class="wave">
+          <i style="animation-delay:0s"></i><i style="animation-delay:.12s"></i><i style="animation-delay:.24s"></i><i style="animation-delay:.36s"></i><i style="animation-delay:.48s"></i><i style="animation-delay:.6s"></i><i style="animation-delay:.72s"></i><i style="animation-delay:.84s"></i><i style="animation-delay:.3s"></i><i style="animation-delay:.55s"></i><i style="animation-delay:.15s"></i><i style="animation-delay:.42s"></i><i style="animation-delay:.68s"></i><i style="animation-delay:.05s"></i><i style="animation-delay:.5s"></i><i style="animation-delay:.2s"></i>
+        </div>
+      </div>
+      <div class="card tile p t4">
+        <div class="h"><i></i>Working code nobody typed</div>
+        <div class="code"><span class="k">def</span> <span class="f">summarize</span>(text):<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">return</span> model(text)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="def in d5">
+    <p><b>Generative AI</b> makes <b>new content</b> — text, images, audio, video, code — based on patterns it <mark>learned from enormous amounts of examples</mark>.</p>
+    <small>Hold onto “learned from examples.” It explains almost everything strange about how these things behave.</small>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

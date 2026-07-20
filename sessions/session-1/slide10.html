@@ -1,0 +1,82 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:60px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 46px/1.1 var(--fd);letter-spacing:-1px;margin-top:14px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}.d4{animation-delay:.52s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.tourbar{display:flex;gap:8px;margin-top:16px}
+.tstep{font:600 12.5px/1 var(--fb);letter-spacing:.06em;border-radius:20px;padding:8px 14px;color:var(--faint);background:#F2F5F6}
+.tstep.on{color:#fff;background:linear-gradient(92deg,var(--primary),var(--primary-dark));box-shadow:0 6px 14px rgba(255,107,107,.3)}
+
+.cols{display:flex;gap:48px;margin-top:26px;flex:1;align-items:center}
+.chat{width:620px;padding:22px 24px}
+.chead{display:flex;align-items:center;gap:9px;padding-bottom:14px;border-bottom:1px solid var(--line);font:600 13.5px/1 var(--fb);color:var(--muted)}
+.chead i{width:9px;height:9px;border-radius:50%;background:var(--accent-dark);font-style:normal;box-shadow:0 0 0 3px rgba(78,205,196,.2)}
+.msg{max-width:82%;margin-top:16px;font:400 15.5px/1.55 var(--fb);border-radius:16px;padding:13px 17px}
+.msg.user{margin-left:auto;background:linear-gradient(120deg,var(--primary),var(--primary-dark));color:#fff;border-bottom-right-radius:5px;font-weight:500}
+.msg.bot{background:#F4F7F8;border-bottom-left-radius:5px;min-height:118px}
+.msg.bot .cur{display:inline-block;width:9px;height:17px;background:var(--accent-dark);border-radius:2px;vertical-align:-2px;animation:bl .8s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+
+.side{flex:1}
+.side h3{font:700 24px/1.3 var(--fd);letter-spacing:-.3px}
+.side h3 b{color:var(--primary-dark)}
+.uses{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.use{font:600 14.5px/1 var(--fb);color:var(--accent-dark);background:rgba(78,205,196,.11);border:1px solid rgba(78,205,196,.32);border-radius:26px;padding:11px 16px}
+.names{margin-top:30px}
+.names .lbl{font:600 12.5px/1 var(--fb);letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+.nrow{display:flex;gap:10px;margin-top:12px}
+.name{font:700 15.5px/1 var(--fd);background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 18px;box-shadow:0 2px 8px rgba(29,37,48,.05)}
+.note{margin-top:26px;font:500 15.5px/1.55 var(--fb);color:var(--muted);border-left:4px solid var(--accent);padding-left:14px}
+</style>
+
+<div class="slide">
+  <div class="kicker in">The tour — it’s not just chatbots</div>
+  <div class="title in d1"><span class="grad">Text</span> — the one you know</div>
+  <div class="tourbar in d1">
+    <span class="tstep on">✍️ Text</span><span class="tstep">🎨 Images</span><span class="tstep">🎧 Audio</span><span class="tstep">⌨️ Code</span><span class="tstep">🎬 Video</span>
+  </div>
+
+  <div class="cols">
+    <div class="card chat in d2">
+      <div class="chead"><i></i>chat with an AI</div>
+      <div class="msg user">Why do cats knock things off tables? Answer like a scientist.</div>
+      <div class="msg bot"><span id="typed"></span><span class="cur"></span></div>
+    </div>
+
+    <div class="side in d3">
+      <h3>Type a question →<br>get <b>human-sounding writing</b> back.</h3>
+      <div class="uses">
+        <span class="use">essays</span><span class="use">emails</span><span class="use">summaries</span>
+        <span class="use">translations</span><span class="use">arguments — for &amp; against</span>
+      </div>
+      <div class="names">
+        <div class="lbl">You’ve met these</div>
+        <div class="nrow"><span class="name">ChatGPT</span><span class="name">Claude</span><span class="name">Gemini</span></div>
+      </div>
+      <div class="note">This is the flavor we’ll build with for the rest of the course — the most useful to you, and the easiest to build with.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var txt="Excellent question. Current research suggests three drivers: (1) hunting instinct — a paw-tap tests if the object is prey; (2) attention acquisition — you look up every single time; and (3) the pure joy of physics. Gravity has never once failed the cat, and it finds this deeply satisfying.";
+  var el=document.getElementById('typed'), i=0;
+  (function t(){ if(i<=txt.length){ el.textContent=txt.slice(0,i); i+=2; setTimeout(t,24);} })();
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

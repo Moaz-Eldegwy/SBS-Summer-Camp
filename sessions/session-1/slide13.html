@@ -1,0 +1,121 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:60px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 46px/1.1 var(--fd);letter-spacing:-1px;margin-top:14px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}.d4{animation-delay:.52s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.tourbar{display:flex;gap:8px;margin-top:16px}
+.tstep{font:600 12.5px/1 var(--fb);letter-spacing:.06em;border-radius:20px;padding:8px 14px;color:var(--faint);background:#F2F5F6}
+.tstep.on{color:#fff;background:linear-gradient(92deg,var(--primary),var(--primary-dark));box-shadow:0 6px 14px rgba(255,107,107,.3)}
+
+.cols{display:flex;gap:46px;margin-top:28px;flex:1;align-items:center}
+.editor{width:640px;border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(29,37,48,.25);border:1px solid rgba(29,37,48,.15)}
+.ebar{display:flex;align-items:center;gap:8px;background:#242B36;padding:13px 18px}
+.ebar i{width:12px;height:12px;border-radius:50%;font-style:normal}
+.ebar .r{background:#FF6B6B}.ebar .y{background:#FFD166}.ebar .g{background:#4ECDC4}
+.ebar span{margin-left:10px;font:500 12.5px/1 ui-monospace,Consolas,monospace;color:#8E9AA8}
+.ecode{background:#1D2530;padding:22px 26px;font:500 15.5px/1.85 ui-monospace,Consolas,monospace;color:#DFE6EC;min-height:300px}
+.ecode .cm{color:#7E8B99;font-style:italic}
+.ecode .kw{color:#FF8E8E}
+.ecode .fn{color:#4ECDC4}
+.ecode .st{color:#FFD166}
+.ecode .nm{color:#B7A6F5}
+.ecode .cur{display:inline-block;width:8.5px;height:17px;background:#4ECDC4;border-radius:2px;vertical-align:-2px;animation:bl .8s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+.ghost{color:#5F6C7B}
+
+.side{flex:1}
+.side h3{font:700 25px/1.35 var(--fd);letter-spacing:-.3px}
+.side h3 b{color:var(--primary-dark)}
+.pts{margin-top:20px}
+.pt{display:flex;gap:12px;margin-top:14px;font:400 15.5px/1.5 var(--fb);color:var(--muted)}
+.pt svg{flex:none;margin-top:2px}
+.pt b{color:var(--ink)}
+.names{margin-top:26px;display:flex;gap:10px}
+.name{font:700 15px/1 var(--fd);background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 18px;box-shadow:0 2px 8px rgba(29,37,48,.05)}
+.claim{margin-top:24px;padding:16px 20px;border-radius:16px;background:rgba(78,205,196,.09);border:1px solid rgba(78,205,196,.3);
+  font:600 15.5px/1.5 var(--fb)}
+.claim b{color:var(--accent-dark)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">The tour — it’s not just chatbots</div>
+  <div class="title in d1"><span class="grad">Code</span> — a comment becomes a function</div>
+  <div class="tourbar in d1">
+    <span class="tstep">✍️ Text</span><span class="tstep">🎨 Images</span><span class="tstep">🎧 Audio</span><span class="tstep on">⌨️ Code</span><span class="tstep">🎬 Video</span>
+  </div>
+
+  <div class="cols">
+    <div class="editor in d2">
+      <div class="ebar"><i class="r"></i><i class="y"></i><i class="g"></i><span>password_checker.py</span></div>
+      <div class="ecode" id="code"></div>
+    </div>
+
+    <div class="side in d3">
+      <h3>You who know a little Python —<br><b>this one’s for you.</b></h3>
+      <div class="pts">
+        <div class="pt">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.2" stroke="#3DB3AB" stroke-width="2"/><path d="m6.5 10.2 2.4 2.4 4.6-5" stroke="#3DB3AB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Write a comment saying <b>what you want</b> — it writes the function.</span>
+        </div>
+        <div class="pt">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.2" stroke="#3DB3AB" stroke-width="2"/><path d="m6.5 10.2 2.4 2.4 4.6-5" stroke="#3DB3AB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Not a pasted snippet — code generated for <b>your specific situation</b>.</span>
+        </div>
+      </div>
+      <div class="names"><span class="name">GitHub Copilot</span><span class="name">Claude Code</span></div>
+      <div class="claim">Probably the <b>single biggest productivity shift</b> happening in software right now.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var lines=[
+    {h:'<span class="cm"># check if a password is strong</span>',t:0},
+    {h:'<span class="kw">def</span> <span class="fn">is_strong</span>(password):',t:1},
+    {h:'&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> <span class="fn">len</span>(password) &lt; <span class="nm">12</span>:',t:1},
+    {h:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="kw">False</span>, <span class="st">"too short"</span>',t:1},
+    {h:'&nbsp;&nbsp;&nbsp;&nbsp;checks = [',t:1},
+    {h:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">any</span>(c.isupper() <span class="kw">for</span> c <span class="kw">in</span> password),',t:1},
+    {h:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">any</span>(c.isdigit() <span class="kw">for</span> c <span class="kw">in</span> password),',t:1},
+    {h:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">any</span>(<span class="kw">not</span> c.isalnum() <span class="kw">for</span> c <span class="kw">in</span> password),',t:1},
+    {h:'&nbsp;&nbsp;&nbsp;&nbsp;]',t:1},
+    {h:'&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="fn">all</span>(checks), <span class="st">"strong ✔"</span>',t:1}
+  ];
+  var el=document.getElementById('code'), i=0;
+  var typedComment='# check if a password is strong';
+  var ci=0;
+  function typeComment(){
+    if(ci<=typedComment.length){
+      el.innerHTML='<span class="cm">'+typedComment.slice(0,ci)+'</span><span class="cur"></span>';
+      ci++; setTimeout(typeComment,42);
+    } else {
+      el.innerHTML='<span class="cm">'+typedComment+'</span><br><span class="ghost">⏎ generating…</span>';
+      i=1; setTimeout(addLine,700);
+    }
+  }
+  function addLine(){
+    if(i>=lines.length){ return; }
+    var html='<span class="cm">'+typedComment+'</span><br>';
+    for(var k=1;k<=i;k++) html+=lines[k].h+'<br>';
+    html+=(i<lines.length-1)?'<span class="cur"></span>':'';
+    el.innerHTML=html;
+    i++; setTimeout(addLine,340);
+  }
+  typeComment();
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

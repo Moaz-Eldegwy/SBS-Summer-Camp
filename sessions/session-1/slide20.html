@@ -1,0 +1,90 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:60px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 48px/1.1 var(--fd);letter-spacing:-1px;margin-top:14px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}.d4{animation-delay:.52s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.stepper{position:absolute;top:64px;right:84px;display:flex;gap:9px}
+.stp{display:flex;align-items:center;gap:8px;font:700 13px/1 var(--fd);border-radius:24px;padding:10px 15px;color:var(--faint);background:#F2F5F6}
+.stp.done{color:var(--accent-dark);background:rgba(78,205,196,.13)}
+.stp.on{color:#fff;background:linear-gradient(92deg,var(--primary),var(--primary-dark));box-shadow:0 6px 16px rgba(255,107,107,.4)}
+
+.cols{display:flex;gap:60px;margin-top:26px;flex:1;align-items:center}
+.viz{flex:none;width:520px;display:flex;align-items:center;gap:24px;justify-content:center}
+.gpu{position:relative;animation:hum 2.4s ease-in-out infinite alternate}
+@keyframes hum{from{filter:drop-shadow(0 6px 18px rgba(255,107,107,.25))}to{filter:drop-shadow(0 10px 34px rgba(255,107,107,.55))}}
+.grow{color:var(--faint)}
+.dc{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.rack{width:64px;height:96px;border-radius:10px;background:#fff;border:1px solid var(--line);box-shadow:0 6px 16px rgba(29,37,48,.08);
+  display:flex;flex-direction:column;gap:5px;padding:8px 9px;opacity:0;animation:rin .5s ease both}
+@keyframes rin{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+.rack i{height:7px;border-radius:3px;background:#EDF1F3;position:relative;overflow:hidden;font-style:normal}
+.rack i::after{content:'';position:absolute;top:0;bottom:0;width:9px;border-radius:3px;background:var(--accent-dark);animation:led var(--sp) linear infinite}
+@keyframes led{from{left:-12px}to{left:100%}}
+
+.txt{flex:1}
+.txt h3{font:700 30px/1.35 var(--fd);letter-spacing:-.5px}
+.txt h3 b{color:var(--primary-dark)}
+.txt p{margin-top:16px;font:400 17.5px/1.65 var(--fb);color:var(--muted)}
+.txt p b{color:var(--ink)}
+.funfact{margin-top:24px;padding:18px 24px;display:flex;align-items:center;gap:16px}
+.funfact .e{font-size:34px}
+.funfact .l{font:500 15.5px/1.5 var(--fb);color:var(--muted)}
+.funfact .l b{color:var(--ink)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Why now · ingredient 2 of 3</div>
+  <div class="stepper in">
+    <span class="stp done">✓ Data</span><span class="stp on">2 · Compute</span><span class="stp">3 · The idea</span>
+  </div>
+  <div class="title in d1"><span class="grad">Compute</span> — the muscle</div>
+
+  <div class="cols">
+    <div class="viz in d2">
+      <div class="gpu">
+        <svg width="170" height="170" viewBox="0 0 170 170" fill="none">
+          <rect x="25" y="25" width="120" height="120" rx="14" fill="#fff" stroke="#E05353" stroke-width="3"/>
+          <rect x="53" y="53" width="64" height="64" rx="8" fill="rgba(255,107,107,.12)" stroke="#E05353" stroke-width="2.4"/>
+          <text x="85" y="92" text-anchor="middle" font-family="Space Grotesk,sans-serif" font-weight="700" font-size="19" fill="#E05353">GPU</text>
+          <g stroke="#E05353" stroke-width="2.6" stroke-linecap="round">
+            <path d="M45 25V8M65 25V8M85 25V8M105 25V8M125 25V8"/><path d="M45 145v17M65 145v17M85 145v17M105 145v17M125 145v17"/>
+            <path d="M25 45H8M25 65H8M25 85H8M25 105H8M25 125H8"/><path d="M145 45h17M145 65h17M145 85h17M145 105h17M145 125h17"/>
+          </g>
+        </svg>
+      </div>
+      <svg class="grow" width="44" height="20" viewBox="0 0 44 20" fill="none"><path d="M2 10h34m0 0-7-6m7 6-7 6" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="dc">
+        <div class="rack" style="animation-delay:.5s"><i style="--sp:1.1s"></i><i style="--sp:1.6s"></i><i style="--sp:.9s"></i><i style="--sp:1.4s"></i><i style="--sp:1.2s"></i></div>
+        <div class="rack" style="animation-delay:.66s"><i style="--sp:1.3s"></i><i style="--sp:1s"></i><i style="--sp:1.7s"></i><i style="--sp:1.1s"></i><i style="--sp:1.5s"></i></div>
+        <div class="rack" style="animation-delay:.82s"><i style="--sp:.95s"></i><i style="--sp:1.45s"></i><i style="--sp:1.15s"></i><i style="--sp:1.65s"></i><i style="--sp:1s"></i></div>
+        <div class="rack" style="animation-delay:.98s"><i style="--sp:1.2s"></i><i style="--sp:.9s"></i><i style="--sp:1.5s"></i><i style="--sp:1.05s"></i><i style="--sp:1.35s"></i></div>
+        <div class="rack" style="animation-delay:1.14s"><i style="--sp:1.6s"></i><i style="--sp:1.1s"></i><i style="--sp:1.3s"></i><i style="--sp:.95s"></i><i style="--sp:1.55s"></i></div>
+        <div class="rack" style="animation-delay:1.3s"><i style="--sp:1s"></i><i style="--sp:1.4s"></i><i style="--sp:1.2s"></i><i style="--sp:1.6s"></i><i style="--sp:1.1s"></i></div>
+      </div>
+    </div>
+
+    <div class="txt in d2">
+      <h3>Learning from all that data takes<br><b>staggering processing power.</b></h3>
+      <p>The chips built to render video-game graphics — <b>GPUs</b> — turned out to be perfect for it. And they got cheap and powerful enough <b>at exactly the right moment.</b></p>
+      <div class="card funfact">
+        <span class="e">🎮</span>
+        <div class="l">The same family of silicon that drew your favorite game’s explosions<br><b>now trains the models writing your essays.</b></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

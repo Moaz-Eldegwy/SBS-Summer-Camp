@@ -1,0 +1,84 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:58px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}.d4{animation-delay:.52s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.cols{display:flex;gap:26px;margin-top:28px;flex:1}
+.col{flex:1;padding:24px 28px}
+.col.great{border-top:6px solid var(--accent-dark)}
+.col.shaky{border-top:6px solid var(--primary-dark)}
+.ch{display:flex;align-items:center;gap:12px}
+.ch .ic{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex:none}
+.great .ch .ic{background:rgba(78,205,196,.14)}
+.shaky .ch .ic{background:rgba(255,107,107,.1)}
+.ch b{font:700 24px/1.1 var(--fd);letter-spacing:-.4px}
+.great .ch b{color:var(--accent-dark)}
+.shaky .ch b{color:var(--primary-dark)}
+.ch span{font:500 13.5px/1.3 var(--fb);color:var(--faint);margin-left:auto;text-align:right}
+.items{margin-top:18px}
+.it{display:flex;align-items:center;gap:12px;padding:11px 4px;font:500 16.5px/1.35 var(--fb);border-bottom:1px dashed var(--line)}
+.it:last-child{border-bottom:0}
+.it svg{flex:none}
+.it small{margin-left:auto;font:400 12.5px/1.3 var(--fb);color:var(--faint);text-align:right}
+
+.bias{margin-top:22px;padding:16px 24px;display:flex;align-items:center;gap:14px}
+.bias .e{font-size:26px}
+.bias p{font:500 16px/1.5 var(--fb);color:var(--muted)}
+.bias b{color:var(--ink)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">The honest scorecard — hype helps nobody</div>
+  <div class="title in d1">Genuinely great. <span class="grad">Genuinely shaky.</span></div>
+
+  <div class="cols">
+    <div class="card col great in d1">
+      <div class="ch">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="m4.5 12.5 5 5L19.5 6.5" stroke="#3DB3AB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <b>Great at</b><span>wherever “plausible<br>&amp; fluent” is the goal</span>
+      </div>
+      <div class="items">
+        <div class="it"><svg width="19" height="19" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="8" fill="none" stroke="#3DB3AB" stroke-width="2"/><path d="m6 9.8 2.3 2.3 4.7-5" fill="none" stroke="#3DB3AB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>drafting &amp; rewriting<small>first drafts of anything</small></div>
+        <div class="it"><svg width="19" height="19" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="8" fill="none" stroke="#3DB3AB" stroke-width="2"/><path d="m6 9.8 2.3 2.3 4.7-5" fill="none" stroke="#3DB3AB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>brainstorming<small>50 ideas in 10 seconds</small></div>
+        <div class="it"><svg width="19" height="19" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="8" fill="none" stroke="#3DB3AB" stroke-width="2"/><path d="m6 9.8 2.3 2.3 4.7-5" fill="none" stroke="#3DB3AB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>summarizing &amp; translating<small>long → short, any language</small></div>
+        <div class="it"><svg width="19" height="19" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="8" fill="none" stroke="#3DB3AB" stroke-width="2"/><path d="m6 9.8 2.3 2.3 4.7-5" fill="none" stroke="#3DB3AB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>explaining anything, any level<small>“like I’m six” works</small></div>
+        <div class="it"><svg width="19" height="19" viewBox="0 0 19 19"><circle cx="9.5" cy="9.5" r="8" fill="none" stroke="#3DB3AB" stroke-width="2"/><path d="m6 9.8 2.3 2.3 4.7-5" fill="none" stroke="#3DB3AB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>coding help &amp; tone/format changes<small>unblocking &gt; replacing</small></div>
+      </div>
+    </div>
+
+    <div class="card col shaky in d2">
+      <div class="ch">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3 2.5 20h19L12 3Z" stroke="#E05353" stroke-width="2.4" stroke-linejoin="round"/><path d="M12 9.5v4" stroke="#E05353" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="16.6" r="1.3" fill="#E05353"/></svg></div>
+        <b>Shaky at</b><span>wherever exact, verifiable<br>truth matters</span>
+      </div>
+      <div class="items">
+        <div class="it"><svg width="19" height="19" viewBox="0 0 19 19"><path d="M9.5 2.5 1.8 16.5h15.4L9.5 2.5Z" fill="none" stroke="#E05353" stroke-width="2" stroke-linejoin="round"/><path d="M9.5 7.5v3.6" stroke="#E05353" stroke-width="2" stroke-linecap="round"/><circle cx="9.5" cy="13.7" r="1" fill="#E05353"/></svg>hard facts &amp; citations<small>invents convincing sources</small></div>
+        <div class="it"><svg width="19" height="19" viewBox="0 0 19 19"><path d="M9.5 2.5 1.8 16.5h15.4L9.5 2.5Z" fill="none" stroke="#E05353" stroke-width="2" stroke-linejoin="round"/><path d="M9.5 7.5v3.6" stroke="#E05353" stroke-width="2" stroke-linecap="round"/><circle cx="9.5" cy="13.7" r="1" fill="#E05353"/></svg>precise math &amp; counting<small>remember the r’s…</small></div>
+        <div class="it"><svg width="19" height="19" viewBox="0 0 19 19"><path d="M9.5 2.5 1.8 16.5h15.4L9.5 2.5Z" fill="none" stroke="#E05353" stroke-width="2" stroke-linejoin="round"/><path d="M9.5 7.5v3.6" stroke="#E05353" stroke-width="2" stroke-linecap="round"/><circle cx="9.5" cy="13.7" r="1" fill="#E05353"/></svg>very recent events<small>its knowledge has an end date</small></div>
+        <div class="it"><svg width="19" height="19" viewBox="0 0 19 19"><path d="M9.5 2.5 1.8 16.5h15.4L9.5 2.5Z" fill="none" stroke="#E05353" stroke-width="2" stroke-linejoin="round"/><path d="M9.5 7.5v3.6" stroke="#E05353" stroke-width="2" stroke-linecap="round"/><circle cx="9.5" cy="13.7" r="1" fill="#E05353"/></svg>anything needing real-world truth<small>plausible ≠ verified</small></div>
+        <div class="it"><svg width="19" height="19" viewBox="0 0 19 19"><path d="M9.5 2.5 1.8 16.5h15.4L9.5 2.5Z" fill="none" stroke="#E05353" stroke-width="2" stroke-linejoin="round"/><path d="M9.5 7.5v3.6" stroke="#E05353" stroke-width="2" stroke-linecap="round"/><circle cx="9.5" cy="13.7" r="1" fill="#E05353"/></svg>staying unbiased<small>it learned from us</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card bias in d3">
+    <span class="e">🪞</span>
+    <p>It can be <b>confidently biased</b>, too — because it learned from us, and <b>we’re biased</b>. It’s a mirror with excellent grammar.</p>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

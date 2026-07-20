@@ -1,0 +1,67 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:60px 110px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 48px/1.1 var(--fd);letter-spacing:-1px;margin-top:14px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d5{animation-delay:1.9s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.list{margin-top:34px;display:flex;flex-direction:column;gap:16px}
+.chk{display:flex;align-items:center;gap:20px;padding:20px 26px;opacity:0;animation:in .6s cubic-bezier(.2,.7,.2,1) both}
+.chk:nth-child(1){animation-delay:.25s}.chk:nth-child(2){animation-delay:.65s}
+.chk:nth-child(3){animation-delay:1.05s}.chk:nth-child(4){animation-delay:1.45s}
+.cir{flex:none;width:52px;height:52px}
+.cir circle{stroke:rgba(78,205,196,.3);stroke-width:4;fill:rgba(78,205,196,.07)}
+.cir path{stroke:var(--accent-dark);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;fill:none;
+  stroke-dasharray:34;stroke-dashoffset:34;animation:draw .5s ease forwards}
+.chk:nth-child(1) .cir path{animation-delay:.6s}
+.chk:nth-child(2) .cir path{animation-delay:1s}
+.chk:nth-child(3) .cir path{animation-delay:1.4s}
+.chk:nth-child(4) .cir path{animation-delay:1.8s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.chk b{font:700 20px/1.35 var(--fd);letter-spacing:-.2px}
+.chk span{display:block;font:400 15px/1.4 var(--fb);color:var(--muted);margin-top:3px}
+.chk b i{font-style:normal;color:var(--primary-dark)}
+
+.closer{margin-top:28px;text-align:center;font:600 21px/1.5 var(--fd);color:var(--muted)}
+.closer b{background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Wrap · 90 minutes ago vs. now</div>
+  <div class="title in">What you <span class="grad">now know.</span></div>
+
+  <div class="list">
+    <div class="card chk">
+      <svg class="cir" viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="m16 27 7 7 14-15"/></svg>
+      <div><b>Generative AI = makes <i>new</i> content from learned patterns</b><span>not a judge — an artist. Multiple-choice vs. the essay.</span></div>
+    </div>
+    <div class="card chk">
+      <svg class="cir" viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="m16 27 7 7 14-15"/></svg>
+      <div><b>It spans text · images · audio · video · code</b><span>one idea, many media — and you used several of them tonight.</span></div>
+    </div>
+    <div class="card chk">
+      <svg class="cir" viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="m16 27 7 7 14-15"/></svg>
+      <div><b>It exploded now because data + compute + the transformer arrived together</b><span>three streams, one river — and a very loud front door in Nov 2022.</span></div>
+    </div>
+    <div class="card chk">
+      <svg class="cir" viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="m16 27 7 7 14-15"/></svg>
+      <div><b>The core trick: predict the next word, over and over</b><span>which is why it’s brilliant, and why it hallucinates. Fluent ≠ true.</span></div>
+    </div>
+  </div>
+
+  <div class="closer in d5">That’s a <b>real foundation</b> — and we’re just getting started.</div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

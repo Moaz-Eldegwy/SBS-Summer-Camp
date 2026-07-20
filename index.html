@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SBS Summer Camp · Generative AI</title>
+<style>
+  @font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+  @font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+  :root{
+    --primary:#FF6B6B; --primary-dark:#E05353;
+    --accent:#4ECDC4;  --accent-dark:#3DB3AB;
+    --ink:#1D2530; --muted:#5F6C7B; --faint:#8E9AA8;
+    --line:rgba(29,37,48,.09);
+    --shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);
+    --fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;
+    --fb:'Inter','Segoe UI',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:var(--fb);color:var(--ink);min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(1100px 760px at 88% -8%, rgba(255,107,107,.10), transparent 62%),
+      radial-gradient(1000px 720px at -6% 106%, rgba(78,205,196,.12), transparent 62%),
+      #fff;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:64px 28px 80px}
+
+  header{display:flex;flex-direction:column;align-items:center;text-align:center}
+  header img{width:76px;height:76px;object-fit:contain;filter:drop-shadow(0 6px 18px rgba(29,37,48,.12))}
+  .kick{margin-top:18px;font:600 13px/1 var(--fb);letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
+  .kick b{color:var(--primary-dark)}
+  h1{margin-top:12px;font:700 clamp(42px,7vw,76px)/1 var(--fd);letter-spacing:-2.5px}
+  h1 .g{background:linear-gradient(94deg,var(--primary) 12%,var(--accent-dark) 88%);
+        -webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin-top:18px;font:400 17px/1.6 var(--fb);color:var(--muted);max-width:560px}
+  .rule{margin:30px auto 0;width:64px;height:5px;border-radius:3px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+
+  h2{margin:56px 0 20px;font:700 24px/1.2 var(--fd);letter-spacing:-.5px;display:flex;align-items:center;gap:12px}
+  h2::before{content:'';width:26px;height:7px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+  .card{
+    background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px 22px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;
+    transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+  }
+  a.card{text-decoration:none;color:inherit}
+  a.card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(29,37,48,.13);border-color:rgba(78,205,196,.5)}
+  .card .num{font:700 12px/1 var(--fd);letter-spacing:.14em;color:var(--faint)}
+  .card h3{font:700 19px/1.3 var(--fd);letter-spacing:-.3px;margin-top:10px;flex:none}
+  .card p{font:400 14px/1.55 var(--fb);color:var(--muted);margin-top:10px;flex:1}
+  .card .date{
+    display:inline-flex;align-items:center;gap:7px;margin-top:16px;align-self:flex-start;
+    font:600 12.5px/1 var(--fb);color:var(--muted);background:#F5F7F8;border-radius:20px;padding:8px 13px;
+  }
+  .card .date i{width:7px;height:7px;border-radius:50%;background:var(--accent-dark);font-style:normal}
+  .card.soon{opacity:.62;box-shadow:0 2px 8px rgba(29,37,48,.04)}
+  .card.soon .date i{background:var(--faint)}
+
+  .quizzes{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+  .quizzes .card h3{font-size:17px}
+
+  footer{margin-top:64px;padding-top:26px;border-top:1px solid var(--line);
+         display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
+         font:400 13.5px/1.6 var(--fb);color:var(--faint)}
+  footer a{color:var(--muted);text-decoration:none;font-weight:600}
+  footer a:hover{color:var(--primary-dark)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <img src="assets/sbs-logo.png" alt="SBS Community">
+    <div class="kick"><b>Summer Camp</b> &nbsp;·&nbsp; AI Course</div>
+    <h1>GENERATIVE <span class="g">AI</span></h1>
+    <p class="sub">Four evenings, from “what even is this?” to shipping your own small AI app. Slides, quizzes and notebooks — all in one place.</p>
+    <div class="rule"></div>
+  </header>
+
+  <h2>Sessions</h2>
+  <div class="grid">
+    <a class="card" href="sessions/session-1/presenter.html">
+      <div class="num">SESSION 1</div>
+      <h3>Welcome to Generative AI</h3>
+      <p>What GenAI is — and you walk out having <b>used</b> several kinds yourself.</p>
+      <span class="date"><i></i>Mon 20 Jul · Open slides</span>
+    </a>
+    <div class="card soon">
+      <div class="num">SESSION 2</div>
+      <h3>Under the Hood + Run One Yourself</h3>
+      <p>How LLMs work (intuition, no scary math) — then load &amp; run your own model.</p>
+      <span class="date"><i></i>Thu 23 Jul · Coming soon</span>
+    </div>
+    <div class="card soon">
+      <div class="num">SESSION 3</div>
+      <h3>Make Models Do What You Want</h3>
+      <p>Prompt like a pro — and choose between prompting, RAG &amp; fine-tuning.</p>
+      <span class="date"><i></i>Mon 27 Jul · Coming soon</span>
+    </div>
+    <div class="card soon">
+      <div class="num">SESSION 4</div>
+      <h3>Build &amp; Ship + Use It Responsibly</h3>
+      <p>Ship a small GenAI app — and know the risks and what to learn next.</p>
+      <span class="date"><i></i>Thu 30 Jul · Coming soon</span>
+    </div>
+  </div>
+
+  <h2>Quizzes</h2>
+  <div class="grid quizzes">
+    <a class="card" href="quizzes/quiz1.html">
+      <div class="num">QUIZ 1</div>
+      <h3>After Session 1</h3>
+      <span class="date"><i></i>Open quiz</span>
+    </a>
+    <a class="card" href="quizzes/quiz2.html">
+      <div class="num">QUIZ 2</div>
+      <h3>After Session 2</h3>
+      <span class="date"><i></i>Open quiz</span>
+    </a>
+    <a class="card" href="quizzes/quiz3.html">
+      <div class="num">QUIZ 3</div>
+      <h3>After Session 3</h3>
+      <span class="date"><i></i>Open quiz</span>
+    </a>
+    <a class="card" href="quizzes/quiz4.html">
+      <div class="num">QUIZ 4</div>
+      <h3>After Session 4</h3>
+      <span class="date"><i></i>Open quiz</span>
+    </a>
+  </div>
+
+  <footer>
+    <span>SBS Community · Generative AI Summer Camp</span>
+    <span>Eng. Moaz Eldegwy · <a href="https://moazeldegwy.com">moazeldegwy.com</a> · <a href="https://www.linkedin.com/in/moaz-eldegwy/">LinkedIn</a></span>
+  </footer>
+
+</div>
+</body>
+</html>

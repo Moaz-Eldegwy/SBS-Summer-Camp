@@ -1,0 +1,38 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:60px 120px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before,.kicker::after{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.in{animation:in .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.15s}.d2{animation-delay:.4s}.d3{animation-delay:.9s}
+@keyframes in{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+.q{margin-top:40px;font:700 64px/1.22 var(--fd);letter-spacing:-2.5px;max-width:1000px}
+.q .g{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.q .marks{font-size:110px;line-height:0;vertical-align:-24px;color:rgba(255,107,107,.35);font-family:Georgia,serif}
+
+.drum{margin-top:56px;display:flex;gap:14px}
+.drum i{width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent-dark));animation:bnc 1s ease-in-out infinite}
+.drum i:nth-child(2){animation-delay:.15s}.drum i:nth-child(3){animation-delay:.3s}
+@keyframes bnc{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-14px);opacity:1}}
+.ready{margin-top:26px;font:600 24px/1 var(--fd);color:var(--muted)}
+.ready b{color:var(--primary-dark)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Part six · The one secret</div>
+
+  <div class="q in d1"><span class="marks">“</span>The secret behind ChatGPT is <span class="g">almost insultingly simple.</span><span class="marks">”</span></div>
+
+  <div class="drum in d2"><i></i><i></i><i></i></div>
+  <div class="ready in d3">People picture magic. Maybe consciousness. <b>Ready for the real thing?</b></div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

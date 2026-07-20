@@ -1,0 +1,125 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:60px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 46px/1.1 var(--fd);letter-spacing:-1px;margin-top:14px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}.d4{animation-delay:.52s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.tourbar{display:flex;gap:8px;margin-top:16px}
+.tstep{font:600 12.5px/1 var(--fb);letter-spacing:.06em;border-radius:20px;padding:8px 14px;color:var(--faint);background:#F2F5F6}
+.tstep.on{color:#fff;background:linear-gradient(92deg,var(--primary),var(--primary-dark));box-shadow:0 6px 14px rgba(255,107,107,.3)}
+
+.flow{display:flex;align-items:center;gap:26px;margin-top:30px;flex:1}
+.pcol{width:440px}
+.promptcard{padding:22px 24px}
+.promptcard .lbl{font:600 12px/1 var(--fb);letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.promptcard .txt{margin-top:10px;font:600 21px/1.45 var(--fd)}
+.promptcard .txt q{color:var(--primary-dark)}
+.names{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.name{font:700 14px/1 var(--fd);background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 15px;box-shadow:0 2px 8px rgba(29,37,48,.05)}
+.live{margin-top:18px;display:flex;align-items:center;gap:11px;background:rgba(255,107,107,.07);border:1px solid rgba(255,107,107,.3);
+  border-radius:14px;padding:14px 16px;font:600 14.5px/1.4 var(--fb);color:var(--primary-dark)}
+.live .reddot{width:10px;height:10px;border-radius:50%;background:var(--primary);flex:none;animation:blink 1.1s ease infinite}
+@keyframes blink{50%{opacity:.25}}
+
+.arr{flex:none;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--faint)}
+.arr svg{display:block}
+.arr span{font:600 11.5px/1 var(--fb);letter-spacing:.14em;text-transform:uppercase}
+
+.canvaswrap{position:relative;flex:1;max-width:470px}
+.canvas{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);cursor:pointer}
+.canvas svg{display:block;width:100%;height:auto}
+#pix{position:absolute;inset:0;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(9,1fr)}
+#pix i{background:#EDF1F4;transition:opacity .3s ease}
+.canvas .cap{position:absolute;left:12px;bottom:12px;font:600 12px/1 var(--fb);letter-spacing:.08em;color:#fff;
+  background:rgba(29,37,48,.55);backdrop-filter:blur(4px);border-radius:20px;padding:8px 13px}
+.redo{margin-top:12px;text-align:center;font:600 13px/1 var(--fb);color:var(--faint)}
+.redo b{color:var(--accent-dark);cursor:pointer}
+.punch{margin-top:14px;font:500 15.5px/1.5 var(--fb);color:var(--muted)}
+.punch b{color:var(--ink)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">The tour — it’s not just chatbots</div>
+  <div class="title in d1"><span class="grad">Images</span> — describe it, it paints it</div>
+  <div class="tourbar in d1">
+    <span class="tstep">✍️ Text</span><span class="tstep on">🎨 Images</span><span class="tstep">🎧 Audio</span><span class="tstep">⌨️ Code</span><span class="tstep">🎬 Video</span>
+  </div>
+
+  <div class="flow">
+    <div class="pcol in d2">
+      <div class="card promptcard">
+        <div class="lbl">The prompt</div>
+        <div class="txt"><q>“A cat lawyer arguing in a courtroom, oil painting.”</q></div>
+      </div>
+      <div class="names">
+        <span class="name">Midjourney</span><span class="name">DALL·E</span><span class="name">Stable Diffusion</span><span class="name">Flux</span><span class="name">Imagen</span>
+      </div>
+      <div class="live"><span class="reddot"></span>LIVE DEMO — shout a silly prompt, we’ll generate it on screen right now</div>
+      <div class="punch">You’re not <b>searching</b> for a picture that exists.<br>It’s <b>making one</b> that never did — pixel by pixel.<br>Those fake faces earlier? <b>This is where they come from.</b></div>
+    </div>
+
+    <div class="arr in d2">
+      <svg width="46" height="20" viewBox="0 0 46 20" fill="none"><path d="M2 10h38m0 0-8-7m8 7-8 7" stroke="url(#g)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="g" x1="0" x2="46" y1="10" y2="10" gradientUnits="userSpaceOnUse"><stop stop-color="#FF6B6B"/><stop offset="1" stop-color="#3DB3AB"/></linearGradient></defs></svg>
+      <span>generate</span>
+    </div>
+
+    <div class="canvaswrap in d3">
+      <div class="canvas" id="cv" title="click to re-generate">
+        <svg viewBox="0 0 470 352" xmlns="http://www.w3.org/2000/svg">
+          <rect width="470" height="352" fill="#F6EFE4"/>
+          <rect x="0" y="0" width="470" height="120" fill="#E8DCC8"/>
+          <rect x="30" y="20" width="60" height="100" rx="6" fill="#D9C9AC"/>
+          <rect x="380" y="20" width="60" height="100" rx="6" fill="#D9C9AC"/>
+          <rect x="0" y="230" width="470" height="122" fill="#8A6B4F"/>
+          <rect x="0" y="222" width="470" height="14" fill="#6E523B"/>
+          <circle cx="235" cy="132" r="62" fill="#F2B872"/>
+          <path d="M188 96 200 58l26 26Z" fill="#F2B872"/><path d="M282 96 270 58l-26 26Z" fill="#F2B872"/>
+          <path d="M192 100 202 70l20 20Z" fill="#F8DDBA"/><path d="M278 100 268 70l-20 20Z" fill="#F8DDBA"/>
+          <circle cx="212" cy="124" r="9" fill="#2F3B33"/><circle cx="258" cy="124" r="9" fill="#2F3B33"/>
+          <circle cx="215" cy="121" r="3" fill="#fff"/><circle cx="261" cy="121" r="3" fill="#fff"/>
+          <path d="M228 146c3 5 11 5 14 0" stroke="#8A5A2B" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M235 140v6" stroke="#8A5A2B" stroke-width="4" stroke-linecap="round"/>
+          <path d="M235 146c-16 4-30 1-40-4M235 146c16 4 30 1 40-4M235 152c-14 7-28 6-38 3M235 152c14 7 28 6 38 3" stroke="#C98F53" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+          <path d="M172 226c8-42 42-58 63-58s55 16 63 58l6 24H166Z" fill="#232B36"/>
+          <path d="M215 176h40l-12 34h-16Z" fill="#fff"/>
+          <path d="M235 176l-8 12 8 26 8-26Z" fill="#E05353"/>
+          <path d="M180 208c14-10 26-14 34-15M290 208c-14-10-26-14-34-15" stroke="#39424E" stroke-width="7" stroke-linecap="round"/>
+          <rect x="118" y="196" width="46" height="12" rx="6" fill="#5C4023" transform="rotate(-32 118 196)"/>
+          <circle cx="128" y="0" cy="212" r="15" fill="#7A5530"/>
+          <rect x="330" y="252" width="90" height="52" rx="8" fill="#5C4023"/>
+          <text x="235" y="330" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="20" fill="#F6EFE4">“OBJECTION, YOUR HONOUR!”</text>
+        </svg>
+        <div id="pix"></div>
+        <div class="cap">🎨 oil painting · 1 of ∞ possible cats</div>
+      </div>
+      <div class="redo">click the canvas to <b>generate again</b></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var pix=document.getElementById('pix'), cells=[];
+  for(var i=0;i<108;i++){ var c=document.createElement('i'); pix.appendChild(c); cells.push(c); }
+  function paint(){
+    var order=cells.map(function(c,i){return i}).sort(function(){return Math.random()-.5});
+    cells.forEach(function(c){c.style.opacity=1});
+    order.forEach(function(idx,k){ setTimeout(function(){ cells[idx].style.opacity=0; }, 250+k*16); });
+  }
+  paint();
+  document.getElementById('cv').addEventListener('click',paint);
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

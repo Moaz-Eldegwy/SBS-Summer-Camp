@@ -1,0 +1,173 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:56px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 42px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.cols{display:flex;gap:56px;margin-top:20px;flex:1;align-items:center}
+.phone{flex:none;width:330px;height:470px;border-radius:38px;background:#fff;border:1px solid var(--line);
+  box-shadow:0 30px 70px rgba(29,37,48,.18);padding:16px;display:flex;flex-direction:column;position:relative}
+.notch{width:110px;height:22px;border-radius:14px;background:#EDF1F4;margin:0 auto}
+.screen{flex:1;display:flex;flex-direction:column;margin-top:12px;overflow:hidden}
+.appbar{font:700 13.5px/1 var(--fb);color:var(--muted);text-align:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.thread{flex:1;padding:14px 4px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+.bubble{max-width:95%;align-self:flex-end;background:linear-gradient(120deg,var(--accent),var(--accent-dark));color:#fff;
+  border-radius:18px;border-bottom-right-radius:6px;padding:13px 15px;font:500 15.5px/1.5 var(--fb);min-height:48px}
+.bubble .cr{display:inline-block;width:8px;height:15px;background:rgba(255,255,255,.9);border-radius:2px;vertical-align:-2px;animation:bl .8s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+.sugg{display:flex;gap:8px;padding:12px 2px 4px}
+.sg{flex:1;font:600 14px/1 var(--fb);color:var(--ink);background:#F0F3F5;border:1px solid var(--line);border-radius:12px;
+  padding:13px 6px;text-align:center;cursor:pointer;transition:all .13s ease;white-space:nowrap;overflow:hidden}
+.sg:hover{background:rgba(78,205,196,.15);border-color:var(--accent-dark)}
+.sg.mid{background:rgba(78,205,196,.14);border-color:var(--accent-dark);color:var(--accent-dark);font-weight:700;position:relative}
+.kb{margin-top:8px;display:grid;grid-template-columns:repeat(10,1fr);gap:4px;opacity:.5}
+.kb i{height:26px;border-radius:5px;background:#EDF1F4}
+.tapme{position:absolute;bottom:118px;left:50%;transform:translateX(-50%);font:700 12.5px/1 var(--fb);color:#fff;
+  background:var(--primary-dark);border-radius:20px;padding:9px 14px;box-shadow:0 8px 18px rgba(224,83,83,.4);
+  animation:bob 1.4s ease-in-out infinite;pointer-events:none;white-space:nowrap}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-7px)}}
+
+.side{flex:1}
+.side h3{font:700 27px/1.4 var(--fd);letter-spacing:-.4px}
+.side h3 b{color:var(--accent-dark)}
+.side .exp{margin-top:16px;font:400 17px/1.6 var(--fb);color:var(--muted)}
+.side .exp b{color:var(--ink)}
+.eq{margin-top:22px;padding:20px 26px;font:600 19px/1.5 var(--fd)}
+.eq b{background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+.scalerow{display:flex;gap:14px;margin-top:18px}
+.sc{flex:1;padding:15px 18px;text-align:center}
+.sc .n{font:700 25px/1 var(--fd);color:var(--primary-dark)}
+.sc .l{margin-top:6px;font:500 12.5px/1.35 var(--fb);color:var(--muted)}
+.sc.t .n{color:var(--accent-dark)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">The one secret · try it yourself</div>
+  <div class="title in d1">You already own a <span class="grad">baby version</span> of this.</div>
+
+  <div class="cols">
+    <div class="phone in d1">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="appbar">Messages — to: Mom 💬</div>
+        <div class="thread"><div class="bubble"><span id="msg">I think that</span><span class="cr"></span></div></div>
+        <div class="sugg" id="sugg"></div>
+        <div class="kb"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="tapme" id="tapme">👆 keep tapping the middle one</div>
+    </div>
+
+    <div class="side in d2">
+      <h3>Phones out one more time: type <b>“I think that”</b> — then just keep tapping the <b>middle suggestion</b>.</h3>
+      <div class="exp">You get nonsense — but <b>grammatical</b> nonsense. That little autocomplete bar is a <b>tiny language model</b> doing the exact same job: predict the next word.</div>
+      <div class="card eq">Now let it learn from <b>the entire internet</b> instead of your texts…<br>That’s a large language model — <b>autocomplete that went to the library and read everything.</b></div>
+      <div class="scalerow">
+        <div class="card sc"><div class="n">3</div><div class="l">options your keyboard weighs</div></div>
+        <div class="card sc t"><div class="n">50,000+</div><div class="l">options an LLM weighs — every single word</div></div>
+        <div class="card sc"><div class="n">S2</div><div class="l">watch a real one think, live in your browser</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* keyboard-style suggestion chains — middle option continues the sentence */
+  var chains={
+    start:['I','it','the'],
+    map:{
+      'that':['I','it','the'],
+      'it':['is','was','will'],
+      'is':['a','the','not'],
+      'a':['good','little','very'],
+      'good':['idea','day','thing'],
+      'idea':['to','for','but'],
+      'to':['be','get','see'],
+      'be':['a','the','able'],
+      'the':['best','only','first'],
+      'best':['way','thing','part'],
+      'way':['to','of','for'],
+      'of':['the','my','all'],
+      'my':['life','phone','day'],
+      'life':['is','and','but'],
+      'and':['I','it','the'],
+      'I':['think','will','have'],
+      'think':['that','it','about'],
+      'about':['the','it','my'],
+      'will':['be','see','get'],
+      'not':['sure','the','a'],
+      'sure':['if','about','that'],
+      'day':['and','of','for'],
+      'thing':['is','to','about'],
+      'for':['the','a','my'],
+      'able':['to','and','for'],
+      'get':['the','a','it'],
+      'see':['the','it','you'],
+      'have':['a','the','to'],
+      'if':['I','it','the'],
+      'was':['a','the','not'],
+      'very':['good','nice','happy'],
+      'phone':['is','and','was'],
+      'first':['time','thing','day'],
+      'time':['I','of','to'],
+      'only':['way','thing','one'],
+      'one':['of','that','is'],
+      'part':['of','is','and'],
+      'but':['I','it','the'],
+      'nice':['day','and','to'],
+      'happy':['and','to','about'],
+      'all':['the','my','of'],
+      'you':['are','can','will'],
+      'little':['bit','thing','more'],
+      'bit':['of','more','and'],
+      'more':['than','of','to'],
+      'than':['the','I','a'],
+      'can':['be','see','get'],
+      'are':['the','a','not'],
+      'about':['the','it','my']
+    }
+  };
+  var words=['I','think','that'], MAX=15;
+  var msg=document.getElementById('msg'), sug=document.getElementById('sugg'), tap=document.getElementById('tapme');
+  function opts(){
+    var last=words[words.length-1];
+    return chains.map[last]||chains.start;
+  }
+  function render(){
+    msg.textContent=words.join(' ');
+    var o=opts();
+    sug.innerHTML='';
+    [o[1],o[0],o[2]].forEach(function(w,i){  /* middle = most likely */
+      var b=document.createElement('div');
+      b.className='sg'+(i===1?' mid':'');
+      b.textContent='“'+w+'”';
+      b.onclick=function(){ pick(w); };
+      sug.appendChild(b);
+    });
+  }
+  function pick(w){
+    tap.style.display='none';
+    if(words.length>=MAX){ words=['I','think','that']; tap.style.display=''; render(); return; }
+    words.push(w); render();
+    if(words.length>=MAX){
+      msg.textContent=words.join(' ')+' …';
+      sug.innerHTML='<div class="sg mid" style="flex:1" onclick="location.reload()">😵 grammatical nonsense achieved — tap to restart</div>';
+    }
+  }
+  render();
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>
