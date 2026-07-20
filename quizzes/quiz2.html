@@ -4,97 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SBS Summer Camp · Quiz 2</title>
-<style>
-  @font-face{font-family:'Space Grotesk';src:url('../assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
-  @font-face{font-family:'Inter';src:url('../assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
-  :root{
-    --primary:#FF6B6B; --primary-dark:#E05353;
-    --accent:#4ECDC4;  --accent-dark:#3DB3AB;
-    --ink:#1D2530; --muted:#5F6C7B; --faint:#8E9AA8;
-    --line:rgba(29,37,48,.09);
-    --shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);
-    --fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;
-    --fb:'Inter','Segoe UI',system-ui,sans-serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{
-    font-family:var(--fb);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;
-    background:
-      radial-gradient(1100px 760px at 88% -8%, rgba(255,107,107,.10), transparent 62%),
-      radial-gradient(1000px 720px at -6% 106%, rgba(78,205,196,.12), transparent 62%),
-      #fff;
-  }
-  .wrap{max-width:760px;margin:0 auto;padding:56px 24px 72px}
-
-  header{text-align:center}
-  header img{width:62px;height:62px;object-fit:contain}
-  .kick{margin-top:14px;font:600 12.5px/1 var(--fb);letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
-  .kick b{color:var(--primary-dark)}
-  h1{margin-top:10px;font:700 clamp(34px,6vw,52px)/1.05 var(--fd);letter-spacing:-1.6px}
-  h1 .g{background:linear-gradient(94deg,var(--primary) 12%,var(--accent-dark) 88%);
-        -webkit-background-clip:text;background-clip:text;color:transparent}
-  .sub{margin-top:14px;font:400 16px/1.6 var(--fb);color:var(--muted)}
-
-  #bar{margin:32px 0 26px;height:6px;border-radius:4px;background:rgba(29,37,48,.07);overflow:hidden}
-  #bar span{display:block;height:100%;width:0;border-radius:4px;
-            background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .35s ease}
-
-  .q{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);
-     padding:26px 24px;margin-bottom:18px}
-  .q .n{font:700 12px/1 var(--fd);letter-spacing:.14em;color:var(--faint)}
-  .q h3{font:700 19px/1.4 var(--fd);letter-spacing:-.3px;margin-top:10px}
-  .opts{margin-top:16px;display:flex;flex-direction:column;gap:9px}
-  .opt{
-    display:flex;align-items:flex-start;gap:11px;padding:13px 15px;cursor:pointer;
-    border:1px solid var(--line);border-radius:14px;background:#fff;
-    font:400 15px/1.5 var(--fb);text-align:left;
-    transition:border-color .15s ease,background .15s ease,transform .12s ease;
-  }
-  .opt:hover:not(.locked){border-color:var(--accent-dark);transform:translateX(3px)}
-  .opt .k{
-    flex:none;width:24px;height:24px;border-radius:50%;background:#F5F7F8;color:var(--muted);
-    display:flex;align-items:center;justify-content:center;font:700 12px/1 var(--fd);
-  }
-  .opt.picked{border-color:var(--accent-dark);background:rgba(78,205,196,.07)}
-  .opt.right{border-color:var(--accent-dark);background:rgba(78,205,196,.13)}
-  .opt.right .k{background:var(--accent-dark);color:#fff}
-  .opt.wrong{border-color:var(--primary);background:rgba(255,107,107,.09)}
-  .opt.wrong .k{background:var(--primary);color:#fff}
-  .opt.locked{cursor:default}
-  .why{margin-top:14px;padding:13px 15px;border-radius:14px;background:#F5F7F8;
-       font:400 14.5px/1.6 var(--fb);color:var(--muted);display:none}
-  .why.show{display:block}
-  .why b{color:var(--ink)}
-
-  .actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:30px}
-  button.cta{
-    font:600 15px/1 var(--fb);padding:15px 30px;border-radius:30px;border:0;cursor:pointer;color:#fff;
-    background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-    box-shadow:0 8px 20px rgba(255,107,107,.32);transition:transform .15s ease,box-shadow .15s ease;
-  }
-  button.cta:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(255,107,107,.4)}
-  button.cta.ghost{background:#fff;color:var(--muted);border:1px solid var(--line);box-shadow:none}
-  button.cta.ghost:hover{border-color:var(--primary);color:var(--primary-dark)}
-  button.cta:disabled{opacity:.45;cursor:not-allowed;transform:none}
-
-  #score{
-    display:none;margin-top:26px;text-align:center;padding:30px 26px;
-    background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);
-  }
-  #score.show{display:block}
-  #score .big{font:700 56px/1 var(--fd);letter-spacing:-2px}
-  #score .big em{font-style:normal;background:linear-gradient(94deg,var(--primary),var(--accent-dark));
-                 -webkit-background-clip:text;background-clip:text;color:transparent}
-  #score p{margin-top:12px;font:400 16px/1.6 var(--fb);color:var(--muted)}
-
-  #empty{text-align:center;padding:56px 26px;background:#fff;border:1px dashed rgba(29,37,48,.18);
-         border-radius:22px;color:var(--muted);font:400 16px/1.7 var(--fb)}
-  #empty b{display:block;font:700 22px/1.3 var(--fd);color:var(--ink);margin-bottom:10px}
-
-  .back{display:block;text-align:center;margin-top:34px;font:600 14px/1 var(--fb);
-        color:var(--muted);text-decoration:none}
-  .back:hover{color:var(--primary-dark)}
-</style>
+<link rel="stylesheet" href="quiz.css">
 </head>
 <body>
 <div class="wrap">
@@ -106,112 +16,50 @@
     <p class="sub" id="sub">After Session 2 — Under the Hood + Run One Yourself</p>
   </header>
 
-  <div id="bar"><span></span></div>
-  <div id="quiz"></div>
-  <div class="actions" id="actions"></div>
-  <div id="score"></div>
+  <!-- sign-in gate -->
+  <div id="gate">
+    <b class="t">Who's taking this quiz?</b>
+    <p class="h">Enter your <b>student ID</b> or the <b>email</b> you registered with,
+       so your score lands on your name.</p>
+    <form>
+      <input type="text" autocomplete="username" spellcheck="false"
+             placeholder="PART-XXXXXXXX-XXXX  or  yourname@gmail.com" aria-label="Student ID or email">
+      <button type="submit" class="cta">Start quiz</button>
+    </form>
+    <div class="msg"></div>
+    <p class="hint">Either the full email or just the part before the @ works.</p>
+  </div>
+
+  <div id="who"><span>Signed in as <span class="nm"></span></span><button type="button">Not you?</button></div>
+
+  <div id="quizbody" style="display:none">
+    <div id="bar"><span></span></div>
+    <div id="quiz"></div>
+    <div class="actions" id="actions"></div>
+    <div id="score"></div>
+  </div>
 
   <a class="back" href="../index.html">← Back to all sessions &amp; quizzes</a>
 </div>
 
 <script>
 /* ─────────────────────────────────────────────────────────────
-   QUESTIONS — edit this array only. Everything below is the engine.
+   QUESTIONS — edit this array only. The engine lives in quiz-engine.js.
      q      : the question text
      a      : array of answer options
      correct: 0-based index of the right answer in `a`
      why    : explanation shown after answering (optional)
    Leave the array empty ([]) to show the "coming soon" placeholder.
+
+   IMPORTANT: whenever you change `correct` here, update ANSWER_KEYS
+   in the Apps Script too — the sheet is graded server-side.
    ───────────────────────────────────────────────────────────── */
-const QUESTIONS = [
+window.QUIZ_ID = 'Quiz 2';   // must match the Google Sheet tab name
+window.QUESTIONS = [
   // Add questions here — same shape as quiz1.html
 ];
-/* ───────────────── engine ───────────────── */
-(function(){
-  const host  = document.getElementById('quiz'),
-        acts  = document.getElementById('actions'),
-        bar   = document.querySelector('#bar span'),
-        panel = document.getElementById('score'),
-        LETTERS = 'ABCDEFGH';
-  const picked = new Array(QUESTIONS.length).fill(null);
-  let graded = false;
-
-  if(!QUESTIONS.length){
-    document.getElementById('bar').style.display='none';
-    host.innerHTML = '<div id="empty"><b>Coming soon</b>This quiz opens after the session. Check back then — the link stays the same.</div>';
-    return;
-  }
-
-  QUESTIONS.forEach((item, qi) => {
-    const card = document.createElement('div');
-    card.className = 'q';
-    card.innerHTML = '<div class="n">QUESTION ' + (qi+1) + ' / ' + QUESTIONS.length + '</div>' +
-                     '<h3></h3><div class="opts"></div><div class="why"></div>';
-    card.querySelector('h3').textContent = item.q;
-
-    const opts = card.querySelector('.opts');
-    item.a.forEach((text, ai) => {
-      const b = document.createElement('button');
-      b.className = 'opt';
-      b.innerHTML = '<span class="k">' + LETTERS[ai] + '</span><span></span>';
-      b.lastChild.textContent = text;
-      b.addEventListener('click', () => {
-        if(graded) return;
-        picked[qi] = ai;
-        opts.querySelectorAll('.opt').forEach(o => o.classList.remove('picked'));
-        b.classList.add('picked');
-        progress();
-      });
-      opts.appendChild(b);
-    });
-    host.appendChild(card);
-  });
-
-  const submit = document.createElement('button');
-  submit.className = 'cta'; submit.textContent = 'Submit answers'; submit.disabled = true;
-  const retry = document.createElement('button');
-  retry.className = 'cta ghost'; retry.textContent = 'Try again'; retry.style.display = 'none';
-  acts.append(submit, retry);
-
-  function progress(){
-    const done = picked.filter(p => p !== null).length;
-    bar.style.width = (done / QUESTIONS.length * 100) + '%';
-    submit.disabled = done < QUESTIONS.length;
-  }
-
-  submit.addEventListener('click', () => {
-    graded = true;
-    let score = 0;
-    host.querySelectorAll('.q').forEach((card, qi) => {
-      const item = QUESTIONS[qi];
-      card.querySelectorAll('.opt').forEach((o, ai) => {
-        o.classList.add('locked');
-        o.classList.remove('picked');
-        if(ai === item.correct) o.classList.add('right');
-        else if(ai === picked[qi]) o.classList.add('wrong');
-      });
-      if(picked[qi] === item.correct) score++;
-      if(item.why){
-        const why = card.querySelector('.why');
-        why.innerHTML = '<b>' + (picked[qi] === item.correct ? 'Correct — ' : 'Not quite — ') + '</b>';
-        why.append(item.why);
-        why.classList.add('show');
-      }
-    });
-
-    const pct = Math.round(score / QUESTIONS.length * 100);
-    const note = pct === 100 ? 'Perfect run. You were listening.'
-               : pct >= 60  ? 'Solid. Skim the slides for the ones you missed.'
-               : 'Worth a re-watch — open the session slides and try again.';
-    panel.innerHTML = '<div class="big"><em>' + score + ' / ' + QUESTIONS.length + '</em></div><p>' + note + '</p>';
-    panel.classList.add('show');
-    submit.style.display = 'none';
-    retry.style.display = '';
-    panel.scrollIntoView({behavior:'smooth', block:'center'});
-  });
-
-  retry.addEventListener('click', () => { location.reload(); });
-})();
 </script>
+<script src="quiz-config.js"></script>
+<script src="quiz-engine.js"></script>
 </body>
 </html>

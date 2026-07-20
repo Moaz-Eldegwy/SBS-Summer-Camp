@@ -1,0 +1,3 @@
+# Roster contains 180 real names, IDs and emails — it seeds the Google Sheet
+# and must never be published to GitHub Pages.
+roster/
