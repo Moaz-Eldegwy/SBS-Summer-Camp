@@ -30,7 +30,8 @@
 
   /* ───────── helpers ───────── */
 
-  // "Shalllaby@Gmail.com " and " shalllaby " both become "shalllaby".
+  // Roster handles are Discord usernames. Trim + lowercase, and tolerate a
+  // pasted email by keeping only the part before the @.
   function normalizeLogin(v) {
     return String(v == null ? '' : v).trim().toLowerCase().split('@')[0].trim();
   }
@@ -86,7 +87,7 @@
       var login = normalizeLogin(input.value);
       if (!login) {
         msg.className = 'msg err';
-        msg.textContent = 'Type your student ID or your email first.';
+        msg.textContent = 'Type your student ID or your Discord username first.';
         return;
       }
 
@@ -105,7 +106,7 @@
           input.disabled = btn.disabled = false;
           msg.className = 'msg err';
           msg.textContent = String(err.message) === 'not found'
-            ? 'We could not find that ID or email on the roster. Check the spelling, or use the other one.'
+            ? 'We could not find that ID or Discord username on the roster. Check the spelling, or use the other one.'
             : 'Could not reach the server. Check your connection and try again.';
           input.focus();
           input.select();
