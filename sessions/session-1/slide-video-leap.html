@@ -86,7 +86,7 @@ body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
 
 <div id="vpop">
   <div class="wrap">
-    <div class="box"><iframe id="vfr" src="" title="Video" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe></div>
+    <div class="box"><iframe id="vfr" src="" title="Video" allow="autoplay; encrypted-media; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
     <button class="x" id="vclose" title="close">✕</button>
   </div>
 </div>
@@ -94,7 +94,12 @@ body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
 <script>
 (function(){
   var pop=document.getElementById('vpop'), fr=document.getElementById('vfr');
-  function openV(id){ fr.src='https://www.youtube.com/embed/'+id+'?autoplay=1'; pop.classList.add('show'); }
+  function openV(id){
+    /* YouTube's embedded player errors (153) without an HTTP referrer, i.e. when
+       the deck is opened from file:// — fall back to a new tab there */
+    if(location.protocol==='file:'){ window.open('https://www.youtube.com/watch?v='+id,'_blank'); return; }
+    fr.src='https://www.youtube.com/embed/'+id+'?autoplay=1'; pop.classList.add('show');
+  }
   function closeV(){ pop.classList.remove('show'); fr.src=''; }
   document.querySelectorAll('.vid').forEach(function(v){
     v.addEventListener('click',function(){ openV(v.dataset.v); });
