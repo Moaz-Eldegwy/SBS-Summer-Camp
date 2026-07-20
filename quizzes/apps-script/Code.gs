@@ -15,11 +15,17 @@
           Who has access:  Anyone            ← must be "Anyone", not "Anyone with Google account"
         Copy the /exec URL into quizzes/quiz-config.js.
 
-   AFTER EDITING A QUIZ: update ANSWER_KEYS below so server-side grading
-   matches the questions on the page.
+   AFTER EDITING A QUIZ — all four steps, in order:
+     1. Update ANSWER_KEYS below to match the new questions.
+     2. Bump KEY_VERSION.
+     3. Re-deploy (see below). Editing the script is NOT enough — the live
+        web app keeps serving the last deployed version, so a stale key will
+        quietly mis-grade every submission.
+     4. Run  regradeAll()  to repair rows written before the re-deploy.
 
    RE-DEPLOYING after a code change: Deploy → Manage deployments →
    pencil icon → Version: New version → Deploy. The URL stays the same.
+   Then open the /exec URL: the keyVersion it reports must match this file.
    ═══════════════════════════════════════════════════════════════════════ */
 
 var SHEET_ID     = 'PASTE_YOUR_SPREADSHEET_ID_HERE';
@@ -28,6 +34,11 @@ var SHARED_TOKEN = 'sbs-2026-summer-camp';   // must match TOKEN in quiz-config.
 var ROSTER_SHEET  = 'Roster';
 var SUMMARY_SHEET = 'Summary';
 var QUIZZES       = ['Quiz 1', 'Quiz 2', 'Quiz 3', 'Quiz 4'];
+
+/* Bump this whenever ANSWER_KEYS changes, then re-deploy. Open the /exec URL
+   in a browser: if the keyVersion it reports is behind this file, the live
+   deployment is stale and is grading against the old key. */
+var KEY_VERSION = 2;
 
 /* Correct answers, 0-based, in question order — mirror of `correct` in each
    quizN.html. Leave an array empty until that quiz has questions; the script
@@ -61,7 +72,12 @@ function doPost(e) {
 
 // Open the /exec URL in a browser to confirm the deployment is live.
 function doGet() {
-  return json({ ok: true, service: 'SBS quiz gradebook', quizzes: QUIZZES });
+  var keySizes = {};
+  QUIZZES.forEach(function (q) { keySizes[q] = (ANSWER_KEYS[q] || []).length; });
+  return json({
+    ok: true, service: 'SBS quiz gradebook', quizzes: QUIZZES,
+    keyVersion: KEY_VERSION, keySizes: keySizes
+  });
 }
 
 function json(obj) {
@@ -135,7 +151,7 @@ function handleSubmit(req) {
 
   var answers = Array.isArray(req.answers) ? req.answers : [];
   var total   = Number(req.total) || answers.length;
-  var score   = gradeAnswers(quiz, answers, req.clientScore);
+  var score   = gradeAnswers(quiz, answers, total, req.clientScore);
 
   // Serialize concurrent submissions so two students never clobber one row.
   var lock = LockService.getScriptLock();
@@ -148,10 +164,19 @@ function handleSubmit(req) {
 }
 
 /* Grades against ANSWER_KEYS so a tampered POST cannot inflate a score.
-   Falls back to the browser's number only when no key is configured. */
-function gradeAnswers(quiz, answers, clientScore) {
+   Falls back to the browser's number when no key is configured, or when the
+   key length does not match the quiz — a shorter key silently marks every
+   unkeyed question wrong, which is how a real 3/10 once landed as 1/10. */
+function gradeAnswers(quiz, answers, total, clientScore) {
   var key = ANSWER_KEYS[quiz] || [];
   if (!key.length) return Math.max(0, Number(clientScore) || 0);
+
+  if (key.length !== total) {
+    console.warn(quiz + ': answer key has ' + key.length + ' entries but the page ' +
+                 'sent ' + total + ' questions. This deployment is out of date — ' +
+                 're-deploy the script. Using the browser score for now.');
+    return Math.max(0, Number(clientScore) || 0);
+  }
 
   var score = 0;
   for (var i = 0; i < key.length; i++) {
@@ -248,6 +273,59 @@ function ensureSheet(book, name, headers) {
   return sheet;
 }
 
+/* ─────────────────────────── repair ─────────────────────────── */
+
+/* Re-scores every stored row against the current ANSWER_KEYS, using the
+   "Last Answers" column. Run this once after fixing a key that graded people
+   wrongly. Scores only ever go up: a stored score can be from an earlier,
+   better attempt whose answers were overwritten, so we keep the higher of the
+   two rather than trusting the re-score blindly. */
+function regradeAll() {
+  var book    = ss();
+  var fixed   = [];
+
+  QUIZZES.forEach(function (quiz) {
+    var key = ANSWER_KEYS[quiz] || [];
+    if (!key.length) return;
+
+    var sheet = book.getSheetByName(quiz);
+    if (!sheet || sheet.getLastRow() < 2) return;
+
+    var range = sheet.getRange(2, 1, sheet.getLastRow() - 1, QUIZ_HEADERS.length);
+    var rows  = range.getValues();
+
+    rows.forEach(function (row) {
+      var answers = lettersToAnswers(row[9]);
+      if (answers.length !== key.length) return;   // not this key's shape — skip
+
+      var total  = Number(row[4]) || key.length;
+      var stored = Number(row[3]) || 0;
+      var best   = Math.max(stored, gradeAnswers(quiz, answers, total, 0));
+      if (best === stored) return;
+
+      row[3] = best;
+      row[5] = total ? Math.round(best / total * 100) / 100 : 0;
+      fixed.push(quiz + ' ' + row[0] + ': ' + stored + ' → ' + best);
+    });
+
+    range.setValues(rows);
+  });
+
+  var msg = fixed.length ? 'Regraded ' + fixed.length + ' row(s): ' + fixed.join(', ')
+                         : 'No rows needed regrading.';
+  console.log(msg);
+  book.toast(msg);
+}
+
+/* "B,B,A,–" → [1, 1, 0, -1]. Unanswered stays -1 so positions line up with
+   the key; -1 never matches, which is what we want. */
+function lettersToAnswers(text) {
+  var L   = 'ABCDEFGH';
+  var raw = String(text == null ? '' : text).trim();
+  if (!raw) return [];
+  return raw.split(',').map(function (c) { return L.indexOf(c.trim().toUpperCase()); });
+}
+
 /* ─────────────────────────── summary ─────────────────────────── */
 
 /* Rebuilds the Summary tab: one row per student, one column per quiz.
@@ -310,6 +388,7 @@ function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu('SBS Quizzes')
     .addItem('Rebuild summary', 'rebuildSummary')
+    .addItem('Regrade stored scores', 'regradeAll')
     .addItem('Reload roster cache', 'clearRosterCache')
     .addToUi();
 }
