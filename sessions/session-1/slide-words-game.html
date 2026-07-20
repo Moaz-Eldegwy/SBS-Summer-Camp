@@ -1,0 +1,87 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:56px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.topic{margin-top:18px;display:inline-flex;align-self:flex-start;align-items:center;gap:10px;
+  font:600 15px/1 var(--fb);color:var(--muted);background:#F4F7F8;border-radius:24px;padding:11px 18px}
+.topic b{color:var(--ink)}
+.paras{display:flex;gap:26px;margin-top:20px;flex:1;align-items:stretch}
+.para{flex:1;padding:26px 30px;position:relative;display:flex;flex-direction:column}
+.para .tag{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;
+  font:700 21px/1 var(--fd);color:#fff}
+.para.a .tag{background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.para.b .tag{background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.para p{margin-top:16px;font:500 19px/1.7 var(--fb);color:var(--ink);flex:1}
+.stamp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-8deg) scale(3);
+  font:700 21px/1 var(--fd);letter-spacing:.14em;padding:12px 18px;border-radius:10px;white-space:nowrap;
+  border:3px solid var(--primary-dark);color:var(--primary-dark);background:rgba(255,255,255,.9);
+  opacity:0;transition:all .35s cubic-bezier(.2,1.4,.4,1)}
+.stamp.human{border-color:var(--accent-dark);color:var(--accent-dark)}
+.reveal .stamp{opacity:1;transform:translate(-50%,-50%) rotate(-8deg) scale(1)}
+
+.bottom{margin-top:20px;display:flex;align-items:center;gap:16px;padding:16px 24px}
+.bottom .e{font-size:26px}
+.bottom p{font:500 16.5px/1.5 var(--fb)}
+.bottom b{color:var(--primary-dark)}
+#askline{display:block}
+#punchline{display:none}
+.reveal2 #askline{display:none}
+.reveal2 #punchline{display:block}
+.hint{position:fixed;bottom:26px;right:34px;font:600 13px/1 var(--fb);color:var(--faint);letter-spacing:.06em}
+.hint b{color:var(--primary-dark)}
+</style>
+
+<div class="slide" id="root">
+  <div class="kicker in">Cold open · Round two — words</div>
+  <div class="title in d1">One of these was written by <span class="grad">a machine.</span></div>
+  <div class="topic in d1">Same tiny prompt for both: <b>“describe a rainy morning”</b> · vote <b>A</b> or <b>B</b> in the chat</div>
+
+  <div class="paras">
+    <!-- Presenter: paragraph A is the HUMAN one — feel free to swap in 3 sentences you wrote yourself. B is the AI one. -->
+    <div class="card para a in d1">
+      <span class="tag">A</span>
+      <p>The rain started somewhere around six and never really committed to stopping. I stood at the window with my tea going cold, watching the neighbour’s cat pick its way between puddles like it was personally offended by each one. The whole street smelled of dust and wet concrete at the same time — I don’t know how that works.</p>
+      <div class="stamp human" id="stA">HUMAN</div>
+    </div>
+    <div class="card para b in d2">
+      <span class="tag">B</span>
+      <p>Raindrops drummed a gentle rhythm against the windowpane as the city slowly stirred to life. The streets glistened beneath a soft gray sky, and the air carried the fresh, earthy scent of renewal. It was the kind of morning that invited quiet reflection and a warm cup of coffee.</p>
+      <div class="stamp" id="stB">AI-GENERATED</div>
+    </div>
+  </div>
+
+  <div class="card bottom in d3">
+    <span class="e">🗳️</span>
+    <p id="askline">Read them both. Vote in the chat — <b>which one is the machine?</b></p>
+    <p id="punchline">If you can’t reliably spot it in faces <b>or</b> in writing, the real skill isn’t “spot the AI” — it’s <b>understanding how it works so you know when to trust it.</b> That’s the rest of tonight.</p>
+  </div>
+</div>
+<div class="hint" id="hint">press <b>→</b> to reveal</div>
+
+<script>
+(function(){
+  var step=0, root=document.getElementById('root');
+  window.sbsStep=function(dir){
+    if(dir>0&&step===0){ step=1; root.classList.add('reveal'); document.getElementById('hint').style.opacity=0; return true; }
+    if(dir>0&&step===1){ step=2; root.classList.add('reveal2'); return true; }
+    if(dir<0&&step>0){ step=0; root.classList.remove('reveal','reveal2'); document.getElementById('hint').style.opacity=1; return true; }
+    return false;
+  };
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

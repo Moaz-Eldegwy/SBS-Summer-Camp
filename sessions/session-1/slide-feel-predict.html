@@ -1,0 +1,72 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:56px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.rows{display:flex;flex-direction:column;gap:18px;margin-top:28px;flex:1;justify-content:center}
+.qrow{padding:22px 32px;display:flex;align-items:center;gap:24px}
+.qrow .s{flex:1;font:700 34px/1.25 var(--fd);letter-spacing:-.8px}
+.qrow .blank{display:inline-block;min-width:130px;border-bottom:5px dashed var(--primary-light);position:relative;height:38px;vertical-align:-6px}
+.qrow .ans{font:700 34px/1 var(--fd);color:var(--accent-dark);opacity:0;transform:translateY(10px) scale(.6);transition:all .4s cubic-bezier(.2,1.4,.4,1)}
+.qrow.show .ans{opacity:1;transform:none}
+.qrow .chatflag{font:700 11.5px/1.3 var(--fb);letter-spacing:.08em;color:var(--primary-dark);text-transform:uppercase;
+  background:rgba(255,107,107,.09);border:1px solid rgba(255,107,107,.3);border-radius:14px;padding:8px 12px;text-align:center}
+
+.punch{margin-top:18px;padding:18px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.punch p{font:600 19px/1.45 var(--fd)}
+.punch p b{color:var(--primary-dark)}
+.hint{flex:none;font:600 13.5px/1 var(--fb);color:var(--faint);letter-spacing:.05em}
+.hint b{color:var(--accent-dark)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">The one secret · you do it too</div>
+  <div class="title in d1">Feel the prediction — <span class="grad">finish these out loud.</span></div>
+
+  <div class="rows">
+    <div class="card qrow in d1" id="q1">
+      <div class="s">“The sky is <span class="blank"></span>”</div>
+      <div class="ans">blue</div>
+    </div>
+    <div class="card qrow in d2" id="q2">
+      <div class="s">“Once upon a <span class="blank"></span>”</div>
+      <span class="chatflag">everyone —<br>type it in the chat!</span>
+      <div class="ans">time</div>
+    </div>
+    <div class="card qrow in d3" id="q3">
+      <div class="s">“The capital of France is <span class="blank"></span>”</div>
+      <div class="ans">Paris</div>
+    </div>
+  </div>
+
+  <div class="card punch in d1">
+    <p>You just did it. So does the model — except it weighs <b>50,000 options, every single word.</b> Predict, add, predict again. That’s the whole mechanism.</p>
+    <div class="hint">press <b>→</b> to reveal each one</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var ids=['q1','q2','q3'], step=0;
+  window.sbsStep=function(dir){
+    if(dir>0&&step<ids.length){ document.getElementById(ids[step]).classList.add('show'); step++; return true; }
+    if(dir<0&&step>0){ step--; document.getElementById(ids[step]).classList.remove('show'); return true; }
+    return false;
+  };
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

@@ -26,11 +26,6 @@ body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
 .promptcard .txt q{color:var(--primary-dark)}
 .names{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
 .name{font:700 14px/1 var(--fd);background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 15px;box-shadow:0 2px 8px rgba(29,37,48,.05)}
-.live{margin-top:18px;display:flex;align-items:center;gap:11px;background:rgba(255,107,107,.07);border:1px solid rgba(255,107,107,.3);
-  border-radius:14px;padding:14px 16px;font:600 14.5px/1.4 var(--fb);color:var(--primary-dark)}
-.live .reddot{width:10px;height:10px;border-radius:50%;background:var(--primary);flex:none;animation:blink 1.1s ease infinite}
-@keyframes blink{50%{opacity:.25}}
-
 .arr{flex:none;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--faint)}
 .arr svg{display:block}
 .arr span{font:600 11.5px/1 var(--fb);letter-spacing:.14em;text-transform:uppercase}
@@ -64,8 +59,7 @@ body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
       <div class="names">
         <span class="name">Midjourney</span><span class="name">DALL·E</span><span class="name">Stable Diffusion</span><span class="name">Flux</span><span class="name">Imagen</span>
       </div>
-      <div class="live"><span class="reddot"></span>LIVE DEMO — shout a silly prompt, we’ll generate it on screen right now</div>
-      <div class="punch">You’re not <b>searching</b> for a picture that exists.<br>It’s <b>making one</b> that never did — pixel by pixel.<br>Those fake faces earlier? <b>This is where they come from.</b></div>
+      <div class="punch" style="margin-top:20px">You’re not <b>searching</b> for a picture that exists.<br>It’s <b>making one</b> that never did — pixel by pixel.<br>Those fake faces earlier? <b>This is where they come from.</b></div>
     </div>
 
     <div class="arr in d2">

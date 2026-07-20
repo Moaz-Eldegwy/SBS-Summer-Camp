@@ -1,0 +1,83 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:56px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 46px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}.d4{animation-delay:.52s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.cols{display:flex;gap:40px;margin-top:26px;flex:1;align-items:stretch}
+.launch{flex:1.2;padding:34px 38px;display:flex;flex-direction:column;justify-content:center;text-decoration:none;color:inherit;
+  position:relative;overflow:hidden;cursor:pointer;transition:transform .16s ease,box-shadow .16s ease}
+.launch:hover{transform:translateY(-4px);box-shadow:0 20px 46px rgba(29,37,48,.14)}
+.launch::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(420px 260px at 110% -20%, rgba(255,107,107,.1), transparent 65%),
+  radial-gradient(420px 260px at -10% 120%, rgba(78,205,196,.12), transparent 65%)}
+.launch *{position:relative}
+.launch .lbl{font:600 12px/1 var(--fb);letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.launch .u{margin-top:12px;font:700 34px/1.15 var(--fd);letter-spacing:-1px;color:var(--accent-dark)}
+.launch p{margin-top:14px;font:400 16px/1.6 var(--fb);color:var(--muted)}
+.launch p b{color:var(--ink)}
+.launch .voteline{margin-top:20px;display:inline-flex;align-items:center;gap:11px;background:rgba(255,107,107,.07);
+  border:1px solid rgba(255,107,107,.3);border-radius:14px;padding:13px 16px;font:600 15px/1.35 var(--fb);color:var(--primary-dark)}
+.launch .voteline i{width:10px;height:10px;border-radius:50%;background:var(--primary);flex:none;font-style:normal;animation:blink 1.1s ease infinite}
+@keyframes blink{50%{opacity:.25}}
+
+.tells{flex:1;display:flex;flex-direction:column;gap:12px}
+.tells .h{font:700 17px/1.3 var(--fd);color:var(--muted)}
+.tell{padding:15px 18px;display:flex;align-items:center;gap:14px}
+.tell .e{font-size:24px;flex:none}
+.tell b{font:700 15.5px/1.3 var(--fb)}
+.tell span{display:block;font:400 13px/1.4 var(--fb);color:var(--muted);margin-top:2px}
+.rounds{display:flex;align-items:center;gap:10px;margin-top:4px}
+.rounds .h2{font:600 12.5px/1 var(--fb);letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.rd{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;
+  font:700 15px/1 var(--fd);color:var(--muted);transition:all .15s ease}
+.rd:hover{border-color:var(--accent-dark)}
+.rd.done{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-dark));border-color:transparent}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Cold open · Now it’s a game</div>
+  <div class="title in d1">Which face is real? <span class="grad">Vote A or B — in the chat.</span></div>
+
+  <div class="cols">
+    <a class="card launch in d1" href="https://www.whichfaceisreal.com" target="_blank" rel="noopener">
+      <span class="lbl">Live on my shared screen</span>
+      <span class="u">whichfaceisreal.com ↗</span>
+      <p>Two faces every round — <b>one real, one AI-generated</b>. Free, no signup, a fresh pair each click. I click, <b>you vote</b>, then we reveal and hunt for the tell together.</p>
+      <span class="voteline"><i></i>Vote <b>&nbsp;A&nbsp;</b> or <b>&nbsp;B&nbsp;</b> in the chat — majority speaks for the room</span>
+    </a>
+
+    <div class="tells in d2">
+      <div class="h">🔍 The tells — where the machine slips up</div>
+      <div class="card tell"><span class="e">💧</span><div><b>Melted earrings &amp; ears</b><span>jewelry blends into skin or hair</span></div></div>
+      <div class="card tell"><span class="e">🌀</span><div><b>Backgrounds that bend</b><span>warped walls, smeared blobs behind the head</span></div></div>
+      <div class="card tell"><span class="e">👀</span><div><b>Mismatched details</b><span>different earrings, uneven glasses, odd teeth</span></div></div>
+      <div class="card tell"><span class="e">🧢</span><div><b>Weird hair &amp; edges</b><span>strands that dissolve into nothing</span></div></div>
+      <div class="rounds"><span class="h2">Rounds</span>
+        <button class="rd">1</button><button class="rd">2</button><button class="rd">3</button><button class="rd">4</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('.rd').forEach(function(b){
+    b.addEventListener('click',function(){ b.classList.toggle('done'); });
+  });
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

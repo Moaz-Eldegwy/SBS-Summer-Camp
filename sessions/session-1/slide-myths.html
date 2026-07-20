@@ -1,0 +1,67 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:56px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}.d4{animation-delay:.58s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.myths{display:flex;flex-direction:column;gap:18px;margin-top:28px;flex:1;justify-content:center}
+.myth{padding:20px 28px;display:flex;align-items:center;gap:26px}
+.mside{flex:1;display:flex;align-items:center;gap:14px}
+.mside .x{flex:none;width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font:700 19px/1 var(--fd);color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.mside .say{font:600 19px/1.35 var(--fd);color:var(--muted);text-decoration:line-through;text-decoration-color:var(--primary-dark);text-decoration-thickness:3px}
+.marr{flex:none;color:var(--faint)}
+.tside{flex:1.25;display:flex;align-items:center;gap:14px}
+.tside .v{flex:none;width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font:700 19px/1 var(--fd);color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.tside p{font:500 16px/1.5 var(--fb);color:var(--ink)}
+.tside p b{color:var(--accent-dark)}
+
+.bottom{margin-top:18px;padding:16px 26px;border-radius:20px;color:#fff;display:flex;align-items:center;gap:16px;
+  background:linear-gradient(96deg,var(--primary) -10%,var(--primary-dark) 38%,var(--accent-dark) 115%);
+  box-shadow:0 18px 44px rgba(224,83,83,.35)}
+.bottom p{font:600 18px/1.4 var(--fd)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">The one secret · quick myth-busting</div>
+  <div class="title in d1">Three myths, <span class="grad">killed in ten seconds.</span></div>
+
+  <div class="myths">
+    <div class="card myth in d1">
+      <div class="mside"><span class="x">✕</span><span class="say">“It thinks / understands like a person”</span></div>
+      <svg class="marr" width="34" height="16" viewBox="0 0 34 16" fill="none"><path d="M2 8h26m0 0-6-5m6 5-6 5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="tside"><span class="v">✓</span><p>It <b>predicts patterns</b> — no understanding, no intent, no little person inside.</p></div>
+    </div>
+    <div class="card myth in d2">
+      <div class="mside"><span class="x">✕</span><span class="say">“It’s conscious / alive”</span></div>
+      <svg class="marr" width="34" height="16" viewBox="0 0 34 16" fill="none"><path d="M2 8h26m0 0-6-5m6 5-6 5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="tside"><span class="v">✓</span><p>It’s <b>math at a huge scale</b> — very convincing, wearing a human mask, not aware.</p></div>
+    </div>
+    <div class="card myth in d3">
+      <div class="mside"><span class="x">✕</span><span class="say">“If it sounds sure, it’s right”</span></div>
+      <svg class="marr" width="34" height="16" viewBox="0 0 34 16" fill="none"><path d="M2 8h26m0 0-6-5m6 5-6 5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="tside"><span class="v">✓</span><p>It sounds <b>equally sure when it’s wrong</b> — one confidence setting: fluent.</p></div>
+    </div>
+  </div>
+
+  <div class="bottom in d4">
+    <span style="font-size:26px">🧠</span>
+    <p>Keep these three straight and you’re ahead of most people talking about AI online.</p>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

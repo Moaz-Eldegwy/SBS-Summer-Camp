@@ -1,0 +1,90 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:56px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 46px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}.d4{animation-delay:.52s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.rules{display:flex;gap:18px;margin-top:28px}
+.rule{flex:1;padding:24px 24px;display:flex;flex-direction:column;gap:12px}
+.rule .num{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font:700 17px/1 var(--fd);color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.rule:nth-child(2) .num{background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.rule b{font:700 19px/1.3 var(--fd)}
+.rule p{font:400 14.5px/1.5 var(--fb);color:var(--muted)}
+.rule p b{font:inherit;font-weight:700;color:var(--ink)}
+
+.vote{margin-top:24px;flex:1;display:flex;flex-direction:column}
+.vq{display:flex;align-items:center;gap:14px;font:700 24px/1.3 var(--fd);letter-spacing:-.4px}
+.vq .live{display:inline-flex;align-items:center;gap:8px;font:700 12px/1 var(--fb);letter-spacing:.12em;color:#fff;
+  border-radius:20px;padding:8px 13px;background:linear-gradient(92deg,var(--primary),var(--primary-dark))}
+.vq .live i{width:8px;height:8px;border-radius:50%;background:#fff;font-style:normal;animation:blink 1.1s ease infinite}
+@keyframes blink{50%{opacity:.25}}
+.opts{display:flex;gap:20px;margin-top:16px;flex:1}
+.opt{flex:1;display:flex;align-items:center;justify-content:center;gap:20px;cursor:pointer;user-select:none;
+  transition:transform .15s ease,box-shadow .15s ease}
+.opt:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(29,37,48,.13)}
+.opt .word{font:700 44px/1 var(--fd);letter-spacing:-1px}
+.opt.yes .word{color:var(--accent-dark)}
+.opt.no .word{color:var(--primary-dark)}
+.opt .tally{font:700 34px/1 var(--fd);color:var(--faint);min-width:70px;text-align:center;
+  background:#F4F7F8;border-radius:14px;padding:14px 10px}
+.opt small{position:absolute;font:600 11px/1 var(--fb);color:var(--faint)}
+.optnote{margin-top:12px;text-align:center;font:500 13.5px/1 var(--fb);color:var(--faint)}
+.optnote b{color:var(--accent-dark)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Front matter · How we’ll play tonight</div>
+  <div class="title in d1">Tonight runs on <span class="grad">the chat.</span> 💬</div>
+
+  <div class="rules">
+    <div class="card rule in d1">
+      <div class="num">1</div>
+      <b>Vote when I ask</b>
+      <p>Type <b>A / B</b> or <b>yes / no</b> in the chat — I’ll be reading it live, all night.</p>
+    </div>
+    <div class="card rule in d2">
+      <div class="num">2</div>
+      <b>Drop prompts</b>
+      <p>When I open a tool on screen, <b>you</b> write the prompts. I just press enter.</p>
+    </div>
+    <div class="card rule in d3">
+      <div class="num">3</div>
+      <b>Flag anything confusing</b>
+      <p>A word you don’t know is <b>my</b> fault — drop it in the chat and I’ll fix it on the spot.</p>
+    </div>
+  </div>
+
+  <div class="vote in d4">
+    <div class="vq"><span class="live"><i></i>FIRST VOTE</span>Have you ever used an AI chatbot? Type <span class="grad">YES</span> or <span class="grad">NO</span> — go!</div>
+    <div class="opts">
+      <div class="card opt yes" id="oy"><span class="word">YES ✅</span><span class="tally" id="ty">0</span></div>
+      <div class="card opt no" id="on"><span class="word">NO 🙅</span><span class="tally" id="tn">0</span></div>
+    </div>
+    <div class="optnote">presenter: <b>click a card</b> to tally the chat as you read it · double-click resets</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var y=0,n=0, ty=document.getElementById('ty'), tn=document.getElementById('tn');
+  document.getElementById('oy').addEventListener('click',function(){ ty.textContent=++y; });
+  document.getElementById('on').addEventListener('click',function(){ tn.textContent=++n; });
+  document.getElementById('oy').addEventListener('dblclick',function(){ y=0; ty.textContent=0; });
+  document.getElementById('on').addEventListener('dblclick',function(){ n=0; tn.textContent=0; });
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

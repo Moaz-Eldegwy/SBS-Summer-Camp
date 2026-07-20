@@ -16,21 +16,21 @@ body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
 
 .cols{display:flex;gap:34px;margin-top:28px;flex:1;align-items:stretch}
-.qrcard{flex:none;width:300px;padding:26px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.qrcard img{width:200px;height:200px;border-radius:16px;border:1px solid var(--line)}
-.qrcard .u{margin-top:14px;font:700 21px/1 var(--fd);color:var(--accent-dark)}
-.qrcard .s{margin-top:7px;font:400 13.5px/1.45 var(--fb);color:var(--muted)}
-
 .mid{flex:1;display:flex;flex-direction:column;gap:18px}
 .promptcard{flex:1;padding:26px 30px;position:relative;overflow:hidden}
 .promptcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,var(--primary),var(--accent))}
 .promptcard .lbl{font:600 12px/1 var(--fb);letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
 .promptcard .txt{margin-top:12px;font:600 27px/1.45 var(--fd);letter-spacing:-.3px}
 .promptcard .txt mark{background:linear-gradient(0deg,rgba(255,107,107,.22),rgba(255,107,107,.22));color:var(--primary-dark);padding:2px 8px;border-radius:8px}
+.chatline{margin-top:16px;display:flex;align-items:center;gap:11px;background:rgba(78,205,196,.08);border:1px solid rgba(78,205,196,.35);
+  border-radius:14px;padding:13px 16px;font:600 14.5px/1.4 var(--fb);color:var(--accent-dark)}
+.chatline .dot{width:10px;height:10px;border-radius:50%;background:var(--accent-dark);flex:none;animation:blink 1.1s ease infinite}
+@keyframes blink{50%{opacity:.25}}
 .steps{display:flex;gap:12px}
 .step{flex:1;padding:14px 16px;display:flex;align-items:center;gap:11px;font:600 14px/1.35 var(--fb);color:var(--muted)}
 .step i{flex:none;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 13px/1 var(--fd);color:#fff;font-style:normal;
   background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.step:last-child i{background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
 
 .timer{flex:none;width:250px;padding:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;user-select:none}
 .ring{position:relative;width:168px;height:168px}
@@ -45,25 +45,20 @@ body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
 </style>
 
 <div class="slide">
-  <div class="kicker in">Your turn · Everyone, phones out 📱</div>
-  <div class="title in d1">Same prompt. <span class="grad">150 different answers.</span></div>
+  <div class="kicker in">Your turn · the chat is the keyboard 💬</div>
+  <div class="title in d1">Your prompts. <span class="grad">My screen. Let’s battle.</span></div>
 
   <div class="cols">
-    <div class="card qrcard in d1">
-      <img src="assets/qr-chatbot.png" alt="QR to chatgpt.com">
-      <div class="u">chatgpt.com</div>
-      <div class="s">or Claude / Gemini — any free tier works, no signup needed</div>
-    </div>
-
-    <div class="mid in d2">
+    <div class="mid in d1">
       <div class="card promptcard">
-        <div class="lbl">Paste this — swap in your own major</div>
-        <div class="txt">“Explain <mark>[my field of study]</mark> to a 6-year-old, then write a 4-line rap about it.”</div>
+        <div class="lbl">The template — fill the blank in the chat</div>
+        <div class="txt">“Explain <mark>[your major / any topic]</mark> to a 6-year-old, then write a 4-line rap about it.”</div>
+        <div class="chatline"><span class="dot"></span>Type just your topic in the chat — the funnier, the better a chance I pick it</div>
       </div>
       <div class="steps">
-        <div class="card step"><i>1</i>Scan &amp; open</div>
-        <div class="card step"><i>2</i>Paste + your major</div>
-        <div class="card step"><i>3</i>Hit enter ↵</div>
+        <div class="card step"><i>1</i>Chat your topic</div>
+        <div class="card step"><i>2</i>I run the best ones, live</div>
+        <div class="card step"><i>3</i>Then the same prompt — <b>twice</b></div>
       </div>
     </div>
 
@@ -75,21 +70,21 @@ body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
             stroke-dasharray="465" stroke-dashoffset="0"/>
           <defs><linearGradient id="gr" x1="0" y1="0" x2="168" y2="168"><stop stop-color="#FF6B6B"/><stop offset="1" stop-color="#3DB3AB"/></linearGradient></defs>
         </svg>
-        <div class="t" id="clock">2:00</div>
+        <div class="t" id="clock">1:00</div>
       </div>
       <div class="st" id="tstate">▶ click to start</div>
     </div>
   </div>
 
   <div class="card peek in d4">
-    <span style="font-size:26px">👀</span>
-    <p>Done? <b>Glance at your neighbor’s screen.</b> Same prompt, different answer — it isn’t looking up a stored reply. It’s <b>generating a fresh one, just for you, every single time.</b> Hold that thought.</p>
+    <span style="font-size:26px">🎲</span>
+    <p>Watch what happens when I run the <b>exact same prompt twice</b> — two different answers. It isn’t looking up a stored reply. It’s <b>generating a fresh one, every single time.</b> Hold that thought.</p>
   </div>
 </div>
 
 <script>
 (function(){
-  var TOTAL=120, left=TOTAL, run=false, iv=null;
+  var TOTAL=60, left=TOTAL, run=false, iv=null;
   var clock=document.getElementById('clock'), prog=document.getElementById('prog'),
       tm=document.getElementById('tm'), st=document.getElementById('tstate');
   var C=465;
@@ -97,11 +92,11 @@ body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
     var m=Math.floor(left/60), s=left%60;
     clock.textContent=m+':'+(s<10?'0':'')+s;
     prog.style.strokeDashoffset=(C*(1-left/TOTAL)).toFixed(1);
-    if(left===0){ clock.textContent='GO!'; st.textContent='⏰ time — peek at a neighbor!'; stop(); }
+    if(left===0){ clock.textContent='GO!'; st.textContent='⏰ time — picking winners!'; stop(); }
   }
   function tick(){ if(left>0){ left--; draw(); } }
   function stop(){ run=false; clearInterval(iv); tm.classList.remove('running'); }
-  function start(){ if(left===0)return; run=true; iv=setInterval(tick,1000); tm.classList.add('running'); st.textContent='⏸ running — click to pause'; }
+  function start(){ if(left===0)return; run=true; iv=setInterval(tick,1000); tm.classList.add('running'); st.textContent='⏸ collecting topics — click to pause'; }
   tm.addEventListener('click',function(){ run?(stop(),st.textContent='▶ paused — click to resume'):start(); });
   tm.addEventListener('dblclick',function(){ stop(); left=TOTAL; st.textContent='▶ click to start'; draw(); });
   draw();

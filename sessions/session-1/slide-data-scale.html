@@ -1,0 +1,60 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:60px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 46px/1.1 var(--fd);letter-spacing:-1px;margin-top:14px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}.d4{animation-delay:.58s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.stepper{position:absolute;top:64px;right:84px;display:flex;gap:9px}
+.stp{display:flex;align-items:center;gap:8px;font:700 13px/1 var(--fd);border-radius:24px;padding:10px 15px;color:var(--faint);background:#F2F5F6}
+.stp.on{color:#fff;background:linear-gradient(92deg,var(--accent),var(--accent-dark));box-shadow:0 6px 16px rgba(78,205,196,.4)}
+
+.hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.bigline{max-width:1000px;font:700 40px/1.35 var(--fd);letter-spacing:-1px}
+.bigline b{background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+.numline{margin-top:26px;display:flex;align-items:baseline;gap:16px}
+.numline .n{font:700 110px/1 var(--fd);letter-spacing:-5px;color:var(--primary-dark)}
+.numline .u{font:600 28px/1.2 var(--fd);color:var(--ink)}
+.srcs{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.src{font:600 14px/1 var(--fb);color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:22px;padding:11px 16px;box-shadow:0 2px 8px rgba(29,37,48,.05)}
+
+.punch{margin-top:8px;padding:18px 28px;display:flex;align-items:center;gap:16px}
+.punch .e{font-size:26px}
+.punch p{font:500 17px/1.55 var(--fb);color:var(--muted)}
+.punch b{color:var(--ink)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Why now · ingredient 1, zoomed in</div>
+  <div class="stepper in">
+    <span class="stp on">1 · Data</span><span class="stp">2 · Compute</span><span class="stp">3 · The idea</span>
+  </div>
+  <div class="title in d1">Just how much data <span class="grad">are we talking?</span></div>
+
+  <div class="hero">
+    <div class="bigline in d1">Reading non-stop — no sleep, no breaks, 24/7 —<br>it would take a human <b>tens of thousands of years</b><br>to read what these models trained on.</div>
+    <div class="numline in d2"><span class="n">10,000s</span><span class="u">of years<br>of reading</span></div>
+    <div class="srcs in d3">
+      <span class="src">📚 books</span><span class="src">🌐 websites</span><span class="src">🧑‍💻 code</span>
+      <span class="src">💬 forums</span><span class="src">📄 Wikipedia ×many</span>
+    </div>
+  </div>
+
+  <div class="card punch in d4">
+    <span class="e">🤯</span>
+    <p>No human learns like this. And that scale is <b>exactly why</b> it can imitate almost any style, topic or voice — in a sense, <b>it has seen it all.</b></p>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

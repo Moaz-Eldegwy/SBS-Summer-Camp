@@ -32,11 +32,8 @@ body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
 
 .prompt{margin-top:26px;font:500 20px/1.45 var(--fb);color:var(--muted)}
 .prompt b{color:var(--ink)}
-.cta{margin-top:16px;display:inline-flex;align-items:center;gap:12px;cursor:pointer;border:0;
-  font:700 18px/1 var(--fd);letter-spacing:.02em;color:#fff;border-radius:40px;padding:17px 34px;
-  background:linear-gradient(92deg,var(--primary),var(--primary-dark));
-  box-shadow:0 12px 28px rgba(255,107,107,.4);transition:transform .15s ease}
-.cta:hover{transform:scale(1.05)}
+.hintline{margin-top:16px;font:600 14px/1 var(--fb);color:var(--faint);letter-spacing:.05em}
+.hintline b{color:var(--primary-dark)}
 
 /* countdown overlay */
 #count{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50;
@@ -59,7 +56,7 @@ body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
   </div>
 
   <div class="prompt in d3">No birth certificate. No parents. No childhood — a computer dreamed one of them up.<br><b>Point at the fake one. Out loud.</b></div>
-  <button class="cta in d3" id="go">▶&nbsp; Count us down — 3 · 2 · 1</button>
+  <div class="hintline in d3">press <b>→</b> to count us down</div>
 </div>
 
 <div id="count"><div id="cnum">3</div></div>
@@ -82,7 +79,6 @@ body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
     }
     tick();
   }
-  document.getElementById('go').addEventListener('click',run);
   /* first → runs the countdown, after that → moves on */
   window.sbsStep=function(dir){
     if(dir>0 && !used){ run(); return true; }

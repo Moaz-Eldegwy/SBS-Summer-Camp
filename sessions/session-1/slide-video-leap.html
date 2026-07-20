@@ -1,0 +1,109 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:56px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}.d4{animation-delay:.52s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.duo{display:flex;gap:26px;margin-top:26px;flex:1;min-height:0;align-items:stretch}
+.vid{flex:1;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:transform .16s ease,box-shadow .16s ease}
+.vid:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(29,37,48,.14)}
+.thumb{position:relative;flex:1;min-height:0;background:#12161C}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:.92}
+.thumb .yr{position:absolute;top:16px;left:16px;font:700 15px/1 var(--fd);letter-spacing:.1em;color:#fff;border-radius:20px;padding:10px 16px;box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.vid.old .yr{background:linear-gradient(92deg,var(--primary),var(--primary-dark))}
+.vid.now .yr{background:linear-gradient(92deg,var(--accent),var(--accent-dark))}
+.thumb .pbadge{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;
+  background:rgba(255,107,107,.95);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(224,83,83,.5)}
+.thumb .pbadge svg{margin-left:4px}
+.vcap{padding:14px 20px}
+.vcap b{font:700 16.5px/1.3 var(--fd)}
+.vcap span{display:block;font:400 13px/1.4 var(--fb);color:var(--muted);margin-top:3px}
+
+.vs{align-self:center;flex:none;display:flex;flex-direction:column;align-items:center;gap:8px}
+.vs .b{font:700 24px/1 var(--fd);color:#fff;width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--primary),var(--accent-dark));box-shadow:0 12px 28px rgba(224,83,83,.35)}
+.vs span{font:600 12px/1.3 var(--fb);color:var(--faint);text-align:center}
+
+.take{margin-top:20px;padding:18px 28px;border-radius:20px;color:#fff;display:flex;align-items:center;gap:18px;
+  background:linear-gradient(96deg,var(--primary) -10%,var(--primary-dark) 38%,var(--accent-dark) 115%);
+  box-shadow:0 18px 44px rgba(224,83,83,.35)}
+.take p{font:600 19px/1.45 var(--fd)}
+.take small{display:block;font:400 14px/1.4 var(--fb);opacity:.88;margin-top:4px}
+
+#vpop{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(18,22,28,.78);backdrop-filter:blur(8px)}
+#vpop.show{display:flex}
+#vpop .wrap{position:relative}
+#vpop .box{width:960px;height:540px;border-radius:20px;overflow:hidden;background:#000;box-shadow:0 40px 100px rgba(0,0,0,.5)}
+#vpop iframe{width:100%;height:100%;border:0;display:block}
+#vpop .x{position:absolute;top:-18px;right:-18px;width:44px;height:44px;border-radius:50%;border:0;cursor:pointer;
+  background:var(--primary);color:#fff;font:700 20px/1 var(--fb);box-shadow:0 8px 20px rgba(224,83,83,.5)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">The tour · feel the speed</div>
+  <div class="title in d1">How fast is this moving? <span class="grad">Watch both.</span></div>
+
+  <div class="duo">
+    <div class="card vid old in d1" data-v="XQr4Xklqzw8" title="click to play">
+      <div class="thumb">
+        <img src="https://img.youtube.com/vi/XQr4Xklqzw8/hqdefault.jpg" alt="AI video, 2023">
+        <span class="yr">2023</span>
+        <div class="pbadge"><svg width="24" height="24" viewBox="0 0 26 26" fill="none"><path d="M7 4v18l15-9L7 4Z" fill="#fff"/></svg></div>
+      </div>
+      <div class="vcap"><b>The spaghetti nightmare era</b><span>what “AI video” meant not long ago — everyone laughed</span></div>
+    </div>
+
+    <div class="vs in d2"><span class="b">VS</span><span>the same<br>technology</span></div>
+
+    <div class="card vid now in d2" data-v="JRLSOdT2exg" title="click to play">
+      <div class="thumb">
+        <img src="https://img.youtube.com/vi/JRLSOdT2exg/hqdefault.jpg" alt="AI video, now">
+        <span class="yr">NOW</span>
+        <div class="pbadge"><svg width="24" height="24" viewBox="0 0 26 26" fill="none"><path d="M7 4v18l15-9L7 4Z" fill="#fff"/></svg></div>
+      </div>
+      <div class="vcap"><b>…and this is today</b><span>same idea, a blink of progress later — the room goes quiet</span></div>
+    </div>
+  </div>
+
+  <div class="take in d3">
+    <span style="font-size:30px">⏩</span>
+    <p>Whatever you think this tech “can’t do” today — <b>that sentence has an expiration date.</b>
+      <small>That’s the mindset to leave with tonight.</small>
+    </p>
+  </div>
+</div>
+
+<div id="vpop">
+  <div class="wrap">
+    <div class="box"><iframe id="vfr" src="" title="Video" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe></div>
+    <button class="x" id="vclose" title="close">✕</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var pop=document.getElementById('vpop'), fr=document.getElementById('vfr');
+  function openV(id){ fr.src='https://www.youtube.com/embed/'+id+'?autoplay=1'; pop.classList.add('show'); }
+  function closeV(){ pop.classList.remove('show'); fr.src=''; }
+  document.querySelectorAll('.vid').forEach(function(v){
+    v.addEventListener('click',function(){ openV(v.dataset.v); });
+  });
+  document.getElementById('vclose').addEventListener('click',closeV);
+  pop.addEventListener('click',function(e){ if(e.target===pop)closeV(); });
+  window.sbsStep=function(){ if(pop.classList.contains('show')){ closeV(); return true; } return false; };
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

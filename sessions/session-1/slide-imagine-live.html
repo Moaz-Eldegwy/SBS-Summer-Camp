@@ -1,0 +1,157 @@
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:52px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 42px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.tourbar{display:flex;gap:8px;margin-top:14px}
+.tstep{font:600 12.5px/1 var(--fb);letter-spacing:.06em;border-radius:20px;padding:8px 14px;color:var(--faint);background:#F2F5F6}
+.tstep.on{color:#fff;background:linear-gradient(92deg,var(--primary),var(--primary-dark));box-shadow:0 6px 14px rgba(255,107,107,.3)}
+
+.cols{display:flex;gap:34px;margin-top:22px;flex:1;min-height:0}
+.left{flex:1;display:flex;flex-direction:column;gap:14px}
+.pbox{padding:20px 24px;display:flex;flex-direction:column;gap:12px}
+.pbox .lbl{font:600 12px/1 var(--fb);letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+#prompt{width:100%;border:1px solid var(--line);border-radius:14px;padding:14px 16px;resize:none;height:96px;
+  font:600 17px/1.5 var(--fd);color:var(--ink);background:#FAFBFC;outline:none}
+#prompt:focus{border-color:var(--accent-dark);box-shadow:0 0 0 3px rgba(78,205,196,.18)}
+.row{display:flex;gap:10px;align-items:center}
+#go{flex:1;border:0;cursor:pointer;font:700 17px/1 var(--fd);color:#fff;border-radius:14px;padding:16px;
+  background:linear-gradient(92deg,var(--primary),var(--primary-dark));box-shadow:0 10px 24px rgba(255,107,107,.35);transition:transform .14s ease}
+#go:hover{transform:scale(1.02)}
+#go:disabled{opacity:.55;cursor:wait;transform:none}
+.keyrow{display:flex;gap:8px;align-items:center;padding:12px 16px}
+.keyrow span{font-size:17px}
+#key{flex:1;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:500 12.5px/1 var(--fb);color:var(--muted);outline:none;background:#FAFBFC}
+#key:focus{border-color:var(--accent-dark)}
+.keyrow small{font:500 11px/1.3 var(--fb);color:var(--faint)}
+.chatline{display:flex;align-items:center;gap:11px;background:rgba(78,205,196,.08);border:1px solid rgba(78,205,196,.35);
+  border-radius:14px;padding:13px 16px;font:600 14px/1.4 var(--fb);color:var(--accent-dark)}
+.chatline i{width:10px;height:10px;border-radius:50%;background:var(--accent-dark);flex:none;font-style:normal;animation:blink 1.1s ease infinite}
+@keyframes blink{50%{opacity:.25}}
+
+.preview{flex:none;width:480px;display:flex;flex-direction:column}
+.canvas{position:relative;flex:1;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);
+  background:#F2F5F6;display:flex;align-items:center;justify-content:center}
+.canvas img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#12161C}
+.empty{text-align:center;color:var(--faint);font:600 15px/1.5 var(--fb);padding:0 40px}
+.empty .e{font-size:44px;display:block;margin-bottom:10px}
+#spin{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;
+  background:rgba(255,255,255,.88);backdrop-filter:blur(4px);font:700 15px/1 var(--fb);color:var(--muted)}
+#spin.show{display:flex}
+#spin .ring{width:52px;height:52px;border-radius:50%;border:5px solid rgba(78,205,196,.25);border-top-color:var(--accent-dark);animation:spin 0.9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#err{display:none;margin-top:10px;font:600 13px/1.45 var(--fb);color:var(--primary-dark);background:rgba(255,107,107,.08);
+  border:1px solid rgba(255,107,107,.3);border-radius:12px;padding:11px 14px}
+.cap{margin-top:10px;text-align:center;font:600 13px/1 var(--fb);color:var(--faint)}
+.cap b{color:var(--primary-dark)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">The tour · let’s make one together</div>
+  <div class="title in d1">Your prompt. <span class="grad">Watch it paint from nothing.</span></div>
+  <div class="tourbar in d1">
+    <span class="tstep">✍️ Text</span><span class="tstep on">🎨 Images</span><span class="tstep">🎧 Audio</span><span class="tstep">⌨️ Code</span><span class="tstep">🎬 Video</span>
+  </div>
+
+  <div class="cols">
+    <div class="left in d2">
+      <div class="chatline"><i></i>Drop a <b>&nbsp;subject + a style&nbsp;</b> in the chat — “a corgi astronaut, watercolor”</div>
+      <div class="card pbox" style="flex:1">
+        <div class="lbl">The prompt — straight from the chat</div>
+        <textarea id="prompt" placeholder="a corgi astronaut floating above Earth, watercolor"></textarea>
+        <div class="row"><button id="go">✨ Generate</button></div>
+        <div id="err"></div>
+      </div>
+      <div class="card keyrow">
+        <span>🔑</span>
+        <input id="key" type="password" placeholder="auto-loaded from assets/gemini-key.js — or paste a key here">
+        <small>stays on this device,<br>never committed to git</small>
+      </div>
+    </div>
+
+    <div class="preview in d3">
+      <div class="canvas" id="cv">
+        <div class="empty" id="empty"><span class="e">🖼️</span>No photo of this exists anywhere on Earth.<br>It’s about to be invented — from your words.</div>
+        <div id="spin"><div class="ring"></div><span id="spintxt">inventing pixels…</span></div>
+      </div>
+      <div class="cap">same core trick as the chatbot — patterns from millions of examples, <b>pointed at pixels</b></div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/gemini-key.js"></script>
+<script>
+(function(){
+  /* Nano Banana 2 (Gemini 3.1 Flash Image) via the Interactions API.
+     The key comes from assets/gemini-key.js (untracked, see .gitignore) or the 🔑 box. */
+  var KEYSTORE='sbs-gemini-key', MODEL='gemini-3.1-flash-image';
+  var key=document.getElementById('key'), go=document.getElementById('go'),
+      prompt=document.getElementById('prompt'), cv=document.getElementById('cv'),
+      empty=document.getElementById('empty'), spin=document.getElementById('spin'),
+      err=document.getElementById('err');
+  try{ key.value=localStorage.getItem(KEYSTORE)||window.SBS_GEMINI_KEY||''; }
+  catch(_){ key.value=window.SBS_GEMINI_KEY||''; }
+  key.addEventListener('change',function(){ try{ localStorage.setItem(KEYSTORE,key.value.trim()); }catch(_){} });
+
+  /* the raw REST response nests the image block inside the interaction steps —
+     walk the whole payload and keep the last base64 image block found */
+  function findImages(o,acc){
+    if(!o||typeof o!=='object')return acc;
+    if(typeof o.data==='string'&&o.data.length>200){
+      var tag=(o.type||'')+' '+(o.mime_type||o.mimeType||'');
+      if(/image/i.test(tag)||tag.trim()==='')acc.push(o);
+    }
+    if(Array.isArray(o)){ o.forEach(function(v){findImages(v,acc)}); }
+    else{ for(var k in o){ if(Object.prototype.hasOwnProperty.call(o,k))findImages(o[k],acc); } }
+    return acc;
+  }
+
+  var img=null;
+  function fail(msg){ err.textContent=msg; err.style.display='block'; }
+  function generate(){
+    var k=key.value.trim(), p=prompt.value.trim();
+    err.style.display='none';
+    if(!k)return fail('No API key — add assets/gemini-key.js or paste a key in the 🔑 box.');
+    if(!p)return fail('Type (or paste from the chat) a prompt first.');
+    go.disabled=true; spin.classList.add('show'); empty.style.display='none';
+    fetch('https://generativelanguage.googleapis.com/v1beta/interactions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-goog-api-key':k},
+      body:JSON.stringify({
+        model:MODEL,
+        input:[{type:'text',text:p}],
+        response_format:{type:'image',aspect_ratio:'4:3',image_size:'1K'}
+      })
+    }).then(function(r){ return r.json(); }).then(function(j){
+      go.disabled=false; spin.classList.remove('show');
+      if(j.error)return fail('API says: '+(j.error.message||'unknown error'));
+      var found=(j&&j.output_image&&j.output_image.data)?[j.output_image]:findImages(j,[]);
+      if(!found.length)return fail('No image came back — try rephrasing the prompt.');
+      var data=found[found.length-1];
+      if(!img){ img=document.createElement('img'); cv.appendChild(img); }
+      img.src='data:'+(data.mime_type||data.mimeType||'image/png')+';base64,'+data.data;
+    }).catch(function(e){
+      go.disabled=false; spin.classList.remove('show');
+      if(!img)empty.style.display='';
+      fail('Network error — check the connection and the key. '+e.message);
+    });
+  }
+  go.addEventListener('click',generate);
+  prompt.addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); generate(); } e.stopPropagation(); });
+  key.addEventListener('keydown',function(e){ e.stopPropagation(); });
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>
