@@ -56,50 +56,100 @@
    ───────────────────────────────────────────────────────────── */
 window.QUIZ_ID = 'Quiz 1';   // must match the Google Sheet tab name
 window.QUESTIONS = [
+  /* ── 1–5 · easy ─────────────────────────────────────────────── */
   {
-    q: "What makes an AI model “generative” rather than just predictive?",
-    a: ["It runs faster than other models",
-        "It creates new content instead of only labelling or scoring existing content",
-        "It always needs a GPU to run",
-        "It is trained on more data than other models"],
-    correct: 1,
-    why: "Most AI is a judge — it sorts things into buckets (spam / not spam). Generative AI is an artist — it produces something that did not exist before: text, images, audio, code."
+    q: "What makes an AI model “generative” rather than the older kind of AI?",
+    a: ["It runs on more powerful computers",
+        "It is trained on newer data",
+        "It creates new content instead of only sorting existing things into labels",
+        "It answers faster than older AI"],
+    correct: 2,
+    why: "Old AI is a judge — it looks at something that already exists and puts it in a box. Generative AI is an artist: it produces text, images, audio or code that did not exist a second ago."
   },
   {
-    q: "At its core, what is a large language model actually doing?",
-    a: ["Looking up answers in a stored database",
+    q: "Which of these is the old, “judge” style of AI — not generative AI?",
+    a: ["Writing a four-line rap about your major",
+        "Marking an incoming email as spam or not spam",
+        "Painting a cat lawyer in a courtroom from a description",
+        "Writing a Python function from a comment"],
+    correct: 1,
+    why: "Spam / not spam is classification — it labels something that already exists. The other three all produce brand-new content."
+  },
+  {
+    q: "What is a large language model doing every time it writes a word?",
+    a: ["Looking the answer up in a stored database",
+        "Predicting what word probably comes next, over and over",
         "Searching the live internet for each reply",
-        "Predicting the next piece of text, over and over",
-        "Following hand-written rules an engineer wrote"],
-    correct: 2,
-    why: "The one secret from Session 1: it predicts the next token, again and again. Fluency, creativity and hallucination all fall out of that single behaviour."
-  },
-  {
-    q: "Why does an LLM sometimes state false things with total confidence?",
-    a: ["Its training data is always wrong",
-        "It is deliberately lying to the user",
-        "It predicts what text looks plausible — plausible is not the same as true",
-        "It ran out of memory mid-answer"],
-    correct: 2,
-    why: "It optimises for what sounds like a good continuation, not for truth. A confident wrong answer looks exactly as plausible to the model as a correct one — that is hallucination."
-  },
-  {
-    q: "Which three ingredients came together to make the recent GenAI explosion possible?",
-    a: ["Blockchain, 5G and cloud storage",
-        "Massive data, cheap large-scale compute, and the transformer architecture",
-        "Quantum computing, robotics and IoT",
-        "Faster internet, better screens and mobile apps"],
+        "Following rules an engineer wrote by hand"],
     correct: 1,
-    why: "Session 1's “why now” — the data existed, compute got big and affordable, and the 2017 transformer breakthrough let models actually learn from all of it."
+    why: "The one secret from Session 1. There is no plan and no sentence it is aiming for — just “what probably comes next?”, thousands of times in a row."
   },
   {
-    q: "Which is the healthiest mental model for working with an LLM today?",
-    a: ["A search engine that always cites sources",
-        "A calculator that is exact every time",
-        "A brilliant, fast, eager intern whose work you still check",
-        "A database that stores every fact it has read"],
+    q: "What do people mean when they say an AI model “hallucinated”?",
+    a: ["The model crashed in the middle of a sentence",
+        "The model refused to answer the question",
+        "The model stated something false just as fluently and confidently as something true",
+        "The model repeated the same sentence over and over"],
     correct: 2,
-    why: "The intern model: enormously capable and fast, occasionally confidently wrong, and never the last reviewer of its own work."
+    why: "One rule to tattoo on your brain: it sounds equally confident whether it is right or wrong. Fluent is not the same as true."
+  },
+  {
+    q: "Which everyday tool on your phone is a tiny version of the same idea behind ChatGPT?",
+    a: ["The keyboard's next-word autocomplete suggestions",
+        "The calculator app",
+        "The photo gallery grouping faces together",
+        "The spam filter in your inbox"],
+    correct: 0,
+    why: "Autocomplete predicts the next word from your texts. An LLM is the same job — but it read the internet and weighs tens of thousands of options instead of three."
+  },
+
+  /* ── 6–8 · intermediate ─────────────────────────────────────── */
+  {
+    q: "Computers have existed for 70 years. Which three ingredients had to arrive together for GenAI to explode when it did?",
+    a: ["Blockchain, 5G and cloud storage",
+        "Quantum computing, robotics and the internet of things",
+        "Enormous data, cheap large-scale compute, and the transformer (2017)",
+        "Faster phones, better cameras and social media"],
+    correct: 2,
+    why: "Miss any one and none of this happens: the internet supplied the data, GPUs made the compute affordable, and the 2017 transformer was the recipe that could finally use both."
+  },
+  {
+    q: "In class everyone sent the same prompt and got different answers back. What does that tell you about the model?",
+    a: ["Everyone's internet connection was slightly different",
+        "It is picking at random from a list of stored, pre-written answers",
+        "It generates a fresh response each time rather than retrieving one saved answer",
+        "Some students were on a paid plan and some were not"],
+    correct: 2,
+    why: "That was your first real clue about what happens under the hood. Nothing is being looked up — the answer is built word by word, fresh, every single time."
+  },
+  {
+    q: "Based on the honest scorecard, which job is an LLM *least* reliable for?",
+    a: ["Rewriting a clumsy paragraph in a friendlier tone",
+        "Brainstorming twenty ideas for a project",
+        "Giving exact arithmetic and real, verifiable citations",
+        "Summarising a long article you paste into the chat"],
+    correct: 2,
+    why: "It is brilliant wherever “plausible and fluent” is what you need, and shaky wherever being exactly, verifiably correct matters — citations, arithmetic, fresh news, precise facts."
+  },
+
+  /* ── 9–10 · tricky ──────────────────────────────────────────── */
+  {
+    q: "In the AI-faces study from the cold open (Miller et al., 2023), what did researchers actually find?",
+    a: ["People spotted the AI faces almost every time",
+        "People labelled AI faces as human *more often* than the real ones — and the most confident people were often the most wrong",
+        "Only trained experts could tell the two apart",
+        "People could tell only when the images were shown for several seconds"],
+    correct: 1,
+    why: "That is the twist: not just that people guess wrong, but that the fakes read as *more* human than the real faces — and confidence made accuracy worse, not better."
+  },
+  {
+    q: "You ask a chatbot for help with a research paper. Which part of its reply is most likely to be confidently wrong, and should be checked first?",
+    a: ["The list of sources, with authors, titles and page numbers",
+        "The rewrite of your clumsy opening paragraph",
+        "The suggested outline for your sections",
+        "A plain-language explanation of a concept you already understand"],
+    correct: 0,
+    why: "Citations are exactly where “sounds plausible” and “is true” come apart — a fake reference looks just as convincing to the model as a real one. Treat it like a brilliant intern: use the drafting, verify the 20% that has to be true."
   }
 ];
 </script>

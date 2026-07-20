@@ -33,7 +33,7 @@ var QUIZZES       = ['Quiz 1', 'Quiz 2', 'Quiz 3', 'Quiz 4'];
    quizN.html. Leave an array empty until that quiz has questions; the script
    then falls back to the score the browser reported. */
 var ANSWER_KEYS = {
-  'Quiz 1': [1, 2, 2, 1, 2],
+  'Quiz 1': [2, 1, 1, 2, 0, 2, 2, 2, 1, 0],
   'Quiz 2': [],
   'Quiz 3': [],
   'Quiz 4': []
