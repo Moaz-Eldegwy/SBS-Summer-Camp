@@ -1,0 +1,113 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:52px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.map{display:inline-flex;flex:none;align-items:center;gap:7px;padding:8px 12px;
+  background:rgba(255,255,255,.75);border:1px solid var(--line);border-radius:14px}
+.map .mb{display:inline-flex;align-items:center;gap:6px;font:600 11.5px/1 var(--fb);color:var(--faint);border-radius:9px;padding:6px 9px;white-space:nowrap}
+.map .mb i{width:15px;height:15px;border-radius:5px;background:#E4E9ED;color:#fff;font:700 9.5px/15px var(--fd);text-align:center;font-style:normal}
+.map .mb.on{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.map .mb.on i{background:rgba(255,255,255,.32)}
+.map .ml{width:9px;height:2px;background:var(--line);border-radius:2px;flex:none}
+
+.body{flex:1;margin-top:28px;display:flex;gap:26px;min-height:0}
+.chart{flex:1.3;padding:26px 30px;display:flex;flex-direction:column;min-height:0}
+.chart .lb{font:600 11px/1 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.stub{margin-top:14px;font:700 30px/1 var(--fd);letter-spacing:-.8px}
+.stub .bl{display:inline-block;width:110px;border-bottom:5px dashed var(--primary-light);vertical-align:5px}
+.bars{margin-top:22px;flex:1;display:flex;flex-direction:column;justify-content:center;gap:13px}
+.brow{display:flex;align-items:center;gap:13px}
+.brow .w{flex:none;width:82px;text-align:right;font:600 17px/1.2 var(--fb)}
+.brow.top .w{font-weight:800}
+.brow .track{flex:1;height:16px;border-radius:6px;background:#F0F3F5;overflow:hidden}
+.brow .fill{height:100%;border-radius:5px;background:var(--accent-dark);width:0;animation:grow 1s cubic-bezier(.2,.7,.2,1) forwards}
+.brow.top .fill{background:linear-gradient(90deg,var(--accent-dark),var(--accent))}
+@keyframes grow{to{width:var(--w)}}
+.brow .pc{flex:none;width:52px;font:700 15px/1 var(--fd);color:var(--muted)}
+.brow.top .pc{color:var(--ink)}
+.tail{margin-top:18px;display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px dashed var(--line)}
+.tail .dots{font:700 20px/1 var(--fd);color:var(--faint);letter-spacing:3px}
+.tail span{font:600 14.5px/1.4 var(--fb);color:var(--muted)}
+.tail b{color:var(--primary-dark)}
+
+.side{flex:1;display:flex;flex-direction:column;gap:16px}
+.pt{padding:22px 24px}
+.pt .h{display:flex;align-items:center;gap:11px}
+.pt .h svg{width:19px;height:19px;flex:none;color:var(--accent-dark)}
+.pt .h b{font:700 17px/1.2 var(--fd);letter-spacing:-.3px}
+.pt p{margin-top:10px;font:400 15px/1.55 var(--fb);color:var(--muted)}
+.pt p b{color:var(--ink);font-weight:600}
+.pt.coral{border-color:rgba(255,107,107,.4)}
+.pt.coral .h svg{color:var(--primary-dark)}
+.name{margin-top:11px;display:inline-flex;align-items:center;gap:8px;font:700 13px/1 var(--fb);letter-spacing:.04em;
+  color:var(--accent-dark);background:rgba(78,205,196,.11);border:1px solid rgba(78,205,196,.32);border-radius:20px;padding:9px 13px}
+</style>
+
+<div class="slide">
+  <div class="hdr in">
+    <div class="kicker">Station 4 · the LM head</div>
+    <div class="map">
+      <span class="mb"><i>1</i>Tokenizer</span><span class="ml"></span>
+      <span class="mb"><i>2</i>Embeddings</span><span class="ml"></span>
+      <span class="mb"><i>3</i>Transformer</span><span class="ml"></span>
+      <span class="mb on"><i>4</i>LM head</span>
+    </div>
+  </div>
+  <div class="title in d1">Out comes a <span class="grad">ranked list of guesses.</span></div>
+
+  <div class="body">
+    <div class="card chart in d1">
+      <div class="lb">the output of the whole assembly line</div>
+      <div class="stub">&ldquo;The sky is <span class="bl"></span>&rdquo;</div>
+      <div class="bars">
+        <div class="brow top"><span class="w">blue</span><div class="track"><div class="fill" style="--w:100%;animation-delay:.45s"></div></div><span class="pc">61%</span></div>
+        <div class="brow"><span class="w">gray</span><div class="track"><div class="fill" style="--w:19.7%;animation-delay:.57s"></div></div><span class="pc">12%</span></div>
+        <div class="brow"><span class="w">clear</span><div class="track"><div class="fill" style="--w:11.5%;animation-delay:.69s"></div></div><span class="pc">7%</span></div>
+        <div class="brow"><span class="w">dark</span><div class="track"><div class="fill" style="--w:6.6%;animation-delay:.81s"></div></div><span class="pc">4%</span></div>
+        <div class="brow"><span class="w">falling</span><div class="track"><div class="fill" style="--w:4.9%;animation-delay:.93s"></div></div><span class="pc">3%</span></div>
+      </div>
+      <div class="tail">
+        <span class="dots">···</span>
+        <span>and on, and on &mdash; a score for <b>every one of ~50,000 possible tokens.</b></span>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="card pt in d2">
+        <div class="h">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5.5h18M3 12h11M3 18.5h6"/></svg>
+          <b>Not one answer &mdash; a whole list</b>
+        </div>
+        <p>The final station scores <b>every possible next token</b>, each with a confidence percentage.</p>
+        <span class="name">its real name: the probability distribution</span>
+      </div>
+
+      <div class="card pt coral in d3">
+        <div class="h">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12a8.5 8.5 0 0 1-14.6 5.9M3.5 12a8.5 8.5 0 0 1 14.6-5.9"/><path d="M18.5 2.4v4h-4M5.5 21.6v-4h4"/></svg>
+          <b>You have seen this chart before</b>
+        </div>
+        <p>It is the exact bar chart from last session. Back then it was where the story <b>started.</b> Now you know it is where the story <b>ends</b> &mdash; every box before it existed just to produce this list well.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

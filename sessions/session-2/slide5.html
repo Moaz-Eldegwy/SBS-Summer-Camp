@@ -1,0 +1,106 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:54px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.14s}.d2{animation-delay:.3s}.d3{animation-delay:.46s}.d4{animation-delay:.62s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.cols{display:flex;gap:56px;margin-top:22px;flex:1;align-items:center}
+.left{flex:1.35}
+.q{font:700 46px/1.24 var(--fd);letter-spacing:-1.4px}
+.q .grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.q .u{position:relative;white-space:nowrap}
+.q .u::after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:5px;border-radius:3px;
+  background:linear-gradient(90deg,var(--primary),var(--accent));transform:scaleX(0);transform-origin:left;
+  animation:sw .7s cubic-bezier(.2,.7,.2,1) 1s forwards}
+@keyframes sw{to{transform:scaleX(1)}}
+
+.pts{margin-top:32px;display:flex;flex-direction:column;gap:12px}
+.pt{display:flex;gap:14px;align-items:flex-start;padding:15px 20px}
+.pt .ic{flex:none;width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,107,107,.1);color:var(--primary-dark)}
+.pt .ic svg{width:16px;height:16px}
+.pt p{font:400 16px/1.5 var(--fb);color:var(--muted)}
+.pt p b{color:var(--ink);font-weight:600}
+
+/* the closed black box */
+.right{flex:1;display:flex;flex-direction:column;align-items:center}
+.box{position:relative;width:290px;height:250px;border-radius:26px;
+  background:linear-gradient(155deg,#2B3542 0%,#1D2530 55%,#151C25 100%);
+  box-shadow:0 30px 60px rgba(29,37,48,.4),0 8px 20px rgba(29,37,48,.25);
+  display:flex;align-items:center;justify-content:center;overflow:hidden}
+.box::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(320px 200px at 30% 0%,rgba(255,107,107,.28),transparent 65%),
+             radial-gradient(280px 200px at 100% 100%,rgba(78,205,196,.26),transparent 62%)}
+.box .qm{position:relative;font:700 120px/1 var(--fd);letter-spacing:-4px;color:#fff;opacity:.94;
+  animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.07);opacity:1}}
+.box .seam{position:absolute;left:0;right:0;top:50%;height:2px;background:rgba(255,255,255,.09)}
+.box .rivet{position:absolute;width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.16)}
+.io{margin-top:0;display:flex;align-items:center;gap:12px}
+.chipin{font:600 14px/1 var(--fb);color:var(--muted);background:#fff;border:1px solid var(--line);
+  border-radius:30px;padding:12px 17px;box-shadow:0 2px 8px rgba(29,37,48,.05);white-space:nowrap}
+.chipin.out{color:var(--accent-dark);border-color:rgba(78,205,196,.45)}
+.arw{width:26px;height:3px;border-radius:2px;background:var(--line);position:relative;flex:none}
+.arw::after{content:'';position:absolute;right:-1px;top:-4px;border:5.5px solid transparent;border-left-color:rgba(29,37,48,.16)}
+.stack{display:flex;flex-direction:column;align-items:center;gap:20px}
+.cap{margin-top:22px;text-align:center;font:600 15px/1.5 var(--fb);color:var(--faint);max-width:330px}
+.cap b{color:var(--primary-dark)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Part 1 · open the black box</div>
+
+  <div class="cols">
+    <div class="left">
+      <div class="q in d1">
+        How does it know <span class="grad">&ldquo;blue&rdquo;</span> comes next —<br>
+        when it has <span class="u">never seen your exact sentence?</span>
+      </div>
+
+      <div class="pts">
+        <div class="card pt in d2">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4.5 1.5L5 15 16.5 3.5Z"/></svg></span>
+          <p>You can type a sentence <b>nobody in history has ever typed</b> &mdash; and it still knows what fits.</p>
+        </div>
+        <div class="card pt in d3">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4.5 4.5"/></svg></span>
+          <p>So it isn&rsquo;t <b>looking your sentence up.</b> There is nothing to look up.</p>
+        </div>
+        <div class="card pt in d4">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 6.8V12l3.4 2.1"/></svg></span>
+          <p>What actually happens in the <b>0.3 seconds</b> between Enter and the words appearing?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="right in d2">
+      <div class="stack">
+        <span class="chipin">&ldquo;The sky is&rdquo;</span>
+        <div class="box">
+          <div class="seam"></div>
+          <span class="rivet" style="left:18px;top:18px"></span>
+          <span class="rivet" style="right:18px;top:18px"></span>
+          <span class="rivet" style="left:18px;bottom:18px"></span>
+          <span class="rivet" style="right:18px;bottom:18px"></span>
+          <span class="qm">?</span>
+        </div>
+        <span class="chipin out">&ldquo;blue&rdquo; · 61%</span>
+      </div>
+      <div class="cap in d4">Tonight we <b>open it</b> — and every piece inside is something you can understand.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

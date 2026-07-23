@@ -1,0 +1,105 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:48px 72px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 42px/1.1 var(--fd);letter-spacing:-1px;margin-top:11px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.codewrap{margin-top:22px;padding:28px 32px;background:#1D2530;border:0;border-radius:22px;
+  box-shadow:0 24px 54px rgba(29,37,48,.3)}
+.win{display:flex;gap:8px;margin-bottom:20px}
+.win i{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.18)}
+.win i:first-child{background:#FF6B6B}.win i:nth-child(2){background:#FFC46B}.win i:nth-child(3){background:#4ECDC4}
+.ln{display:flex;align-items:flex-start;gap:16px;padding:7px 0}
+.ln .num{flex:none;width:18px;font:600 13px/1.75 ui-monospace,Consolas,monospace;color:rgba(255,255,255,.22);text-align:right}
+.ln code{flex:none;font:600 19px/1.75 ui-monospace,Consolas,monospace;color:#E8ECEF;white-space:pre}
+.ln .an{margin-left:auto;flex:none;display:flex;align-items:center;gap:9px;font:600 12.5px/1.4 var(--fb);
+  border-radius:20px;padding:8px 14px;max-width:340px}
+.ln .an i{flex:none;width:17px;height:17px;border-radius:5px;display:flex;align-items:center;justify-content:center;
+  font:700 9.5px/1 var(--fd);color:#fff;font-style:normal;background:rgba(255,255,255,.25)}
+.k{color:#FF8E8E}.s{color:#4ECDC4}.f{color:#FFC46B}.c{color:rgba(255,255,255,.34)}
+
+.a-tool{color:#C9D1D6;background:rgba(255,255,255,.08)}
+.a-load{color:#FFB3B3;background:rgba(255,107,107,.16)}
+.a-run {color:#8FE3DC;background:rgba(78,205,196,.16)}
+.a-out {color:#FFD9A6;background:rgba(255,196,107,.15)}
+
+.pipe{margin-top:18px;display:flex;align-items:center;justify-content:center;gap:9px;padding:16px 20px}
+.pipe .b{display:inline-flex;align-items:center;gap:7px;font:600 13px/1 var(--fb);color:var(--muted);
+  background:#F4F6F8;border-radius:10px;padding:9px 13px;white-space:nowrap}
+.pipe .b i{width:16px;height:16px;border-radius:5px;color:#fff;font:700 10px/16px var(--fd);text-align:center;font-style:normal;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.pipe .b:nth-child(4) i,.pipe .b:nth-child(8) i{background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.pipe .ar{width:14px;height:2px;background:var(--line);border-radius:2px;flex:none}
+.pipe .lead{font:700 13px/1 var(--fb);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-right:4px}
+
+.foot{margin-top:16px;padding:16px 26px;display:flex;align-items:center;gap:15px}
+.foot svg{width:22px;height:22px;flex:none;color:var(--accent-dark)}
+.foot p{font:600 18px/1.4 var(--fd);letter-spacing:-.3px}
+.foot p b{background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Run one yourself</div>
+  <div class="title in d1">The whole machine &mdash; <span class="grad">in four lines.</span></div>
+
+  <div class="codewrap in d1">
+    <div class="win"><i></i><i></i><i></i></div>
+
+    <div class="ln">
+      <span class="num">1</span>
+      <code><span class="k">from</span> transformers <span class="k">import</span> pipeline</code>
+      <span class="an a-tool">grab the tool</span>
+    </div>
+
+    <div class="ln">
+      <span class="num">2</span>
+      <code>generator = <span class="f">pipeline</span>(<span class="s">"text-generation"</span>, model=<span class="s">"gpt2"</span>)</code>
+      <span class="an a-load">downloads the billions of learned parameters</span>
+    </div>
+
+    <div class="ln">
+      <span class="num">3</span>
+      <code>output = <span class="f">generator</span>(<span class="s">"The sky is"</span>)</code>
+      <span class="an a-run"><i>1-4</i>the entire diagram happens right here</span>
+    </div>
+
+    <div class="ln">
+      <span class="num">4</span>
+      <code><span class="f">print</span>(output)</code>
+      <span class="an a-out">the next words it predicted</span>
+    </div>
+  </div>
+
+  <div class="card pipe in d2">
+    <span class="lead">line 3 =</span>
+    <span class="b"><i>1</i>tokenize</span><span class="ar"></span>
+    <span class="b"><i>2</i>embed</span><span class="ar"></span>
+    <span class="b"><i>3</i>transformer</span><span class="ar"></span>
+    <span class="b"><i>4</i>LM head</span><span class="ar"></span>
+    <span class="b">pick a word</span><span class="ar"></span>
+    <span class="b">repeat</span>
+  </div>
+
+  <div class="card foot in d2">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 12.5 9 17.5 20 6.5"/>
+    </svg>
+    <p>You don&rsquo;t have to <b>build</b> any of the boxes. You just <b>call</b> them.</p>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

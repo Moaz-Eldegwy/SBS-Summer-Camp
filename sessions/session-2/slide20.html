@@ -1,0 +1,97 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:52px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 46px/1.1 var(--fd);letter-spacing:-1.2px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.body{flex:1;margin-top:26px;display:flex;gap:26px;align-items:stretch;min-height:0}
+
+.main{flex:1.5;padding:28px 32px;display:flex;flex-direction:column}
+.main .colab{display:flex;align-items:center;gap:14px}
+.main .colab img{height:40px;width:auto}
+.main .colab b{font:700 22px/1 var(--fd);letter-spacing:-.4px}
+.linkbox{margin-top:20px;display:block;text-decoration:none;border-radius:16px;padding:18px 20px;
+  background:linear-gradient(92deg,rgba(255,107,107,.07),rgba(78,205,196,.07));
+  border:1.5px solid rgba(255,107,107,.35);transition:transform .15s ease,box-shadow .15s ease}
+.linkbox:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(29,37,48,.12)}
+.linkbox .lb{font:600 10.5px/1 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.linkbox .u{margin-top:9px;font:700 15px/1.45 ui-monospace,Consolas,monospace;color:var(--primary-dark);word-break:break-all}
+
+.does{margin-top:20px;flex:1;display:flex;flex-direction:column;gap:11px;justify-content:center}
+.do{display:flex;align-items:center;gap:12px}
+.do i{flex:none;width:24px;height:24px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font:700 11px/1 var(--fd);color:#fff;font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.do:last-child i{background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.do span{font:500 15.5px/1.4 var(--fb);color:var(--muted)}
+.do span b{color:var(--ink);font-weight:600}
+
+.qrcard{flex:1;padding:26px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.qrcard img{width:246px;height:246px;border-radius:16px;border:1px solid var(--line)}
+.qrcard .scan{margin-top:18px;font:700 17px/1.3 var(--fd);letter-spacing:-.2px}
+.qrcard .scan span{display:block;margin-top:8px;font:400 14px/1.5 var(--fb);color:var(--muted)}
+
+.foot{margin-top:20px;padding:17px 28px;display:flex;align-items:center;gap:15px}
+.foot svg{width:22px;height:22px;flex:none;color:var(--accent-dark)}
+.foot p{font:600 17.5px/1.4 var(--fd);letter-spacing:-.2px}
+.foot p b{color:var(--accent-dark)}
+.foot .tag{margin-left:auto;flex:none;font:700 12.5px/1 var(--fb);letter-spacing:.06em;color:var(--muted);
+  background:#F4F6F8;border-radius:20px;padding:11px 16px}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Hands-on · this is where we build</div>
+  <div class="title in d1">Open the notebook. <span class="grad">Let&rsquo;s go.</span></div>
+
+  <div class="body">
+    <div class="card main in d1">
+      <div class="colab">
+        <img src="assets/Google_Colaboratory_SVG_Logo.svg" alt="Google Colab">
+        <b>Google Colab</b>
+      </div>
+
+      <a class="linkbox" href="https://colab.research.google.com/drive/11eHvAZKxcTYgi1B1gjBgCRJQh1DgeehX?usp=sharing" target="_blank" rel="noopener">
+        <div class="lb">our notebook for tonight — click or scan</div>
+        <div class="u">colab.research.google.com/drive/11eHvAZKxcTYgi1B1gjBgCRJQh1DgeehX</div>
+      </a>
+
+      <div class="does">
+        <div class="do"><i>1</i><span><b>Load</b> a real pretrained model</span></div>
+        <div class="do"><i>2</i><span><b>Tokenize</b> your own sentence</span></div>
+        <div class="do"><i>3</i><span><b>Watch it predict</b> the next word</span></div>
+        <div class="do"><i>4</i><span><b>Turn the temperature dial</b></span></div>
+        <div class="do"><i>5</i><span><b>Break it</b> — recent news &middot; math &middot; hallucination</span></div>
+      </div>
+    </div>
+
+    <div class="card qrcard in d2">
+      <img src="assets/qr-colab.png" alt="QR code to the Colab notebook">
+      <div class="scan">Scan with your phone
+        <span>or type the link — either works</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card foot in d3">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 12.5 9 17.5 20 6.5"/>
+    </svg>
+    <p>No install. No GPU. No paid account. <b>It runs free, in your browser.</b></p>
+    <span class="tag">the diagram becomes something you run</span>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

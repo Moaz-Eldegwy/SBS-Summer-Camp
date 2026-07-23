@@ -1,0 +1,116 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:52px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 40px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.title small{font:500 16px/1.4 var(--fb);letter-spacing:0;color:var(--muted);display:block;margin-top:9px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.22s}.d3{animation-delay:.34s}.d4{animation-delay:.46s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+/* explicit 1fr rows + min-height:0 on the cards: with auto rows the six cards
+   overran the 720px stage and the footer sat on top of the last pair */
+.grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:12px;margin-top:16px;flex:1;min-height:0}
+.mod{padding:14px 20px;display:block;text-decoration:none;color:inherit;min-height:0;overflow:hidden;
+  transition:transform .15s ease,box-shadow .15s ease}
+.mod:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(29,37,48,.13)}
+.mod .head{display:flex;align-items:center;gap:12px}
+.mod .tag{flex:none;width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center}
+.mod .tag svg{width:19px;height:19px}
+.mod.a .tag{background:rgba(255,107,107,.1);color:var(--primary-dark)}
+.mod.b .tag{background:rgba(78,205,196,.13);color:var(--accent-dark)}
+.mod b{font:700 17px/1.25 var(--fd);letter-spacing:-.3px}
+.mod .open{margin-left:auto;font:700 11px/1 var(--fb);color:var(--accent-dark);background:rgba(78,205,196,.1);
+  border:1px solid rgba(78,205,196,.3);border-radius:16px;padding:7px 11px;flex:none}
+.mod.a .open{color:var(--primary-dark);background:rgba(255,107,107,.08);border-color:rgba(255,107,107,.3)}
+.mod .url{margin-top:6px;font:700 12.5px/1.3 ui-monospace,Consolas,monospace;color:var(--accent-dark);word-break:break-all}
+.mod.a .url{color:var(--primary-dark)}
+.mod p{margin-top:6px;font:400 13px/1.42 var(--fb);color:var(--muted)}
+.mod p b{color:var(--ink);font:600 13px/1.42 var(--fb)}
+
+.foot{margin-top:12px;padding:13px 26px;display:flex;align-items:center;gap:14px}
+.foot svg{width:21px;height:21px;flex:none;color:var(--accent-dark)}
+.foot p{font:600 17px/1.4 var(--fd);letter-spacing:-.2px}
+.foot p b{background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Sources &amp; where to go next</div>
+  <div class="title in d1">Everything tonight <span class="grad">came from here.</span> <small>click any card to open it · a book, two courses, a video and the reference docs · all six links go in the chat</small></div>
+
+  <div class="grid">
+    <a class="card mod a in d1" href="https://www.oreilly.com/library/view/hands-on-large-language/9781098150952/" target="_blank" rel="noopener">
+      <div class="head">
+        <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></span>
+        <b>Hands-On Large Language Models</b><span class="open">open ↗</span>
+      </div>
+      <div class="url">oreilly.com — Alammar &amp; Grootendorst</div>
+      <p><b>The book for this whole field.</b> Every box we drew tonight — tokens, embeddings, attention — in pictures, with the code beside it.</p>
+    </a>
+
+    <a class="card mod b in d2" href="https://huggingface.co/learn/llm-course/en/chapter1/1" target="_blank" rel="noopener">
+      <div class="head">
+        <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9 12 5 2 9l10 4 10-4Z"/><path d="M6 11.5V16c0 1.2 2.7 2.5 6 2.5s6-1.3 6-2.5v-4.5"/></svg></span>
+        <b>Hugging Face — LLM Course</b><span class="open">open ↗</span>
+      </div>
+      <div class="url">huggingface.co/learn/llm-course</div>
+      <p><b>Free, and start at Chapter 1.</b> The course from the people who host the models — it picks up exactly where tonight stopped.</p>
+    </a>
+
+    <a class="card mod a in d3" href="https://youtu.be/wjZofJX0v4M" target="_blank" rel="noopener">
+      <div class="head">
+        <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="4"/><path d="m10 9 5 3-5 3V9Z"/></svg></span>
+        <b>&ldquo;Transformers, the tech behind LLMs&rdquo;</b><span class="open">watch ↗</span>
+      </div>
+      <div class="url">youtube.com — 3Blue1Brown, chapter 5</div>
+      <p>The same pipeline we walked tonight, <b>animated better than anyone else has managed.</b> The best possible second pass over all of it.</p>
+    </a>
+
+    <a class="card mod b in d3" href="https://cloud.google.com/ai/llms" target="_blank" rel="noopener">
+      <div class="head">
+        <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .6-8.96A6 6 0 0 0 6.1 10.6 3.75 3.75 0 0 0 6.5 19h11Z"/></svg></span>
+        <b>Google Cloud — What is an LLM?</b><span class="open">open ↗</span>
+      </div>
+      <div class="url">cloud.google.com/ai/llms</div>
+      <p>The <b>plain-English reference</b> version of tonight: what an LLM is, what the words mean, and where it actually gets used.</p>
+    </a>
+
+    <a class="card mod a in d4" href="https://www.ibm.com/think/topics/ai-hallucinations" target="_blank" rel="noopener">
+      <div class="head">
+        <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.01"/></svg></span>
+        <b>IBM — AI hallucinations</b><span class="open">open ↗</span>
+      </div>
+      <div class="url">ibm.com/think/topics/ai-hallucinations</div>
+      <p>The failure we triggered <b>on purpose</b> tonight, written up properly — why it happens, and what people do about it.</p>
+    </a>
+
+    <a class="card mod b in d4" href="https://academy.langchain.com/courses/foundation-introduction-to-langchain-python" target="_blank" rel="noopener">
+      <div class="head">
+        <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 13.5a5 5 0 0 0 7.4.4l2.6-2.6a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M13.5 10.5a5 5 0 0 0-7.4-.4L3.5 12.7a5 5 0 0 0 7 7l1.5-1.5"/></svg></span>
+        <b>LangChain Academy — Intro (Python)</b><span class="open">open ↗</span>
+      </div>
+      <div class="url">academy.langchain.com</div>
+      <p><b>Free, ~1.5 hours.</b> Build your first AI agent in Python. This is the road out of &ldquo;I understand it&rdquo; and into &ldquo;I build with it&rdquo;.</p>
+    </a>
+  </div>
+
+  <div class="card foot in d4">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 12.5 9 17.5 20 6.5"/>
+    </svg>
+    <p>Don&rsquo;t bookmark all six. <b>Pick one and actually finish it.</b></p>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

@@ -1,0 +1,94 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:56px 84px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before,.kicker::after{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 52px/1.1 var(--fd);letter-spacing:-1.4px;margin-top:16px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.12s}.d2{animation-delay:.28s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.sub{margin-top:16px;font:500 20px/1.5 var(--fb);color:var(--muted);max-width:760px}
+.sub b{color:var(--ink);font-weight:600}
+
+.steps{margin-top:40px;display:flex;gap:16px;width:100%}
+.s{flex:1;padding:24px 18px;display:flex;flex-direction:column;align-items:center;position:relative;
+  animation:in .6s cubic-bezier(.2,.7,.2,1) both}
+.s:nth-child(1){animation-delay:.3s}.s:nth-child(2){animation-delay:.42s}.s:nth-child(3){animation-delay:.54s}
+.s:nth-child(4){animation-delay:.66s}.s:nth-child(5){animation-delay:.78s}
+.s .n{position:absolute;top:-12px;left:50%;transform:translateX(-50%);width:25px;height:25px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font:700 12.5px/1 var(--fd);color:#fff;
+  background:linear-gradient(135deg,var(--accent),var(--accent-dark));box-shadow:0 5px 12px rgba(78,205,196,.4)}
+.s.hot .n{background:linear-gradient(135deg,var(--primary),var(--primary-dark));box-shadow:0 5px 12px rgba(255,107,107,.4)}
+.s svg{width:30px;height:30px;color:var(--accent-dark);margin-top:8px}
+.s.hot svg{color:var(--primary-dark)}
+.s b{margin-top:14px;font:700 17px/1.3 var(--fd);letter-spacing:-.3px}
+.s span{margin-top:8px;font:400 13.5px/1.5 var(--fb);color:var(--muted)}
+
+.foot{margin-top:36px;padding:20px 32px;display:flex;align-items:center;gap:16px}
+.foot svg{width:23px;height:23px;flex:none;color:var(--primary-dark)}
+.foot p{font:600 19px/1.4 var(--fd);letter-spacing:-.3px}
+.foot p b{background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Hands-on</div>
+  <div class="title in d1">The plan: we run a real model &mdash; <span class="grad">together.</span></div>
+  <div class="sub in d1">Five steps, one live notebook. <b>Everything we just drew, with your own hands.</b></div>
+
+  <div class="steps">
+    <div class="card s">
+      <span class="n">1</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5"/><path d="M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg>
+      <b>Load a model</b>
+      <span>pull real pretrained weights down from Hugging Face</span>
+    </div>
+
+    <div class="card s">
+      <span class="n">2</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="1.5" y="7" width="6" height="10" rx="1.8"/><rect x="9" y="7" width="6" height="10" rx="1.8"/><rect x="16.5" y="7" width="6" height="10" rx="1.8"/></svg>
+      <b>Tokenize your sentence</b>
+      <span>watch your own words turn into numbers</span>
+    </div>
+
+    <div class="card s">
+      <span class="n">3</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 5.5h18M3 12h11M3 18.5h6"/></svg>
+      <b>Watch it predict</b>
+      <span>the ranked list, coming out of a real model</span>
+    </div>
+
+    <div class="card s">
+      <span class="n">4</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/><circle cx="12" cy="12" r="3.4"/></svg>
+      <b>Turn the temperature dial</b>
+      <span>same prompt, cold then hot</span>
+    </div>
+
+    <div class="card s hot">
+      <span class="n">5</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 7.5v5c0 4.6 3.8 8.2 9 8.5 5.2-.3 9-3.9 9-8.5v-5L12 3Z"/><path d="m9.5 9.5 5 5M14.5 9.5l-5 5"/></svg>
+      <b>Break it, three ways</b>
+      <span>recent news &middot; math &middot; hallucination</span>
+    </div>
+  </div>
+
+  <div class="card foot in d2">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+    </svg>
+    <p>You&rsquo;ll recognise every step &mdash; and step <b>5</b> you can already predict. <b>Let&rsquo;s prove it.</b></p>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

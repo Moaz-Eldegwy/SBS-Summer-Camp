@@ -1,0 +1,117 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:64px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.22s}.d3{animation-delay:.34s}.d4{animation-delay:.46s}.d5{animation-delay:.58s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.cols{display:flex;gap:56px;margin-top:34px;flex:1;align-items:flex-start}
+.left{flex:1.5}
+.namerow{display:flex;align-items:center;gap:24px}
+.avatar{width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font:700 34px/1 var(--fd);color:#fff;letter-spacing:-1px;
+  background:linear-gradient(135deg,var(--primary) 15%,var(--accent-dark) 110%);
+  box-shadow:0 10px 26px rgba(255,107,107,.35);position:relative}
+.avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+.avatar::after{content:'';position:absolute;inset:-7px;border-radius:50%;border:2px dashed rgba(78,205,196,.55)}
+h1{font:700 54px/1.05 var(--fd);letter-spacing:-1.5px}
+.role{margin-top:6px;font:600 21px/1 var(--fb);color:var(--primary-dark)}
+.tags{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px}
+.tag{font:600 15px/1 var(--fb);color:var(--accent-dark);background:rgba(78,205,196,.12);
+  border:1px solid rgba(78,205,196,.35);border-radius:30px;padding:11px 17px}
+.tag.c{color:var(--primary-dark);background:rgba(255,107,107,.09);border-color:rgba(255,107,107,.3)}
+
+.timeline{margin-top:38px;position:relative;padding-left:30px}
+.timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:10px;width:3px;border-radius:2px;
+  background:linear-gradient(180deg,var(--primary),var(--accent))}
+.tl{position:relative;padding:0 0 26px 0}
+.tl:last-child{padding-bottom:0}
+.tl::before{content:'';position:absolute;left:-28px;top:5px;width:15px;height:15px;border-radius:50%;
+  background:#fff;border:4px solid var(--primary)}
+.tl:nth-child(2)::before{border-color:var(--primary-dark)}
+.tl:nth-child(3)::before{border-color:var(--accent-dark)}
+.tl b{font:700 18px/1.35 var(--fb)}
+.tl span{display:block;font:400 15.5px/1.45 var(--fb);color:var(--muted);margin-top:3px}
+
+.right{flex:1;display:flex;flex-direction:column;gap:18px}
+.qr{display:flex;align-items:center;gap:20px;padding:20px 22px}
+.qr img{width:120px;height:120px;border-radius:12px;border:1px solid var(--line)}
+.qr .lbl{font:700 17px/1.3 var(--fd)}
+.qr .url{font:500 14.5px/1.4 var(--fb);color:var(--accent-dark);margin-top:5px;word-break:break-all}
+.qr.coral .url{color:var(--primary-dark)}
+.qr .hint{font:400 12.5px/1.4 var(--fb);color:var(--faint);margin-top:6px}
+.deg{padding:18px 22px;display:flex;gap:14px;align-items:center}
+.deg svg{flex:none}
+.deg b{font:600 15px/1.45 var(--fb)}
+.deg span{display:block;font:400 13.5px/1.4 var(--fb);color:var(--muted)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Front matter · Who’s talking to you</div>
+
+  <div class="cols">
+    <div class="left">
+      <div class="namerow in d1">
+        <div class="avatar"><img src="assets/moaz.jpg" alt="Moaz Eldegwy"></div>
+        <div>
+          <h1>Moaz Eldegwy</h1>
+          <div class="role">AI Engineer</div>
+        </div>
+      </div>
+
+      <div class="tags in d2">
+        <span class="tag">LLMs</span><span class="tag c">Fine-tuning</span><span class="tag">RL</span>
+        <span class="tag c">RAG</span><span class="tag">Agentic Systems</span>
+      </div>
+
+      <div class="timeline in d3">
+        <div class="tl"><b>2020 — started freelancing in web development</b><span>and kept building for clients all through university</span></div>
+        <div class="tl"><b>65+ software projects delivered</b><span>designed, shipped and maintained end to end</span></div>
+        <div class="tl"><b>Now — focused on applied Generative AI</b><span>LLMs, fine-tuning, RAG pipelines &amp; multi-agent systems</span></div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="card qr in d2">
+        <img src="assets/qr-website.png" alt="QR — moazeldegwy.com">
+        <div>
+          <div class="lbl">Portfolio</div>
+          <div class="url">moazeldegwy.com</div>
+          <div class="hint">scan to connect</div>
+        </div>
+      </div>
+      <div class="card qr coral in d3">
+        <img src="assets/qr-linkedin.png" alt="QR — LinkedIn">
+        <div>
+          <div class="lbl">LinkedIn</div>
+          <div class="url">/in/moaz-eldegwy</div>
+          <div class="hint">scan to connect</div>
+        </div>
+      </div>
+      <div class="card deg in d4">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <path d="M20 8 4 15l16 7 16-7-16-7Z" stroke="#E05353" stroke-width="2.4" stroke-linejoin="round"/>
+          <path d="M11 19v8c0 2.5 4 4.5 9 4.5s9-2 9-4.5v-8" stroke="#3DB3AB" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M36 16v8" stroke="#E05353" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <b>B.Sc. IT &amp; Computing (AI)</b>
+          <span>Arab Open University — 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

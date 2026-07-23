@@ -1,0 +1,153 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:42px 76px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 42px/1.1 var(--fd);letter-spacing:-1px;margin-top:10px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.22s}.d3{animation-delay:.34s}.d4{animation-delay:.46s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.body{flex:1;margin-top:18px;display:flex;gap:18px;min-height:0}
+
+/* ---- section label shared by every panel ---- */
+.sec{display:flex;align-items:center;gap:9px;font:600 11.5px/1 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.sec svg{width:15px;height:15px;flex:none}
+.sec.req svg{color:var(--primary-dark)}
+.sec.bon svg{color:var(--accent-dark)}
+.sec.imp svg{color:var(--primary-dark)}
+
+/* ---- required: one row per session ---- */
+.tbl{flex:1.66;padding:18px 24px 14px;display:flex;flex-direction:column;min-height:0}
+table{width:100%;border-collapse:collapse;margin-top:11px;flex:1}
+th{font:600 10.5px/1 var(--fb);letter-spacing:.13em;text-transform:uppercase;color:var(--faint);
+  text-align:center;padding:0 4px 9px;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child{text-align:left}
+td{padding:8px 4px;border-bottom:1px solid var(--line);text-align:center;
+  font:700 19px/1 var(--fd);letter-spacing:-.4px;color:var(--ink)}
+td:first-child{text-align:left}
+.sname{font:700 15.5px/1.2 var(--fd);letter-spacing:-.2px;color:var(--ink)}
+.sname i{display:block;font:400 12px/1.2 var(--fb);font-style:normal;color:var(--faint);margin-top:4px}
+.opt{display:inline-block;font:700 11.5px/1 var(--fb);letter-spacing:.02em;color:var(--accent-dark);
+  background:rgba(78,205,196,.12);border:1px solid rgba(78,205,196,.32);border-radius:20px;padding:6px 10px}
+.rt{font:700 19px/1 var(--fd);color:var(--primary-dark)}
+tr.tot td{border-bottom:0;padding-top:12px;font-size:22px}
+tr.tot td:first-child{font:700 13px/1 var(--fb);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+tr.tot .rt{font-size:26px;background:linear-gradient(92deg,var(--primary),var(--accent-dark));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---- side column: bonus + important ---- */
+.side{flex:1;display:flex;flex-direction:column;gap:18px;min-height:0}
+.pan{flex:1;padding:16px 20px;display:flex;flex-direction:column;min-height:0}
+.pan.bon{background:linear-gradient(180deg,rgba(78,205,196,.07),rgba(78,205,196,.02));border-color:rgba(78,205,196,.3)}
+.pan.imp{background:linear-gradient(180deg,rgba(255,107,107,.07),rgba(255,107,107,.02));border-color:rgba(255,107,107,.3)}
+.pan ul{list-style:none;margin-top:11px;display:flex;flex-direction:column;gap:10px;justify-content:center;flex:1}
+.pan li{display:flex;gap:10px;align-items:flex-start;font:400 14px/1.45 var(--fb);color:var(--muted)}
+.pan li b{color:var(--ink);font-weight:700}
+.dot{flex:none;width:7px;height:7px;border-radius:50%;margin-top:6px}
+.bon .dot{background:var(--accent-dark)}
+.imp .dot{background:var(--primary)}
+.mk{font:700 13px/1 var(--fd);white-space:nowrap;border-radius:16px;padding:5px 9px;display:inline-block;vertical-align:-1px}
+.bon .mk{color:var(--accent-dark);background:rgba(78,205,196,.14)}
+.imp .mk{color:var(--primary-dark);background:rgba(255,107,107,.12)}
+
+/* ---- pass line ---- */
+.pass{margin-top:16px;padding:14px 26px;display:flex;align-items:center;gap:24px}
+.big{flex:none;display:flex;align-items:baseline;gap:9px}
+.big span{font:600 11.5px/1 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.big b{font:700 34px/1 var(--fd);letter-spacing:-1.4px;
+  background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+.big em{font:600 13px/1 var(--fb);font-style:normal;color:var(--muted)}
+.meter{flex:1;min-width:0}
+.meter p{font:600 15.5px/1.3 var(--fd);letter-spacing:-.2px;color:var(--ink)}
+.meter p b{color:var(--primary-dark)}
+.track{position:relative;margin-top:9px;height:9px;border-radius:6px;background:#EEF1F3;overflow:hidden}
+.fillbar{position:absolute;inset:0 20% 0 0;border-radius:6px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.notch{position:absolute;left:80%;top:-4px;width:2.5px;height:17px;border-radius:2px;background:var(--ink)}
+.meter .cap{margin-top:7px;display:flex;justify-content:space-between;font:600 11px/1 var(--fb);color:var(--faint)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Scoring board &middot; how the four sessions add up</div>
+  <div class="title in d1">200 marks on the table. <span class="grad">160 to pass.</span></div>
+
+  <div class="body">
+    <div class="card tbl in d1">
+      <div class="sec req">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11h6M9 15h4"/><path d="M8 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/></svg>
+        Required &mdash; every session counts
+      </div>
+
+      <table>
+        <tr>
+          <th>Session</th><th>Quiz</th><th>Attendance</th><th>Task</th><th>Session total</th>
+        </tr>
+        <tr>
+          <td><span class="sname">Session 1<i>Mon 20 Jul</i></span></td>
+          <td>10</td><td>10</td><td><span class="opt">Task 1 &middot; +8 bonus</span></td><td class="rt">20</td>
+        </tr>
+        <tr>
+          <td><span class="sname">Session 2<i>Thu 23 Jul</i></span></td>
+          <td>10</td><td>10</td><td>35</td><td class="rt">55</td>
+        </tr>
+        <tr>
+          <td><span class="sname">Session 3<i>Mon 27 Jul</i></span></td>
+          <td>10</td><td>10</td><td>35</td><td class="rt">55</td>
+        </tr>
+        <tr>
+          <td><span class="sname">Session 4<i>Thu 30 Jul</i></span></td>
+          <td>10</td><td>10</td><td>50</td><td class="rt">70</td>
+        </tr>
+        <tr class="tot">
+          <td>Total</td>
+          <td>40</td><td>40</td><td>120</td><td class="rt">200</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="side">
+      <div class="card pan bon in d2">
+        <div class="sec bon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.2l5.9-.9L12 3Z"/></svg>
+          Bonus &mdash; on top of the 200
+        </div>
+        <ul>
+          <li><span class="dot"></span><span><b>Task 1 is optional.</b> Hand it in and you earn <span class="mk">+8 marks</span></span></li>
+          <li><span class="dot"></span><span><b>Participation</b> in each session is graded <span class="mk">0 &ndash; 10</span></span></li>
+        </ul>
+      </div>
+
+      <div class="card pan imp in d3">
+        <div class="sec imp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v5M12 17.5v.01"/><path d="M10.3 3.9 2.4 17.4A1.9 1.9 0 0 0 4 20.3h16a1.9 1.9 0 0 0 1.6-2.9L13.7 3.9a1.9 1.9 0 0 0-3.4 0Z"/></svg>
+          Important
+        </div>
+        <ul>
+          <li><span class="dot"></span><span>Miss a required <b>task or quiz</b> and you lose <span class="mk">&minus;5 marks</span> off your total</span></li>
+          <li><span class="dot"></span><span>Tasks are marked on the <b>quality of your work</b>, not just on handing something in</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card pass in d4">
+    <div class="big"><span>Total</span><b>200</b><em>marks</em></div>
+    <div class="meter">
+      <p>To pass you must score at least <b>80%</b> &mdash; that is <b>160 out of 200</b>.</p>
+      <div class="track"><div class="fillbar"></div><div class="notch"></div></div>
+      <div class="cap"><span>0</span><span>160 &middot; pass line</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

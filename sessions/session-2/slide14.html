@@ -1,0 +1,109 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:52px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.pair{flex:1;margin-top:28px;display:flex;gap:22px;align-items:stretch;min-height:0}
+.panel{flex:1;padding:24px 26px;display:flex;flex-direction:column;min-height:0}
+.panel .h{display:flex;align-items:center;gap:12px}
+.panel .h svg{width:24px;height:24px;flex:none}
+.panel .h b{font:700 21px/1.15 var(--fd);letter-spacing:-.4px}
+.panel .h .chip{margin-left:auto;font:700 11px/1 var(--fb);letter-spacing:.1em;text-transform:uppercase;
+  border-radius:20px;padding:8px 12px}
+.panel.base{border-color:rgba(255,107,107,.45)}
+.panel.base .h svg,.panel.base .h b{color:var(--primary-dark)}
+.panel.base .h .chip{color:var(--primary-dark);background:rgba(255,107,107,.1)}
+.panel.good{border-color:rgba(78,205,196,.45)}
+.panel.good .h svg,.panel.good .h b{color:var(--accent-dark)}
+.panel.good .h .chip{color:var(--accent-dark);background:rgba(78,205,196,.12)}
+
+.chatq{margin-top:18px;font:600 16px/1.4 var(--fd);color:var(--ink);background:#F4F6F8;border-radius:14px 14px 14px 4px;padding:13px 16px;align-self:flex-start}
+.chata{margin-top:12px;flex:1;font:400 15px/1.7 var(--fb);border-radius:4px 14px 14px 14px;padding:15px 17px;overflow:auto}
+.panel.base .chata{color:var(--muted);background:rgba(255,107,107,.05);border:1px solid rgba(255,107,107,.22);font-style:italic}
+.panel.good .chata{color:var(--ink);background:rgba(78,205,196,.06);border:1px solid rgba(78,205,196,.25)}
+.chata .cursor{display:inline-block;width:9px;height:17px;background:var(--primary-light);vertical-align:-3px;animation:blink .9s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.verdict{margin-top:14px;font:600 13.5px/1.45 var(--fb);flex:none}
+.panel.base .verdict{color:var(--primary-dark)}
+.panel.good .verdict{color:var(--accent-dark)}
+
+.arrowmid{flex:none;align-self:center;display:flex;flex-direction:column;align-items:center;gap:9px;width:96px}
+.arrowmid svg{width:34px;height:34px;color:var(--faint)}
+.arrowmid span{font:700 11px/1.35 var(--fb);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);text-align:center}
+
+.foot{margin-top:18px;padding:17px 26px;display:flex;align-items:center;gap:15px}
+.foot svg{width:22px;height:22px;flex:none;color:var(--accent-dark)}
+.foot p{font:600 17.5px/1.4 var(--fd);letter-spacing:-.2px}
+.foot p b{background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+.foot .next{margin-left:auto;flex:none;font:700 12.5px/1 var(--fb);letter-spacing:.06em;color:#fff;
+  background:linear-gradient(92deg,var(--accent),var(--accent-dark));border-radius:20px;padding:10px 15px}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Bridge to session 3</div>
+  <div class="title in d1">Pretraining gives you a brain &mdash; <span class="grad">not yet an assistant.</span></div>
+
+  <div class="pair">
+    <div class="card panel base in d1">
+      <div class="h">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3a6 6 0 0 0-6 6c0 1.6-1 2.4-1 4 0 2.8 3.1 5 7 5s7-2.2 7-5c0-1.6-1-2.4-1-4a6 6 0 0 0-6-6Z"/><path d="M9 18v3M15 18v3"/>
+        </svg>
+        <b>Base model</b><span class="chip">straight out of pretraining</span>
+      </div>
+      <div class="chatq">How do I boil an egg?</div>
+      <div class="chata">&hellip;is a question many people ask. How do I fry an egg? How do I poach an egg? How long should I boil an egg for? What is the best way to<span class="cursor"></span></div>
+      <div class="verdict">It isn&rsquo;t broken. It&rsquo;s doing its one job perfectly &mdash; <b>continuing the pattern.</b></div>
+    </div>
+
+    <div class="arrowmid in d2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12h16M14 6.5 20.5 12 14 17.5"/>
+      </svg>
+      <span>fine-<br>tuning</span>
+    </div>
+
+    <div class="card panel good in d1">
+      <div class="h">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.3-.6L3 21l1.7-5a8.3 8.3 0 0 1-.7-3.4 8.4 8.4 0 0 1 8.5-8.4A8.4 8.4 0 0 1 21 11.5Z"/><path d="M8.5 11.5h7M8.5 8.5h4"/>
+        </svg>
+        <b>Assistant</b><span class="chip">ChatGPT / Gemini</span>
+      </div>
+      <div class="chatq">How do I boil an egg?</div>
+      <div class="chata">Bring a small pot of water to a rolling boil, then lower the egg in gently with a spoon.
+
+<b>Soft yolk</b> — 6 minutes.
+<b>Firm but creamy</b> — 8 minutes.
+<b>Fully hard</b> — 10 minutes.
+
+Move it straight into cold water so it stops cooking.</div>
+      <div class="verdict">Same brain underneath &mdash; taught, in a <b>second training step</b>, that it&rsquo;s meant to help you.</div>
+    </div>
+  </div>
+
+  <div class="card foot in d3">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2h.01"/>
+    </svg>
+    <p>So tonight, when the model you load acts a little <b>feral</b> &mdash; that&rsquo;s not a bug. That&rsquo;s a base model.</p>
+    <span class="next">we civilise it on Monday</span>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

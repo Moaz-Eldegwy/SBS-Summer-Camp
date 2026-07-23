@@ -1,0 +1,225 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:46px 72px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 40px/1.1 var(--fd);letter-spacing:-1px;margin-top:10px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.map{display:inline-flex;flex:none;align-items:center;gap:7px;padding:8px 12px;
+  background:rgba(255,255,255,.75);border:1px solid var(--line);border-radius:14px}
+.map .mb{display:inline-flex;align-items:center;gap:6px;font:600 11.5px/1 var(--fb);color:var(--faint);border-radius:9px;padding:6px 9px;white-space:nowrap}
+.map .mb i{width:15px;height:15px;border-radius:5px;background:#E4E9ED;color:#fff;font:700 9.5px/15px var(--fd);text-align:center;font-style:normal}
+.map .mb.on{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.map .mb.on i{background:rgba(255,255,255,.32)}
+.map .ml{width:9px;height:2px;background:var(--line);border-radius:2px;flex:none}
+
+.body{flex:1;margin-top:18px;display:flex;gap:18px;min-height:0}
+
+/* ---------- the hero: three real column vectors ---------- */
+.vecs{flex:1.28;padding:16px 22px 14px;display:flex;flex-direction:column;min-height:0}
+.vecs .lb{font:600 11px/1 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.vecs .lb em{font-style:normal;color:var(--accent-dark)}
+.cols{margin-top:12px;flex:1;display:flex;gap:16px;min-height:0}
+.col{flex:1;display:flex;flex-direction:column;align-items:center;min-height:0}
+
+.tok{font:700 20px/1 var(--fd);color:#fff;border-radius:12px;padding:11px 16px;white-space:pre;
+  box-shadow:0 6px 16px rgba(29,37,48,.16)}
+.tok .sp{opacity:.5}
+.tid{margin-top:7px;font:600 12px/1 ui-monospace,Consolas,monospace;color:var(--faint)}
+.dn{margin:7px 0 6px;color:rgba(29,37,48,.22)}
+.dn svg{width:14px;height:16px;display:block}
+
+/* the bracketed column of numbers = one vector */
+.vwrap{position:relative;flex:1;width:100%;min-height:0;border-left:2.5px solid rgba(78,205,196,.42);
+  border-right:2.5px solid rgba(78,205,196,.42);border-radius:5px;padding:8px 0 0;
+  display:flex;flex-direction:column}
+.vwrap::before,.vwrap::after{content:'';position:absolute;left:-2.5px;right:-2.5px;height:9px;
+  border-left:2.5px solid rgba(78,205,196,.42);border-right:2.5px solid rgba(78,205,196,.42)}
+.vwrap::before{top:-1px;border-top:2.5px solid rgba(78,205,196,.42);border-radius:5px 5px 0 0}
+.vwrap::after{bottom:-1px;border-bottom:2.5px solid rgba(78,205,196,.42);border-radius:0 0 5px 5px}
+.rows{flex:none;display:flex;flex-direction:column;align-items:center;gap:1px}
+.rows b{font:600 13.5px/1.5 ui-monospace,Consolas,monospace;color:var(--accent-dark);font-weight:600;
+  animation:pop .34s cubic-bezier(.2,1.3,.4,1) both}
+.rows b.neg{color:var(--primary-dark)}
+@keyframes pop{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+/* every one of the 768 values, ~1px per row — the readable column above is the tip of this */
+.striph{position:relative;flex:1;min-height:44px;margin:1px 6px 0}
+.strip{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* an explicit break instead of fading over the numbers, which used to slice the
+   last row in half and read as a rendering glitch */
+.vgap{flex:none;font:700 14px/1 var(--fb);color:var(--faint);text-align:center;padding:3px 0 4px;letter-spacing:.1em}
+.vdim{flex:none;padding:5px 0 4px;text-align:center;
+  font:700 11px/1 var(--fb);letter-spacing:.06em;color:var(--faint)}
+.vdim b{color:var(--accent-dark)}
+
+.vfoot{margin-top:10px;display:flex;align-items:center;gap:10px;
+  font:500 13.5px/1.4 var(--fb);color:var(--muted)}
+.vfoot svg{width:16px;height:16px;flex:none;color:var(--accent-dark)}
+.vfoot b{color:var(--ink);font-weight:700}
+
+/* ---------- right column ---------- */
+.side{flex:1;display:flex;flex-direction:column;gap:12px;min-height:0}
+.pt{padding:16px 20px}
+.pt .h{display:flex;align-items:center;gap:10px}
+.pt .h svg{width:18px;height:18px;flex:none;color:var(--accent-dark)}
+.pt .h b{font:700 16px/1.2 var(--fd);letter-spacing:-.3px}
+.pt p{margin-top:8px;font:400 14px/1.5 var(--fb);color:var(--muted)}
+.pt p b{color:var(--ink);font-weight:600}
+.pt.coral .h svg{color:var(--primary-dark)}
+
+.scale{padding:14px 20px 16px}
+.scale .h{font:600 10.5px/1 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.bars{margin-top:12px;display:flex;flex-direction:column;gap:9px}
+.brow{display:flex;align-items:center;gap:10px}
+.brow .nm{flex:none;width:88px;font:600 12px/1.2 var(--fb);color:var(--muted)}
+.brow .tr{flex:1;height:9px;border-radius:5px;background:#F0F3F5;overflow:hidden}
+/* display:block — as an inline span inside a non-flex track, width would be ignored */
+.brow .fl{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--accent),var(--accent-dark));
+  width:0;min-width:5px;transition:width .9s cubic-bezier(.2,.7,.2,1)}
+.brow.big .fl{background:linear-gradient(90deg,var(--primary-light),var(--primary))}
+.brow .vl{flex:none;width:52px;text-align:right;font:700 12.5px/1 ui-monospace,Consolas,monospace;color:var(--ink)}
+.brow.big .vl{color:var(--primary-dark)}
+</style>
+
+<div class="slide">
+  <div class="hdr in">
+    <div class="kicker">Station 2 · embeddings</div>
+    <div class="map">
+      <span class="mb"><i>1</i>Tokenizer</span><span class="ml"></span>
+      <span class="mb on"><i>2</i>Embeddings</span><span class="ml"></span>
+      <span class="mb"><i>3</i>Transformer</span><span class="ml"></span>
+      <span class="mb"><i>4</i>LM head</span>
+    </div>
+  </div>
+  <div class="title in d1">An ID is just a name tag. <span class="grad">This is meaning.</span></div>
+
+  <div class="body">
+    <div class="card vecs in d1">
+      <div class="lb">&ldquo;The sky is&rdquo; &mdash; every token swapped for its row in <em>GPT-2&rsquo;s</em> embedding table</div>
+      <div class="cols" id="cols"></div>
+      <div class="vfoot">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9M4 12h13M4 17h7"/><path d="M20 5v14"/></svg>
+        <span>One of those columns is an <b>embedding</b>. A column of numbers also has a shorter name &mdash; a <b>vector</b>.</span>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="card pt in d2">
+        <div class="h">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h6M4 12h9M4 17h5"/><circle cx="18.5" cy="8" r="2.5"/><circle cx="18.5" cy="16" r="2.5"/></svg>
+          <b>These are the real numbers</b>
+        </div>
+        <p>Not an illustration. That is literally what falls out of <b>GPT-2</b> &mdash; the model you load in a few minutes &mdash; for these three tokens.</p>
+      </div>
+
+      <div class="card pt coral in d2">
+        <div class="h">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M7 11v5M17 11v5M7 16h10"/></svg>
+          <b>Similar meanings &rarr; similar columns</b>
+        </div>
+        <p>No single number means anything on its own. The magic is that <b>&ldquo;happy&rdquo; and &ldquo;joyful&rdquo; get nearly the same column</b>, though they share no letters.</p>
+      </div>
+
+      <div class="card scale in d3">
+        <div class="h">numbers per token</div>
+        <div class="bars">
+          <div class="brow"><span class="nm">GPT-2 <i style="font-style:normal;color:var(--accent-dark)">(tonight)</i></span><span class="tr"><span class="fl" data-w="6.3"></span></span><span class="vl">768</span></div>
+          <div class="brow"><span class="nm">GPT-3.5</span><span class="tr"><span class="fl" data-w="12.5"></span></span><span class="vl">1536</span></div>
+          <div class="brow big"><span class="nm">GPT-3 davinci</span><span class="tr"><span class="fl" data-w="100"></span></span><span class="vl">12288</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/gpt2-sky-embeddings.js"></script>
+<script>
+(function(){
+  var D = window.GPT2_SKY;
+  var COLORS=[
+    'linear-gradient(135deg,#FF6B6B,#E05353)',
+    'linear-gradient(135deg,#4ECDC4,#3DB3AB)',
+    'linear-gradient(135deg,#7C8CA0,#5F6C7B)'
+  ];
+  var VISIBLE = 9;                /* readable rows, then ⋮, then all 768 as a strip */
+  var host = document.getElementById('cols');
+
+  D.tokens.forEach(function(t, ci){
+    var col = document.createElement('div');
+    col.className = 'col';
+
+    /* leading spaces are part of the token — show them, like the tokenizer slide does */
+    var shown = t.text.replace(/^ /, '<span class="sp">&middot;</span>');
+
+    var rows = t.v.slice(0, VISIBLE).map(function(x, i){
+      var s = (x < 0 ? '−' : '+') + Math.abs(x).toFixed(2);
+      return '<b class="' + (x < 0 ? 'neg' : '') + '" style="animation-delay:' +
+             (0.45 + ci * 0.09 + i * 0.035).toFixed(2) + 's">' + s + '</b>';
+    }).join('');
+
+    col.innerHTML =
+      '<div class="tok" style="background:' + COLORS[ci % 3] + '">' + shown + '</div>' +
+      '<div class="tid">id ' + t.id + '</div>' +
+      '<div class="dn"><svg viewBox="0 0 14 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 1v13M2.5 9.5 7 14l4.5-4.5"/></svg></div>' +
+      '<div class="vwrap">' +
+        '<div class="rows">' + rows + '</div>' +
+        '<div class="vgap">⋮</div>' +
+        '<div class="striph"><canvas class="strip"></canvas></div>' +
+        '<div class="vdim">all <b>' + D.dim + '</b> numbers</div>' +
+      '</div>';
+
+    host.appendChild(col);
+  });
+
+  /* Paint every one of the 768 values as a 1px band, so the eye sees the true
+     length of the vector instead of taking "768" on trust. */
+  function paintStrips(){
+    [].slice.call(document.querySelectorAll('.col')).forEach(function(col, ci){
+      var cv = col.querySelector('.strip'), holder = col.querySelector('.striph');
+      var w = holder.clientWidth, h = holder.clientHeight;
+      if(w < 4 || h < 10) return;
+      var dpr = window.devicePixelRatio || 1;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      var g = cv.getContext('2d');
+      g.scale(dpr, dpr);
+      g.clearRect(0, 0, w, h);
+      /* 768 values into ~90px: draw one band per device pixel row and average the
+         values that fall in it, otherwise the bands overlap into a solid smear */
+      var v = D.tokens[ci].v, n = v.length;
+      var bands = Math.max(1, Math.round(h));
+      for(var b = 0; b < bands; b++){
+        var lo = Math.floor(b * n / bands), hi = Math.max(lo + 1, Math.floor((b + 1) * n / bands));
+        var sum = 0;
+        for(var i = lo; i < hi; i++) sum += v[i];
+        var x = sum / (hi - lo), a = Math.min(1, Math.abs(x) / 0.22);
+        g.fillStyle = (x < 0 ? 'rgba(224,83,83,' : 'rgba(61,179,171,') + (0.10 + a * 0.78).toFixed(3) + ')';
+        g.fillRect(0, b * h / bands, w, h / bands + 0.4);
+      }
+    });
+  }
+  requestAnimationFrame(function(){ requestAnimationFrame(paintStrips); });
+  addEventListener('resize', paintStrips);
+
+  /* scale bars fill once the card has landed */
+  setTimeout(function(){
+    [].slice.call(document.querySelectorAll('.fl')).forEach(function(f){
+      f.style.width = f.dataset.w + '%';
+    });
+  }, 700);
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

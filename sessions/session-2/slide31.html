@@ -1,0 +1,124 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:42px 80px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1.2px;margin-top:10px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.12s}.d2{animation-delay:.26s}.d3{animation-delay:.4s}.d4{animation-delay:.54s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.body{flex:1;margin-top:18px;display:flex;gap:20px;min-height:0}
+
+/* ---- the guided project ---- */
+.main{flex:1.55;padding:22px 28px;display:flex;flex-direction:column;min-height:0}
+.top{display:flex;align-items:center;gap:14px}
+.top img{height:34px;width:auto}
+.top .lbl{margin-left:auto;flex:none;font:700 11.5px/1 var(--fb);letter-spacing:.16em;color:#fff;
+  background:linear-gradient(92deg,var(--primary),var(--primary-dark));border-radius:20px;padding:8px 13px}
+.top b{font:700 20px/1 var(--fd);letter-spacing:-.4px}
+
+.linkbox{margin-top:16px;display:block;text-decoration:none;border-radius:16px;padding:15px 18px;
+  background:linear-gradient(92deg,rgba(255,107,107,.07),rgba(78,205,196,.07));
+  border:1.5px solid rgba(255,107,107,.35);transition:transform .15s ease,box-shadow .15s ease}
+.linkbox:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(29,37,48,.12)}
+.linkbox .lb{font:600 10.5px/1 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.linkbox .u{margin-top:8px;font:700 14.5px/1.45 ui-monospace,Consolas,monospace;color:var(--primary-dark);word-break:break-all}
+
+.steps{margin-top:16px;flex:1;display:flex;flex-direction:column;gap:10px;justify-content:center;min-height:0}
+.m{display:flex;gap:13px;align-items:flex-start}
+.m .num{flex:none;width:25px;height:25px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font:700 12.5px/1 var(--fd);color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.m:last-child .num{background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.m p{font:400 15px/1.45 var(--fb);color:var(--muted)}
+.m p b{color:var(--ink);font-weight:600}
+
+/* ---- QR ---- */
+.qrcard{flex:1;padding:22px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.qrcard img{width:210px;height:210px;border-radius:16px;border:1px solid var(--line)}
+.qrcard .scan{margin-top:15px;font:700 16px/1.3 var(--fd);letter-spacing:-.2px}
+.qrcard .scan span{display:block;margin-top:7px;font:400 13.5px/1.5 var(--fb);color:var(--muted)}
+
+/* ---- play-homework strip ---- */
+.play{margin-top:16px;padding:15px 26px;display:flex;align-items:center;gap:18px;text-decoration:none;color:inherit;
+  transition:transform .15s ease,box-shadow .15s ease}
+.play:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(29,37,48,.13)}
+.play .ico{flex:none;width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  background:rgba(78,205,196,.13);color:var(--accent-dark)}
+.play .ico svg{width:20px;height:20px}
+.play .txt{min-width:0}
+.play .txt b{font:700 16.5px/1.25 var(--fd);letter-spacing:-.3px}
+.play .txt p{margin-top:4px;font:400 13.5px/1.4 var(--fb);color:var(--muted)}
+.play .txt p i{font-style:normal;font:700 13px/1.4 ui-monospace,Consolas,monospace;color:var(--accent-dark)}
+.play .open{margin-left:auto;flex:none;font:700 11px/1 var(--fb);color:var(--accent-dark);
+  background:rgba(78,205,196,.1);border:1px solid rgba(78,205,196,.3);border-radius:16px;padding:8px 12px}
+
+.bye{margin-top:16px;display:flex;align-items:center;gap:18px}
+.done{display:inline-flex;align-items:center;gap:11px;font:700 15px/1 var(--fd);color:var(--accent-dark);
+  background:rgba(78,205,196,.12);border:1px solid rgba(78,205,196,.4);border-radius:30px;padding:12px 20px}
+.done svg{width:16px;height:16px}
+.see{font:700 26px/1.2 var(--fd);letter-spacing:-.8px}
+.see b{background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Homework &middot; the guided project</div>
+  <div class="title in d1">Now build it <span class="grad">with your own hands.</span></div>
+
+  <div class="body">
+    <div class="card main in d1">
+      <div class="top">
+        <img src="assets/Google_Colaboratory_SVG_Logo.svg" alt="Google Colab">
+        <b>Guided project</b>
+        <span class="lbl">TASK 2 &middot; 35 MARKS</span>
+      </div>
+
+      <a class="linkbox" href="https://colab.research.google.com/drive/16aT12yD1UdvEqiT6X8ih7kVc8LTlJAaf?usp=sharing" target="_blank" rel="noopener">
+        <div class="lb">your guided project &mdash; click or scan</div>
+        <div class="u">colab.research.google.com/drive/16aT12yD1UdvEqiT6X8ih7kVc8LTlJAaf</div>
+      </a>
+
+      <div class="steps">
+        <div class="m"><span class="num">1</span><p><b>Open it and make your own copy</b> &mdash; File &rarr; Save a copy in Drive, so your work is saved.</p></div>
+        <div class="m"><span class="num">2</span><p><b>Work through it end to end.</b> Every step uses something we walked through tonight &mdash; nothing new to install.</p></div>
+        <div class="m"><span class="num">3</span><p><b>Hand it in before session 3.</b> It is marked on the quality of your work, not just on submitting.</p></div>
+      </div>
+    </div>
+
+    <div class="card qrcard in d2">
+      <img src="assets/qr-project.png" alt="QR code to the guided project on Google Colab">
+      <div class="scan">Scan with your phone
+        <span>or type the link &mdash; either works</span>
+      </div>
+    </div>
+  </div>
+
+  <a class="card play in d3" href="https://poloclub.github.io/transformer-explainer/" target="_blank" rel="noopener">
+    <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4.5 4.5"/></svg></span>
+    <div class="txt">
+      <b>And five minutes of play &mdash; Transformer Explainer</b>
+      <p>Type any sentence, watch the guesses appear, drag the temperature slider. <i>poloclub.github.io/transformer-explainer</i></p>
+    </div>
+    <span class="open">open ↗</span>
+  </a>
+
+  <div class="bye in d4">
+    <span class="done">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9 17.5 20 6.5"/></svg>
+      Session 2 complete
+    </span>
+    <span class="see">See you <b>Monday.</b></span>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

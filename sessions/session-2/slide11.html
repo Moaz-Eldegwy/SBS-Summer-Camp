@@ -1,0 +1,125 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:52px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.body{flex:1;margin-top:28px;display:flex;gap:30px;min-height:0}
+
+/* thermometer */
+.therm{flex:none;width:126px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.tube{width:44px;flex:1;max-height:330px;border-radius:24px;position:relative;overflow:hidden;
+  background:linear-gradient(180deg,#FF6B6B 0%,#FFC46B 34%,#4ECDC4 68%,#7FB3E8 100%);
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.6),0 10px 26px rgba(29,37,48,.16)}
+.bulb{width:64px;height:64px;border-radius:50%;margin-top:-14px;
+  background:linear-gradient(135deg,#FF8E8E,#E05353);box-shadow:0 10px 24px rgba(255,107,107,.4)}
+.tlabel{font:600 11px/1 var(--fb);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.tlabel.hot{color:var(--primary-dark);margin-bottom:11px}
+.tlabel.cold{color:#3D8BE8;margin-top:11px}
+
+.cols{flex:1;display:flex;flex-direction:column;gap:16px;min-height:0}
+.pair{flex:1;display:flex;gap:16px;min-height:0}
+.side{flex:1;padding:22px 24px;display:flex;flex-direction:column}
+.side .h{display:flex;align-items:center;gap:11px}
+.side .h svg{width:22px;height:22px;flex:none}
+.side .h b{font:700 20px/1.2 var(--fd);letter-spacing:-.4px}
+.side.cold{border-color:rgba(61,139,232,.4)}
+.side.cold .h svg,.side.cold .h b{color:#3D8BE8}
+.side.hot{border-color:rgba(255,107,107,.45)}
+.side.hot .h svg,.side.hot .h b{color:var(--primary-dark)}
+.side p{margin-top:12px;font:400 15px/1.55 var(--fb);color:var(--muted)}
+.side p b{color:var(--ink);font-weight:600}
+.tagline{margin-top:auto;padding-top:14px;font:600 13.5px/1.4 var(--fb)}
+.side.cold .tagline{color:#3D8BE8}
+.side.hot .tagline{color:var(--primary-dark)}
+
+.jargon{padding:20px 26px;display:flex;align-items:stretch;gap:22px}
+.jbox{flex:1;display:flex;gap:13px;align-items:flex-start}
+.jbox svg{width:20px;height:20px;flex:none;margin-top:2px}
+.jbox.a svg{color:var(--primary-dark)}
+.jbox.b svg{color:var(--accent-dark)}
+.jbox b{font:700 16px/1.25 var(--fd);letter-spacing:-.2px}
+.jbox span{display:block;margin-top:6px;font:400 14px/1.5 var(--fb);color:var(--muted)}
+.jbox span em{font-style:normal;color:var(--ink);font-weight:600}
+.jsep{width:1px;background:var(--line);flex:none}
+
+.why{margin-top:16px;padding:15px 24px;display:flex;align-items:center;gap:13px}
+.why svg{width:20px;height:20px;flex:none;color:var(--muted)}
+.why p{font:500 15px/1.45 var(--fb);color:var(--muted)}
+.why p b{color:var(--ink);font-weight:700}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Sampling &amp; temperature</div>
+  <div class="title in d1">Temperature &mdash; <span class="grad">the creativity dial.</span></div>
+
+  <div class="body">
+    <div class="therm in d1">
+      <div class="tlabel hot">hot</div>
+      <div class="tube"></div>
+      <div class="bulb"></div>
+      <div class="tlabel cold">cold</div>
+    </div>
+
+    <div class="cols">
+      <div class="pair">
+        <div class="card side cold in d1">
+          <div class="h">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v20M4 7l16 10M20 7 4 17"/><path d="M12 6.5 9.5 4M12 6.5 14.5 4M12 17.5 9.5 20M12 17.5l2.5 2.5"/>
+            </svg>
+            <b>Low temperature</b>
+          </div>
+          <p>Always grabs the <b>safest, most likely</b> word. Predictable, repetitive, a little flat &mdash; and exactly what you want when the answer has to be right.</p>
+          <div class="tagline">like writing a formal email</div>
+        </div>
+
+        <div class="card side hot in d1">
+          <div class="h">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22c4 0 7-2.8 7-6.6 0-4.4-4-5.9-3.2-10.4C13 6 11 8.4 11 11c-1.2-.6-1.6-2-1.6-2C7.6 11 5 12.8 5 15.4 5 19.2 8 22 12 22Z"/>
+            </svg>
+            <b>High temperature</b>
+          </div>
+          <p>Takes risks and reaches for the <b>unusual</b> word. Great for brainstorming and poetry &mdash; risky the moment facts matter.</p>
+          <div class="tagline">like a slightly unhinged poet</div>
+        </div>
+      </div>
+
+      <div class="card jargon in d2">
+        <div class="jbox a">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 6.5V12l3.5 2.5"/></svg>
+          <div><b>Hyper-parameter</b><span>a knob <em>you</em> set before it runs. Temperature is one.</span></div>
+        </div>
+        <div class="jsep"></div>
+        <div class="jbox b">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2" fill="#fff"/><circle cx="15" cy="12" r="2" fill="#fff"/><circle cx="7" cy="17" r="2" fill="#fff"/></svg>
+          <div><b>Parameter</b><span>one of the billions of numbers the model <em>learned</em> on its own.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card why in d3">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.4" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.4" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1.4" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1.4" fill="currentColor"/>
+    </svg>
+    <p>This answers last session&rsquo;s puzzle: the model doesn&rsquo;t always take the #1 word &mdash; <b>it rolls a weighted dice over that ranked list,</b> and temperature decides how loaded the dice are.</p>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

@@ -1,0 +1,89 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:52px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}.d4{animation-delay:.58s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.cols{display:flex;gap:44px;margin-top:22px;flex:1;align-items:center;min-height:0}
+
+.left{flex:none;width:392px}
+.feral{padding:24px 26px;border-color:rgba(255,107,107,.45)}
+.feral .h{display:flex;align-items:center;gap:11px}
+.feral .h svg{width:22px;height:22px;flex:none;color:var(--primary-dark)}
+.feral .h b{font:700 18px/1.2 var(--fd);letter-spacing:-.3px;color:var(--primary-dark)}
+.feral .q{margin-top:16px;font:600 15px/1.4 var(--fd);background:#F4F6F8;border-radius:12px 12px 12px 4px;padding:11px 14px;align-self:flex-start;display:inline-block}
+.feral .a{margin-top:10px;font:400 14px/1.65 var(--fb);color:var(--muted);font-style:italic;
+  background:rgba(255,107,107,.05);border:1px solid rgba(255,107,107,.22);border-radius:4px 12px 12px 12px;padding:12px 14px}
+.feral .cap{margin-top:14px;font:600 13.5px/1.45 var(--fb);color:var(--primary-dark)}
+.left p{margin-top:20px;font:500 15.5px/1.55 var(--fb);color:var(--muted);text-align:center}
+.left p b{color:var(--ink)}
+
+.right{flex:1}
+.right h1{font:700 50px/1.12 var(--fd);letter-spacing:-1.5px}
+.right h1 b{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.next{margin-top:24px;display:flex;flex-direction:column;gap:12px}
+.nx{display:flex;align-items:center;gap:14px;padding:16px 20px}
+.nx i{flex:none;width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font:700 14px/1 var(--fd);color:#fff;font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.nx .t{font:500 16.5px/1.4 var(--fb);color:var(--muted)}
+.nx .t b{color:var(--ink);font-weight:700}
+.nx .t span{display:block;margin-top:3px;font:400 13.5px/1.4 var(--fb);color:var(--faint)}
+.cta{margin-top:26px;display:flex;align-items:center;gap:14px}
+.laptop{display:inline-flex;align-items:center;gap:11px;font:700 19px/1 var(--fd);color:#fff;border-radius:40px;padding:17px 28px;
+  background:linear-gradient(92deg,var(--primary),var(--primary-dark));box-shadow:0 14px 32px rgba(255,107,107,.42)}
+.laptop svg{width:20px;height:20px}
+.when{display:inline-flex;align-items:center;gap:9px;font:600 15px/1 var(--fb);color:var(--muted);
+  background:#fff;border:1px solid var(--line);border-radius:40px;padding:16px 22px;box-shadow:0 2px 8px rgba(29,37,48,.04)}
+.when i{width:8px;height:8px;border-radius:50%;background:var(--accent-dark);font-style:normal}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Wrap · next session</div>
+
+  <div class="cols">
+    <div class="left in d1">
+      <div class="card feral">
+        <div class="h">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0-6 6c0 1.6-1 2.4-1 4 0 2.8 3.1 5 7 5s7-2.2 7-5c0-1.6-1-2.4-1-4a6 6 0 0 0-6-6Z"/><path d="M9 18v3M15 18v3"/>
+          </svg>
+          <b>What you have right now</b>
+        </div>
+        <div class="q">How do I boil an egg?</div>
+        <div class="a">&hellip;is a question many people ask. How do I fry an egg? How long should I boil an egg for?</div>
+        <div class="cap">Brilliant. Well-read. And it has no idea it&rsquo;s supposed to help you.</div>
+      </div>
+      <p>You now own a <b>raw, brilliant, slightly feral autocomplete.</b></p>
+    </div>
+
+    <div class="right">
+      <h1 class="in d1">Session 3:<br>make it <b>actually do<br>what you want.</b></h1>
+      <div class="next">
+        <div class="card nx in d2"><i>1</i><div class="t"><b>Prompt engineering</b><span>steer it with words alone — the cheapest lever there is</span></div></div>
+        <div class="card nx in d3"><i>2</i><div class="t"><b>RAG</b><span>give it the ability to look things up — fixes the frozen knowledge</span></div></div>
+        <div class="card nx in d4"><i>3</i><div class="t"><b>Fine-tuning</b><span>the second training step that turns a base model into an assistant</span></div></div>
+      </div>
+      <div class="cta in d4">
+        <span class="laptop">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M1.5 20h21"/></svg>
+          Bring a laptop
+        </span>
+        <span class="when"><i></i>Session 3 · Monday 27 July · 7:00 PM</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

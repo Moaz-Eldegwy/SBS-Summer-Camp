@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- The deck is edited right up to showtime; never let a browser serve a stale shell. -->
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<title>SBS · Generative AI — Session 2: Under the Hood + Run One Yourself</title>
+<style>
+  /* ============ SBS DESIGN SYSTEM — PRESENTER SHELL ============ */
+  @font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+  @font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+  :root{
+    --primary:#FF6B6B; --primary-dark:#E05353; --primary-light:#FF8E8E;
+    --accent:#4ECDC4;  --accent-dark:#3DB3AB;
+    --ink:#1D2530; --muted:#5F6C7B; --faint:#8E9AA8;
+    --line:rgba(29,37,48,.09);
+    --fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;
+    --fb:'Inter','Segoe UI',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden}
+  body{
+    font-family:var(--fb);color:var(--ink);
+    background:
+      radial-gradient(1100px 760px at 88% -8%, rgba(255,107,107,.09), transparent 62%),
+      radial-gradient(1000px 720px at -6% 106%, rgba(78,205,196,.11), transparent 62%),
+      #ffffff;
+  }
+  /* soft brand blobs */
+  .bg-blob{position:fixed;border-radius:50%;filter:blur(80px);opacity:.35;z-index:0;pointer-events:none}
+  .b1{width:420px;height:420px;background:var(--primary);top:-140px;right:-120px}
+  .b2{width:340px;height:340px;background:var(--accent);bottom:-120px;left:-100px}
+  .b3{width:260px;height:260px;background:var(--accent);opacity:.14;top:38%;left:-140px}
+
+  /* ============ STAGE (16:9, scaled to fit) ============ */
+  #stage{
+    position:absolute;left:50%;top:50%;width:1280px;height:720px;
+    transform:translate(-50%,-50%) scale(var(--s,1));
+    z-index:1;
+  }
+  #stage iframe{
+    position:absolute;inset:0;width:1280px;height:720px;border:0;background:transparent;
+  }
+
+  /* ============ HUD ============ */
+  #hud{position:fixed;inset:0;z-index:5;pointer-events:none;transition:opacity .5s ease}
+  body.idle #hud{opacity:0}
+  #brand{
+    position:fixed;left:20px;bottom:14px;display:flex;align-items:center;gap:10px;
+    font:600 12px/1.2 var(--fb);letter-spacing:.06em;color:var(--faint);pointer-events:auto;
+  }
+  #brand img{width:26px;height:26px;object-fit:contain}
+  #brand b{color:var(--muted);font-weight:700}
+  #counter{
+    position:fixed;right:20px;bottom:14px;display:flex;align-items:center;gap:10px;pointer-events:auto;
+  }
+  #counter .num{font:600 13px/1 var(--fd);color:var(--muted);letter-spacing:.05em;min-width:64px;text-align:center}
+  .navbtn{
+    width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.85);
+    color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:all .15s ease;font-size:14px;
+  }
+  .navbtn:hover{border-color:var(--primary);color:var(--primary-dark);transform:scale(1.08)}
+  .navbtn.tool{width:26px;height:26px}
+  .navbtn.tool svg{width:13px;height:13px;display:block}
+  .navbtn.on{background:var(--primary);border-color:var(--primary);color:#fff}
+  .navbtn.on:hover{color:#fff}
+  #counter .sep{width:1px;height:18px;background:var(--line);margin:0 3px}
+  #bar{position:fixed;left:0;bottom:0;height:3px;width:100%;background:rgba(29,37,48,.06);z-index:6}
+
+  /* ============ TOOLS: whiteboard / pen / eraser / laser ============ */
+  #draw{position:fixed;inset:0;z-index:3;pointer-events:none}
+  #wb{
+    position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:min(1120px,88vw);height:min(650px,82vh);
+    background:#fff;border:1px solid var(--line);border-radius:24px;
+    box-shadow:0 34px 80px rgba(29,37,48,.24),0 12px 28px rgba(29,37,48,.12);
+    z-index:4;display:none;overflow:hidden;
+  }
+  #wb.show{display:block}
+  #wbc{position:absolute;inset:0;pointer-events:none}
+  body.tool-pen #draw,body.tool-eraser #draw,body.tool-laser #draw,
+  body.tool-pen #wbc,body.tool-eraser #wbc,body.tool-laser #wbc{pointer-events:auto}
+  body.tool-pen #draw,body.tool-pen #wbc{cursor:crosshair}
+  body.tool-eraser #draw,body.tool-eraser #wbc{cursor:cell}
+  body.tool-laser,body.tool-laser #draw,body.tool-laser #wbc{cursor:none}
+  #laser{
+    position:fixed;left:-100px;top:-100px;width:18px;height:18px;border-radius:50%;
+    z-index:12;pointer-events:none;display:none;transform:translate(-50%,-50%);
+    background:radial-gradient(circle,#ff2e2e 0%,rgba(255,46,46,.5) 48%,transparent 72%);
+    box-shadow:0 0 14px 5px rgba(255,46,46,.5);
+  }
+  body.tool-laser #laser{display:block}
+  #trail{position:fixed;inset:0;z-index:11;pointer-events:none;display:none}
+  body.tool-laser #trail{display:block}
+  #fill{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .35s cubic-bezier(.2,.7,.2,1)}
+
+  /* ============ OVERLAYS ============ */
+  .overlay{
+    position:fixed;inset:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);
+    display:none;overflow:auto;padding:48px 56px;
+  }
+  .overlay.show{display:block}
+  .overlay h2{font:700 24px/1.2 var(--fd);margin-bottom:20px}
+  .overlay h2 span{background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+  #grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+  .gcell{
+    border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px 14px;cursor:pointer;
+    transition:all .14s ease;box-shadow:0 2px 8px rgba(29,37,48,.04);
+  }
+  .gcell:hover{border-color:var(--accent-dark);transform:translateY(-2px);box-shadow:0 8px 20px rgba(29,37,48,.08)}
+  .gcell.cur{border-color:var(--primary);box-shadow:0 0 0 2px rgba(255,107,107,.25)}
+  .gcell .gnum{font:700 11px/1 var(--fd);color:var(--faint);letter-spacing:.12em;margin-bottom:6px}
+  .gcell .gtit{font:600 13.5px/1.3 var(--fb);color:var(--ink)}
+  .gcell .gpart{display:inline-block;margin-top:7px;font:600 9.5px/1 var(--fb);letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent-dark);background:rgba(78,205,196,.12);border-radius:20px;padding:4px 8px}
+  .gcell.pcoral .gpart{color:var(--primary-dark);background:rgba(255,107,107,.1)}
+
+  #notes{
+    position:fixed;right:18px;bottom:52px;width:390px;max-height:52vh;overflow:auto;z-index:9;
+    background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:16px;
+    box-shadow:0 16px 44px rgba(29,37,48,.14);padding:18px 20px;display:none;
+  }
+  #notes.show{display:block}
+  #notes .nt{font:700 11px/1 var(--fd);letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;
+    background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+  #notes .nb{font:400 13.5px/1.65 var(--fb);color:var(--ink);white-space:pre-line}
+
+  #help{max-width:520px;margin:auto;inset:0;height:fit-content;border-radius:20px;
+    border:1px solid var(--line);box-shadow:0 24px 70px rgba(29,37,48,.18);padding:32px 36px;background:#fff}
+  #help.overlay{background:#fff}
+  #help table{width:100%;border-collapse:collapse}
+  #help td{padding:7px 4px;font:400 13.5px/1.4 var(--fb);color:var(--muted);border-bottom:1px solid var(--line)}
+  #help td:first-child{width:150px}
+  kbd{
+    display:inline-block;font:600 11px/1 var(--fb);color:var(--ink);background:#F4F6F8;
+    border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:4px 8px;margin-right:4px;
+  }
+  #helpdim{background:rgba(29,37,48,.28);backdrop-filter:blur(4px)}
+</style>
+</head>
+<body>
+  <div class="bg-blob b1"></div>
+  <div class="bg-blob b2"></div>
+  <div class="bg-blob b3"></div>
+
+  <div id="stage">
+    <iframe id="frame" allowtransparency="true"></iframe>
+  </div>
+
+  <div id="hud">
+    <div id="brand">
+      <img src="assets/sbs-logo.png" alt="SBS">
+      <span><b>Shbab Btsad Shbab</b> · Generative AI · Session 2 — Under the Hood + Run One Yourself</span>
+    </div>
+    <div id="counter">
+      <button class="navbtn tool" id="penB" title="Pen (P)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+      </button>
+      <button class="navbtn tool" id="eraB" title="Eraser (E)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></svg>
+      </button>
+      <button class="navbtn tool" id="lasB" title="Laser pointer (L)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M19.1 4.9l-2.2 2.2M7.1 16.9l-2.2 2.2"/></svg>
+      </button>
+      <button class="navbtn tool" id="wbB" title="Whiteboard (W)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M12 17v4"/><path d="M8 21h8"/></svg>
+      </button>
+      <span class="sep"></span>
+      <button class="navbtn" id="prevB" title="Previous (←)">&#8592;</button>
+      <div class="num" id="num">1 / 1</div>
+      <button class="navbtn" id="nextB" title="Next (→)">&#8594;</button>
+    </div>
+  </div>
+  <div id="bar"><div id="fill"></div></div>
+
+  <div id="wb"><canvas id="wbc"></canvas></div>
+  <canvas id="draw"></canvas>
+  <canvas id="trail"></canvas>
+  <div id="laser"></div>
+
+  <div class="overlay" id="ov">
+    <h2><span>Slide overview</span> &nbsp;·&nbsp; click to jump &nbsp;·&nbsp; <small style="font:500 13px var(--fb);color:var(--faint)">G or Esc to close</small></h2>
+    <div id="grid"></div>
+  </div>
+
+  <div id="notes">
+    <div class="nt">Speaker notes — <span id="nslide"></span></div>
+    <div class="nb" id="nbody"></div>
+  </div>
+
+  <div class="overlay" id="helpdim"></div>
+  <div class="overlay" id="help">
+    <h2><span>Presenter controls</span></h2>
+    <table>
+      <tr><td><kbd>→</kbd><kbd>Space</kbd><kbd>PgDn</kbd></td><td>Next step / slide (clicker friendly)</td></tr>
+      <tr><td><kbd>←</kbd><kbd>PgUp</kbd></td><td>Previous slide</td></tr>
+      <tr><td><kbd>Home</kbd> / <kbd>End</kbd></td><td>First / last slide</td></tr>
+      <tr><td><kbd>G</kbd></td><td>Overview grid (jump anywhere)</td></tr>
+      <tr><td><kbd>P</kbd></td><td>Pen — draw on slide or whiteboard</td></tr>
+      <tr><td><kbd>E</kbd></td><td>Eraser — tap a line to remove all of it</td></tr>
+      <tr><td><kbd>L</kbd></td><td>Laser pointer — hold click for a fading tail</td></tr>
+      <tr><td><kbd>W</kbd></td><td>Whiteboard on / off</td></tr>
+      <tr><td><kbd>Esc</kbd></td><td>Put tool away / close whiteboard</td></tr>
+      <tr><td><kbd>N</kbd></td><td>Speaker notes on / off</td></tr>
+      <tr><td><kbd>F</kbd></td><td>Fullscreen</td></tr>
+      <tr><td><kbd>?</kbd></td><td>This help</td></tr>
+    </table>
+  </div>
+
+<script>
+/* ============ SLIDE MANIFEST ============ */
+const SLIDES = [
+ {f:'slide1.html',  t:'Generative AI — Title', p:'Front matter', c:1,
+  n:'Salam everyone, welcome back. Last session we answered WHAT this thing is. Tonight we open it up — we walk through the entire inside of ChatGPT, box by box, no math, and by the end you understand every single piece. Let’s go.'},
+ {f:'slide2.html',  t:'Who’s talking to you', p:'Front matter', c:1,
+  n:'Same quick intro for anyone new tonight: AI engineer — LLMs, fine-tuning, RAG, agents, day to day. Everything here is the practical version. Keep it SHORT, then move.'},
+ {f:'slide3.html',  t:'The roadmap — session 2 lit', p:'Front matter', c:1,
+  n:'Quick reminder of the map. Session 1 is ticked off. We’re on SESSION TWO — the "how it works" one, plus your first time loading a real model. Session 3 is where we fix everything that’s broken about it. Session 4 you ship something. Tonight is the foundation for all of that.'},
+ {f:'slide-scoring.html', t:'Scoring board — how you’re graded', p:'Front matter', c:1,
+  n:'Housekeeping, but the housekeeping everybody actually cares about — so be crisp and don’t apologise for it.\nRead the table row by row: every session carries a quiz (10) and attendance (10), and from session 2 onward a task — 35, 35, then 50 for the final one. That is 200 marks total.\nThe number to land: 160. Eighty percent. Below that you don’t pass — say it once, clearly, and move on.\nThen the two side panels. BONUS: task 1 is optional and worth +8 on top, and I grade participation 0–10 every session — so talking in this room is literally worth marks. IMPORTANT: skipping a required task or quiz costs you 5 marks off the total, and tasks are graded on QUALITY, not on submitting something.\nEnd with: "questions on marking, ask me any time — now let’s get back to the fun part."'},
+ {f:'slide4.html',  t:'How tonight runs + 30-sec recap', p:'Front matter', c:1,
+  n:'Two things. ONE: smaller room than a lecture hall, so mics open between every part — ask me whatever. And I’ll toss questions into the chat as I go, so keep it open. TWO: if I say a word you don’t know, that’s MY fault — flag it.\nThen the ten-second rewind: last session’s big reveal — this whole technology is doing ONE thing, looking at the words so far and guessing the next one. "The sky is—" blue. Over and over. Hold that. Now the question that should be bugging you.'},
+
+ {f:'slide5.html',  t:'The question that should be bugging you', p:'Open the box', c:1,
+  n:'Here’s what "predict the next word" does NOT explain. You can type a sentence nobody in history has ever typed, and it still knows what fits next. It’s not looking your sentence up — there is nothing to look up. So HOW? What actually happens in the third-of-a-second between Enter and the words appearing? Tonight we open the box — and every piece inside is something you can understand.'},
+ {f:'slide6.html',  t:'THE MAP — the whole machine', p:'Open the box', c:1,
+  n:'HERO SLIDE — press → five times to build the line one station at a time.\nThis is the entire inside of ChatGPT on one slide. Your words go in on the left. Chopped into pieces, turned into meaning, mixed with context, and out the right comes a ranked list of guesses. It picks one, sticks it on the end, and runs the whole line again.\nThat’s the factory. For the next half hour we stop at every station. When we’re done, this slide will feel obvious.\n(This strip reappears at the top of every station slide with the current box lit — a lifeline for anyone who joined late.)'},
+
+ {f:'slide7.html',  t:'It reads chunks, not letters', p:'Station 1 · Tokens', c:2,
+  n:'Station one. Before anything else it breaks your text into pieces — and the surprise: not letters, and not always whole words. Chunks called TOKENS. "cat" is one token; "understanding" might be under + stand + ing.\nThink Lego bricks: it doesn’t see a smooth stream, it sees a box of standard bricks it knows how to handle. Why chunks? Because with a few thousand reusable pieces it can build ANY word in ANY language — even ones it has never seen.'},
+ {f:'slide-tokenizer.html', t:'[LIVE] Watch words become numbers', p:'Station 1 · Tokens', c:2,
+  n:'LIVE WIDGET — this is a REAL cl100k tokenizer (the one behind GPT-3.5/4) running offline. Any sentence works.\nIt OPENS on our running sentence, "The sky is" → 791 · 13180 · 374. Start there so the thread from slide 6 holds: three words, three bricks, three numbers. Then ask the chat for a sentence and type it in. Every chunk lights up as a coloured brick with a NUMBER under it. The punchline: the model never sees words at all — it sees numbers.\nThen click STRAWBERRY: it becomes str + aw + berry. It sees THREE chunks, never the letters — it literally cannot see the individual R’s to count them. That "bug" from last session isn’t a bug, it’s this slide.\nThen click ARABIC: 25 tokens vs 3 for the English sentence. Same machine, far more bricks per word — which is why these tools feel slower and pricier in Arabic.'},
+
+ {f:'slide8.html',  t:'Numbers with meaning', p:'Station 2 · Embeddings', c:1,
+  n:'Station two. A token ID is just a name tag — 464 tells you WHICH chunk, nothing about what it MEANS. So the next box swaps each token for a long column of numbers that captures meaning. That column is an EMBEDDING; it also has a fancy name — a VECTOR — but don’t let it scare you, it just means a list of numbers.\nPOINT AT THE SCREEN: these are our same three tokens, and these are the REAL numbers — pulled straight out of GPT-2, the model they load in twenty minutes. Nothing invented. You can read the top nine; the barcode underneath is the other 759. Say the number out loud: SEVEN HUNDRED AND SIXTY-EIGHT numbers, for the word "the".\nThen the bars on the right: GPT-2 768 → GPT-3.5 1536 → GPT-3 davinci 12,288. It only gets bigger.\nThe magic isn’t any single number — it’s that similar meanings end up with similar columns.'},
+ {f:'slide-meaning-map.html', t:'[LIVE] The map of meaning', p:'Station 2 · Embeddings', c:1,
+  n:'Easier to SEE than to say. Every word placed on a map — not by spelling, by MEANING. Fruits cluster here, countries there, colours there. "Understanding a word" just means knowing where it sits. Think GPS coordinates for meaning — that’s how it knows "happy" and "joyful" are neighbours though they share no letters.\nThen press → to draw the arrows: king→queen, and the SAME-shaped arrow man→woman. Once meaning is numbers you can do arithmetic with meaning: king − man + woman lands almost exactly on queen. No math on screen — but sit with that. "Royal" is a direction. "Female" is a direction.'},
+
+ {f:'slide-ball-box.html', t:'[GAME] The ball or the box?', p:'Station 3 · Transformer', c:2,
+  n:'Ask this BEFORE explaining anything — you want them to solve it first, then name what they did.\n"The ball didn’t fit in the box because IT was too big — what was too big?" Let them argue in the chat; click the cards to tally the room’s A/B split.\nPress → : the answer is the BALL — and nothing in the grammar told you that.\nPress → again for the twist: the word flips to "too SMALL" — and now "it" means the BOX. One word changed, opposite answer.\nDo NOT say "attention" yet. Land it as: "whatever your brain just did there — that is the next box." Then walk into it.'},
+ {f:'slide9.html',  t:'It reads each word in context', p:'Station 3 · Transformer', c:2,
+  n:'Station three — the TRANSFORMER. That question you just answered? This is the box that does it. Everyone calls this one scary, and we are NOT opening its guts. You need one idea, and you literally just used it.\n"Bank" on its own is meaningless — river bank? money bank? You figured it out instantly from the OTHER words. Every word looks around and asks "who here changes what I mean?" That looking-around has a name: ATTENTION.\nPress → once to reveal both meanings, again for the animal/street sentence. "The animal didn’t cross the street because IT was too tired." What’s "it"? The animal — obviously. But HOW did you rule out the street? Same move you made with the ball and the box — now for every word at once.\n[MIC BREAK after this] — "Three boxes down: tokens, meaning, context. Questions before the payoff box?"'},
+
+ {f:'slide10.html', t:'Out comes a ranked list', p:'Station 4 · LM head', c:1,
+  n:'Last box. After all that processing the LM HEAD does the thing you already know: a score for EVERY possible next word. Not one answer — a whole ranked list with a confidence on each. "blue" 61%, "gray" 12%, down through ~50,000 options.\nThat ranked list has a name — the PROBABILITY DISTRIBUTION — but just think of it as the model’s ranked guesses. And look: this is the exact bar chart from last session. Now you know where it comes from. It’s not the start of the story — it’s the END of the assembly line. Every box before it existed to produce this list well.'},
+ {f:'slide-predict.html', t:'[LIVE] Feel the prediction + the dial', p:'Station 4 · LM head', c:1,
+  n:'Pick a prompt — there’s the ranked list. Now the slider.\nDrag it DOWN: the top guess balloons, everything else shrinks to nothing — boringly predictable, it’ll basically always say "blue". Drag it UP: bars flatten, underdogs get a real chance, it gets adventurous — sometimes brilliant, sometimes nonsense.\nThat slider is the single most useful knob in this whole field. It has a name — next slide.'},
+
+ {f:'slide11.html', t:'Temperature — the creativity dial', p:'Sampling', c:2,
+  n:'The dial is called TEMPERATURE, like heat. Cold: always the safest word — great for a factual answer, terrible for a story. Hot: reaches for the unusual word — great for brainstorming, risky for facts.\nThis also answers last session’s puzzle: same prompt twice, two different raps; you and your neighbour got different answers. THIS is why — it doesn’t always take #1, it rolls a weighted dice over that ranked list, and temperature decides how loaded the dice are.\nOne bit of vocabulary, because it clears up a lot: temperature is a HYPER-PARAMETER — a knob YOU set before it runs. Different from a PARAMETER, one of the billions of numbers the model LEARNED. Knob you turn vs. number it learned. Hold that — it’s the whole next part.'},
+ {f:'slide-temp-live.html', t:'[LIVE · Gemini] Same prompt, two temps', p:'Sampling', c:2,
+  n:'Take a prompt from the chat. ONE click sends the EXACT same prompt to the EXACT same model twice — only the temperature differs (0.0 vs 1.3).\nLeft, cold at ZERO: it takes the top word every time. Right, hot: colourful, strange, maybe too much.\nTHEN CLICK GENERATE AGAIN and compare. The cold side stays in the same careful register and barely moves; the hot side comes back a completely different sentence. That contrast is the demo — run it twice, always.\nDO NOT promise the cold side is word-for-word identical. Tested it: over nine calls at temperature 0 the API returned two different (very similar) sentences. Temperature 0 means "always pick the most likely word", but Google does not guarantee bit-identical output between calls. If a sharp student asks: the MODEL is deterministic, the SERVICE around it is not. That is an honest and genuinely interesting answer.\nSame brain, same prompt, one knob. In session 3 you set this yourself.\nSETUP: key auto-loads from assets/gemini-key.js (gitignored). Needs the deck served over http (present.bat), not file://. If the call fails it falls back to a saved pair and shows a small "saved example" badge — the slide never dies.\n[MIC BREAK after this] — "We’ve walked the whole machine and the dial. Questions? Then: where did all those learned numbers come from?"'},
+
+ {f:'slide-numbers.html', t:'The pipeline dissolves into numbers', p:'Pretraining', c:1,
+  n:'BRIDGE SLIDE — the hand-off from "the machine" to "the learning". Take it slowly, it is a mood beat.\nStart on the four boxes they now know cold. Say: "you can explain every one of these. But that is the LABEL we painted on it. What is actually inside?"\nPress → : the labels peel off. Let it land in silence for a second.\nNOTE THE DIFFERENCE — it is on the slide and it matters. Box 1 fills with WORDS AND IDs: the tokenizer is just a fixed dictionary, a lookup list somebody built once and handed to the model. Boxes 2, 3 and 4 fill with plain signed decimals — +0.42, −1.07, 00.00. THOSE are the numbers the model learned, and only those are the PARAMETERS. If someone says "7 billion parameters", the tokenizer is not in that count.\nThen the obvious next question, which you ask OUT LOUD: "so where did those learned numbers come from?" → next slide.'},
+ {f:'slide12.html', t:'Billions of numbers that started random', p:'Pretraining', c:1,
+  n:'You just named them. One more word for the same thing: WEIGHTS — parameters and weights are identical, people use both. "A 7-billion-parameter model" literally means seven billion little numbers inside.\nThe dials are MOVING on purpose — that is what "set at random" looks like. Here’s the wild part: on day one ALL of them are random. The model knows nothing — billions of dials set to noise. So how do random numbers turn into something that writes essays and code? That process is called PRETRAINING — the "read the whole internet" phase I teased last session.'},
+ {f:'slide13.html', t:'Pretraining = fill-in-the-blank ×1 trillion', p:'Pretraining', c:1,
+  n:'Almost insultingly simple. Take a real sentence from the internet, hide the last word, make the model guess. It guesses badly at first. Show it the real word, nudge those billions of dials a tiny bit toward getting it right. Then again. And again. Trillions of times, across the whole internet. The world’s biggest fill-in-the-blank exercise.\nThe mind-bender: nobody ever taught it grammar, or facts, or French, or how to code. ALL of it is a side effect of getting really, really good at guessing the next word.\nAnd remember last session’s three ingredients — data, compute, GPUs? THIS loop is what they were for.'},
+ {f:'slide14.html', t:'Base brain vs. helpful assistant', p:'Pretraining', c:1,
+  n:'Honest heads-up before the practical, or you’ll think something is broken. Pretraining gives you a BASE MODEL — a brilliant autocomplete that has read everything. But it is NOT yet the polite assistant you know.\nAsk a raw base model "how do I boil an egg?" and it may just continue the PATTERN — list more egg questions — because that’s what predicting the next word does. A genius that doesn’t know it’s supposed to HELP you.\nTurning that raw brain into ChatGPT takes a SECOND training step called FINE-TUNING — and that is all of session three. So tonight, when the model you load acts a little feral: not a bug. That’s a base model.'},
+
+ {f:'slide19.html', t:'The machine, whole', p:'Recap', c:2,
+  n:'THE PAYOFF SLIDE — everything up to here has been building this. Slow down and let it sit.\nLook at this again. An hour ago it was a scary black box. Now every box has a job you can explain to your family. Tokens: chop into bricks. Embeddings: bricks become meaning. Transformer: read in context. LM head: a ranked list of guesses. Temperature: how boldly it picks. Repeat, word by word.\nThat’s ChatGPT. All of it. You know it now.\nThat closes the explaining. Everything after this is you DOING it — so hand off: "you understand what a pretrained model is. Let’s go get one."'},
+
+ {f:'slide16.html', t:'Where the models live — Hugging Face', p:'Run one yourself', c:1,
+  n:'You understand what a pretrained model IS. Now let’s grab a real one. Almost every open model on Earth lives in one place: HUGGING FACE. The GitHub of AI — a giant free library where researchers and companies upload their pretrained models, and anyone, including you, tonight, can download one and run it. No lab, no permission, free.'},
+ {f:'slide17.html', t:'The whole thing, in four lines', p:'Run one yourself', c:1,
+  n:'The beautiful part — the entire slide-six diagram is FOUR LINES of code. Line 1 grabs the tool. Line 2 downloads a real pretrained model — those billions of learned dials — onto your machine. Line 3 feeds it your words, and behind that single line EVERYTHING we did tonight happens: tokenized, embedded, through the transformer, scored by the LM head. Line 4 prints what it predicted.\nYou don’t have to BUILD any of the boxes. You just CALL them. That’s what makes this the best moment in history to learn this stuff.'},
+ {f:'slide18.html', t:'What the hands-on will cover', p:'Run one yourself', c:1,
+  n:'The plan for the practical — read the five cards out, they are the running order of the notebook: load a model, tokenize your own sentence, watch it predict, turn the temperature dial, then break it three ways.\nDon’t leave for the notebook yet. Land on card FIVE and use it as the door: "that last one — breaking it — you can already predict exactly HOW it will fail. Let me prove it." → next slide.'},
+
+ {f:'slide15.html', t:'Three things you’re about to break', p:'Weaknesses', c:2,
+  n:'My favourite part, and it sits here on purpose — this is the pre-flight briefing, the last thing before their hands are on the keyboard.\nYou now understand this machine well enough to PREDICT its failures before you see them.\nONE: ask about something from last week — it flops or invents, because its knowledge froze when pretraining ended. TWO: give it real arithmetic — wobbly, because it’s PREDICTING a plausible answer, not CALCULATING. THREE: ask for a citation or obscure fact — it invents one with total confidence. That’s HALLUCINATION, and now you know it’s not lying and not broken. It’s autocompleting. Fluent is not the same as true.\nEvery one traces back to a box we just walked through. Close with: "so let’s go trigger all three, on purpose, in the next ten minutes." → notebook.'},
+ {f:'slide20.html', t:'Open the notebook', p:'Hands-on', c:2,
+  n:'Here’s the notebook — the link, and the QR if you’re on your phone. Open it now; nothing to install, it runs free in your browser. This is where the machine we just drew stops being a diagram and becomes something you run with your own hands. Grab the link, and let’s build.\n(The notebook itself is a separate deliverable — this slide just launches the practical.)'},
+
+ {f:'slide29.html', t:'What you now know', p:'Wrap', c:1,
+  n:'That is a SERIOUS amount of ground. Two hours ago the inside of these models was magic. Now you’ve got a real mechanical picture — and you loaded and ran one yourself.'},
+ {f:'slide30.html', t:'Next session — make it obey', p:'Wrap', c:1,
+  n:'The cliffhanger. Tonight you met a base model — powerful, but it hallucinates, it can’t Google, it’s bad at math, and it doesn’t even know it’s meant to help you. Session three is the fix for ALL of that: prompting it like a pro, giving it the ability to search and pull live data, and fine-tuning it into a real assistant. We turn the raw brain into a tool. See you Monday.'},
+ {f:'slide31.html', t:'Homework — the guided project (Colab)', p:'Wrap', c:1,
+  n:'THE HOMEWORK SLIDE — this is TASK 2, the 35-mark one from the scoring board, so slow down and make sure everyone has the link before you move.\nThe guided project lives on Colab, same as tonight’s notebook. Click the link or scan the QR — and say the first step OUT LOUD because people forget it: File → Save a copy in Drive. If they work in my copy their work is not saved and not submitted.\nEverything in it uses something we did tonight. Nothing new to install. Due before session 3, and it is graded on quality — not on handing in an empty notebook.\nThen the small strip at the bottom: five minutes of pure play, Transformer Explainer. Type a sentence, drag the temperature slider, watch the bars sharpen and flatten exactly like they did tonight. Optional, but it makes Monday land better.\nDrop BOTH links in the chat before you leave this slide.'},
+ {f:'slide32.html', t:'Sources & where to go next', p:'Wrap', c:2,
+  n:'Every card is a clickable link (new tab) — drop all six in the chat too. These are the sources behind tonight and the honest next steps: the Alammar & Grootendorst book (the visual one — it IS this session, in book form), the free Hugging Face LLM course starting at chapter 1, 3Blue1Brown’s transformer chapter (best second pass in existence), Google Cloud’s plain-English LLM reference, IBM on hallucinations — the failure we triggered on purpose — and LangChain Academy’s free intro, which is the road from "I understand it" to "I build with it".\nClose on the footer and mean it: don’t bookmark all six. Pick ONE and finish it.'},
+ {f:'slide-thanks.html', t:'Shukran!', p:'Wrap', c:1,
+  n:'Land it warm and short. That’s session two — you opened the black box AND ran your own model, be proud of that. Mics open for any last questions. Session 3, Monday 27 July, 7 PM. Shukran, everyone.'},
+];
+
+/* ============ ENGINE (single frame — robust over file:// and http) ============ */
+const frame=document.getElementById('frame');
+let cur=-1, navId=0, pendingNav=null;
+
+function clamp(i){return Math.max(0,Math.min(SLIDES.length-1,i))}
+function show(i){
+  i=clamp(i); if(i===cur)return;
+  cur=i;
+  frame.src=SLIDES[i].f+'?v='+(++navId);
+  document.getElementById('num').textContent=(i+1)+' / '+SLIDES.length;
+  document.getElementById('fill').style.width=((i+1)/SLIDES.length*100)+'%';
+  location.hash='#'+(i+1);
+  clearSlideInk();
+  refreshNotes(); markGrid();
+}
+
+/* ask current slide first (build steps), then move */
+function nav(dir){
+  const id=++navId;
+  let done=false;
+  const go=()=>{ if(done)return; done=true; show(cur+dir); };
+  pendingNav={id,consume:(c)=>{ if(done)return; done=true; if(!c)show(cur+dir); }};
+  try{ frame.contentWindow.postMessage({type:'sbs-nav',dir:dir,id:id},'*'); }catch(e){}
+  setTimeout(go,120);
+}
+
+window.addEventListener('message',e=>{
+  const d=e.data||{};
+  if(d.type==='sbs-nav-ack' && pendingNav && d.id===pendingNav.id){ pendingNav.consume(d.consumed); pendingNav=null; }
+  else if(d.type==='sbs-key'){ handleKey(d.key,true); }
+});
+
+/* ============ KEYS ============ */
+function handleKey(k){
+  const ov=document.getElementById('ov'), help=document.getElementById('help'), dim=document.getElementById('helpdim');
+  if(ov.classList.contains('show')||help.classList.contains('show')){
+    if(k==='Escape'||k==='g'||k==='G'||k==='?'){ov.classList.remove('show');help.classList.remove('show');dim.classList.remove('show');}
+    return;
+  }
+  switch(k){
+    case 'ArrowRight': case 'Right': case 'ArrowDown': case 'Down':
+    case ' ': case 'Spacebar': case 'PageDown': nav(1); break;
+    case 'ArrowLeft': case 'Left': case 'ArrowUp': case 'Up':
+    case 'PageUp': nav(-1); break;
+    case 'Home': show(0); break;
+    case 'End': show(SLIDES.length-1); break;
+    case 'g': case 'G': buildGrid(); ov.classList.add('show'); break;
+    case 'n': case 'N': toggleNotes(); break;
+    case 'f': case 'F': toggleFS(); break;
+    case 'p': case 'P': setTool('pen'); break;
+    case 'e': case 'E': setTool('eraser'); break;
+    case 'l': case 'L': setTool('laser'); break;
+    case 'w': case 'W': toggleWB(); break;
+    case 'Escape': if(tool)setTool(tool); else if(wbOn)toggleWB(); break;
+  }
+}
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowLeft','PageDown','PageUp','Home','End',' '].includes(e.key))e.preventDefault();
+  handleKey(e.key);
+});
+document.getElementById('prevB').onclick=()=>nav(-1);
+document.getElementById('nextB').onclick=()=>nav(1);
+document.getElementById('helpdim').onclick=()=>{document.getElementById('help').classList.remove('show');document.getElementById('helpdim').classList.remove('show');};
+
+function toggleFS(){ if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{}); else document.exitFullscreen(); }
+
+/* ============ OVERVIEW ============ */
+function buildGrid(){
+  const g=document.getElementById('grid');
+  if(g.childElementCount)return markGrid();
+  SLIDES.forEach((s,i)=>{
+    const d=document.createElement('div');
+    d.className='gcell'+(s.c===1?' pcoral':'');
+    d.innerHTML='<div class="gnum">SLIDE '+(i+1)+'</div><div class="gtit">'+s.t+'</div><span class="gpart">'+s.p+'</span>';
+    d.onclick=()=>{ document.getElementById('ov').classList.remove('show'); show(i); };
+    g.appendChild(d);
+  });
+  markGrid();
+}
+function markGrid(){
+  [...document.querySelectorAll('.gcell')].forEach((c,i)=>c.classList.toggle('cur',i===cur));
+}
+
+/* ============ NOTES ============ */
+let notesOn=false;
+function toggleNotes(){ notesOn=!notesOn; document.getElementById('notes').classList.toggle('show',notesOn); refreshNotes(); }
+function refreshNotes(){
+  if(!notesOn)return;
+  document.getElementById('nslide').textContent='slide '+(cur+1);
+  document.getElementById('nbody').textContent=SLIDES[cur].n;
+}
+
+/* ============ TOOLS: pen / eraser / laser / whiteboard ============ */
+const drawC=document.getElementById('draw'), wb=document.getElementById('wb'),
+      wbC=document.getElementById('wbc'), laserDot=document.getElementById('laser');
+let tool=null, wbOn=false;
+
+const trailC=document.getElementById('trail');
+
+function sizeCanvas(cv,w,h){
+  if(cv.width===w&&cv.height===h)return;
+  cv.width=w; cv.height=h;
+  if(cv._strokes)redrawInk(cv);
+}
+function sizeSurfaces(){
+  sizeCanvas(drawC,innerWidth,innerHeight);
+  sizeCanvas(trailC,innerWidth,innerHeight);
+  if(wbOn)sizeCanvas(wbC,wb.clientWidth,wb.clientHeight);
+}
+addEventListener('resize',sizeSurfaces);
+
+/* ink is stored as strokes (point lists) so the eraser can lift a whole stroke */
+function redrawInk(cv){
+  const ctx=cv.getContext('2d');
+  ctx.clearRect(0,0,cv.width,cv.height);
+  ctx.lineCap='round'; ctx.lineJoin='round';
+  ctx.strokeStyle='#FF6B6B'; ctx.lineWidth=3;
+  for(const s of cv._strokes){
+    ctx.beginPath();
+    ctx.moveTo(s[0][0],s[0][1]);
+    if(s.length===1)ctx.lineTo(s[0][0]+.01,s[0][1]+.01);
+    for(let i=1;i<s.length;i++)ctx.lineTo(s[i][0],s[i][1]);
+    ctx.stroke();
+  }
+}
+function distToSeg(x,y,ax,ay,bx,by){
+  const dx=bx-ax,dy=by-ay,len2=dx*dx+dy*dy;
+  const t=len2?Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/len2)):0;
+  return Math.hypot(ax+t*dx-x,ay+t*dy-y);
+}
+function strokeHit(s,x,y,r){
+  if(s.length===1)return Math.hypot(s[0][0]-x,s[0][1]-y)<=r;
+  for(let i=1;i<s.length;i++)if(distToSeg(x,y,s[i-1][0],s[i-1][1],s[i][0],s[i][1])<=r)return true;
+  return false;
+}
+function eraseAt(cv,x,y){
+  const keep=cv._strokes.filter(s=>!strokeHit(s,x,y,14));
+  if(keep.length!==cv._strokes.length){ cv._strokes=keep; redrawInk(cv); }
+}
+function attachInk(cv){
+  cv._strokes=[];
+  const ctx=cv.getContext('2d');
+  let down=false,cur=null,px=0,py=0;
+  const pos=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
+  const seg=(x,y)=>{
+    ctx.lineCap='round'; ctx.lineJoin='round';
+    ctx.strokeStyle='#FF6B6B'; ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(x,y);ctx.stroke();
+    px=x;py=y;
+  };
+  cv.addEventListener('pointerdown',e=>{
+    if(tool!=='pen'&&tool!=='eraser')return;
+    down=true; [px,py]=pos(e); cv.setPointerCapture(e.pointerId);
+    if(tool==='pen'){ cur=[[px,py]]; seg(px+.01,py+.01); }
+    else eraseAt(cv,px,py);
+  });
+  cv.addEventListener('pointermove',e=>{
+    if(!down)return;
+    const[x,y]=pos(e);
+    if(tool==='pen'&&cur){ cur.push([x,y]); seg(x,y); }
+    else if(tool==='eraser')eraseAt(cv,x,y);
+  });
+  const up=()=>{ if(cur){cv._strokes.push(cur);cur=null;} down=false; };
+  cv.addEventListener('pointerup',up); cv.addEventListener('pointercancel',up);
+}
+attachInk(drawC); attachInk(wbC);
+
+/* laser: dot follows the pointer; holding left click leaves a tail that fades out */
+let trail=[],trailRAF=null;
+function trailFrame(){
+  const ctx=trailC.getContext('2d'), now=performance.now(), LIFE=700;
+  trail=trail.filter(p=>now-p.t<LIFE);
+  ctx.clearRect(0,0,trailC.width,trailC.height);
+  ctx.lineCap='round';
+  ctx.shadowColor='rgba(255,46,46,.8)'; ctx.shadowBlur=8;
+  for(let i=1;i<trail.length;i++){
+    const a=trail[i-1], b=trail[i];
+    if(b.t-a.t>120)continue;            /* gap between separate drags */
+    const f=1-(now-b.t)/LIFE;
+    ctx.strokeStyle='rgba(255,46,46,'+(f*.8).toFixed(3)+')';
+    ctx.lineWidth=2+5*f;
+    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+  }
+  trailRAF=trail.length?requestAnimationFrame(trailFrame):null;
+}
+function trailAdd(e){
+  trail.push({x:e.clientX,y:e.clientY,t:performance.now()});
+  if(!trailRAF)trailRAF=requestAnimationFrame(trailFrame);
+}
+function trailClear(){
+  trail=[];
+  if(trailRAF){cancelAnimationFrame(trailRAF);trailRAF=null;}
+  trailC.getContext('2d').clearRect(0,0,trailC.width,trailC.height);
+}
+document.addEventListener('pointerdown',e=>{ if(tool==='laser'&&e.button===0)trailAdd(e); });
+document.addEventListener('pointermove',e=>{
+  if(tool!=='laser')return;
+  laserDot.style.left=e.clientX+'px'; laserDot.style.top=e.clientY+'px';
+  if(e.buttons&1)trailAdd(e);
+});
+
+function clearSlideInk(){ drawC._strokes=[]; drawC.getContext('2d').clearRect(0,0,drawC.width,drawC.height); }
+
+function setTool(t){
+  tool=(tool===t)?null:t;
+  document.body.classList.toggle('tool-pen',tool==='pen');
+  document.body.classList.toggle('tool-eraser',tool==='eraser');
+  document.body.classList.toggle('tool-laser',tool==='laser');
+  document.getElementById('penB').classList.toggle('on',tool==='pen');
+  document.getElementById('eraB').classList.toggle('on',tool==='eraser');
+  document.getElementById('lasB').classList.toggle('on',tool==='laser');
+  if(tool!=='laser')trailClear();
+}
+function toggleWB(){
+  wbOn=!wbOn;
+  wb.classList.toggle('show',wbOn);
+  document.getElementById('wbB').classList.toggle('on',wbOn);
+  if(wbOn){ sizeSurfaces(); if(!tool)setTool('pen'); }
+}
+document.getElementById('penB').onclick=()=>setTool('pen');
+document.getElementById('eraB').onclick=()=>setTool('eraser');
+document.getElementById('lasB').onclick=()=>setTool('laser');
+document.getElementById('wbB').onclick=()=>toggleWB();
+sizeSurfaces();
+
+/* ============ SCALE ============ */
+function fit(){
+  const s=Math.min(innerWidth/1320, innerHeight/790);
+  document.getElementById('stage').style.setProperty('--s', s.toFixed(4));
+}
+addEventListener('resize',fit); fit();
+
+/* ============ IDLE HUD ============ */
+let idleT;
+function poke(){ document.body.classList.remove('idle'); clearTimeout(idleT); idleT=setTimeout(()=>document.body.classList.add('idle'),3500); }
+addEventListener('mousemove',poke); addEventListener('keydown',poke); poke();
+
+/* ============ START ============ */
+const h=parseInt((location.hash||'').replace('#',''),10);
+show(isNaN(h)?0:clamp(h-1));
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:60px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.cols{display:flex;gap:26px;margin-top:32px;flex:1;min-height:0}
+.left{flex:1.02;display:flex;flex-direction:column;gap:18px}
+.right{flex:1;display:flex}
+
+.play{padding:26px 28px;flex:1;display:flex;flex-direction:column}
+.sect{font:600 11.5px/1 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.rows{margin-top:20px;display:flex;flex-direction:column;gap:18px;flex:1;justify-content:center}
+.row{display:flex;gap:15px;align-items:flex-start}
+.row .ic{flex:none;width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  background:rgba(78,205,196,.12);color:var(--accent-dark)}
+.row .ic svg{width:17px;height:17px}
+.row p{font:400 15.5px/1.55 var(--fb);color:var(--muted);padding-top:5px}
+.row p b{color:var(--ink);font-weight:600}
+
+.rule{padding:24px 28px;border-color:rgba(255,107,107,.4);background:linear-gradient(92deg,rgba(255,107,107,.06),rgba(255,255,255,0) 72%)}
+.rule .sect{color:var(--primary-dark)}
+.rule p{margin-top:11px;font:700 21px/1.4 var(--fd);letter-spacing:-.4px}
+.rule p em{font-style:normal;color:var(--primary-dark)}
+
+.recap{flex:1;padding:26px 30px;display:flex;flex-direction:column;min-height:0}
+.recap h3{margin-top:16px;font:700 26px/1.32 var(--fd);letter-spacing:-.6px}
+.recap h3 b{color:var(--primary-dark)}
+.stub{margin-top:22px;font:700 28px/1 var(--fd);letter-spacing:-.7px}
+.stub .bl{display:inline-block;width:98px;border-bottom:4px dashed var(--primary-light);vertical-align:5px}
+.bars{margin-top:20px;flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.brow{display:flex;align-items:center;gap:12px}
+.brow .w{flex:none;width:62px;text-align:right;font:600 15.5px/1.2 var(--fb)}
+.brow.top .w{font-weight:800}
+.brow .track{flex:1;height:13px;border-radius:5px;background:#F0F3F5;overflow:hidden}
+.brow .fill{height:100%;border-radius:4px;background:var(--accent-dark);width:0;animation:grow .9s cubic-bezier(.2,.7,.2,1) forwards}
+.brow.top .fill{background:linear-gradient(90deg,var(--accent-dark),var(--accent))}
+@keyframes grow{to{width:var(--w)}}
+.brow:nth-child(1) .fill{animation-delay:.55s}.brow:nth-child(2) .fill{animation-delay:.67s}
+.brow:nth-child(3) .fill{animation-delay:.79s}.brow:nth-child(4) .fill{animation-delay:.91s}
+.brow .pc{flex:none;width:42px;font:700 14.5px/1 var(--fd);color:var(--muted)}
+.brow.top .pc{color:var(--ink)}
+.over{margin-top:18px;font:500 14.5px/1.5 var(--fb);color:var(--muted)}
+.over b{color:var(--primary-dark);font-weight:700}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Front matter · how tonight runs</div>
+  <div class="title in d1">Smaller room. <span class="grad">Louder chat.</span></div>
+
+  <div class="cols">
+    <div class="left">
+      <div class="card play in d1">
+        <div class="sect">How we&rsquo;ll play</div>
+        <div class="rows">
+          <div class="row">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8"/></svg></span>
+            <p><b>Mics open between every part.</b> Ask me anything — this room is small enough for it.</p>
+          </div>
+          <div class="row">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.3-.6L3 21l1.7-5a8.3 8.3 0 0 1-.7-3.4 8.4 8.4 0 0 1 8.5-8.4A8.4 8.4 0 0 1 21 11.5Z"/></svg></span>
+            <p><b>Keep the chat open.</b> I&rsquo;ll throw questions in as I talk, and sometimes a quick poll.</p>
+          </div>
+          <div class="row">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6.5L5 18a2.5 2.5 0 0 0 2.2 3.6h9.6A2.5 2.5 0 0 0 19 18l-5-8.5V3"/><path d="M7 15h10"/></svg></span>
+            <p><b>Four live widgets tonight.</b> Your sentences go into them — so have one ready.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card rule in d2">
+        <div class="sect">The one rule</div>
+        <p>A word you don&rsquo;t know is <em>on me</em>, not on you.</p>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="card recap in d3">
+        <div class="sect">Last session, in one line</div>
+        <h3>An LLM just <b>predicts the next word</b> — over and over.</h3>
+        <div class="stub">&ldquo;The sky is <span class="bl"></span>&rdquo;</div>
+        <div class="bars">
+          <div class="brow top"><span class="w">blue</span><div class="track"><div class="fill" style="--w:100%"></div></div><span class="pc">61%</span></div>
+          <div class="brow"><span class="w">gray</span><div class="track"><div class="fill" style="--w:19.7%"></div></div><span class="pc">12%</span></div>
+          <div class="brow"><span class="w">clear</span><div class="track"><div class="fill" style="--w:11.5%"></div></div><span class="pc">7%</span></div>
+          <div class="brow"><span class="w">dark</span><div class="track"><div class="fill" style="--w:6.6%"></div></div><span class="pc">4%</span></div>
+        </div>
+        <div class="over">Pick one · stick it on the end · <b>look again.</b></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

@@ -1,0 +1,141 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:44px 84px 34px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before,.kicker::after{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.12s}.d2{animation-delay:.28s}.d3{animation-delay:.44s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.sent{margin-top:22px;font:700 42px/1.32 var(--fd);letter-spacing:-1.1px;max-width:1020px}
+.sent .it{color:var(--primary-dark);position:relative}
+.sent .it::after{content:'';position:absolute;left:-2px;right:-2px;bottom:-5px;height:4px;border-radius:3px;background:var(--primary-light)}
+/* the swappable word sits in a permanent slot, so reserving room for the longer
+   word ("small") reads as deliberate rather than as a stray gap */
+.sent .adj{display:inline-block;min-width:132px;border-radius:11px;padding:0 10px;
+  background:rgba(78,205,196,.11);box-shadow:inset 0 0 0 1.5px rgba(78,205,196,.28);
+  transition:background .45s ease,color .45s ease,box-shadow .45s ease}
+.sent .adj.flip{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+  box-shadow:inset 0 0 0 1.5px transparent;animation:bump .5s cubic-bezier(.2,1.4,.4,1)}
+@keyframes bump{0%{transform:scale(.72) rotate(-4deg)}100%{transform:none}}
+.q{margin-top:18px;font:600 19px/1 var(--fb);color:var(--muted)}
+
+.opts{margin-top:26px;display:flex;gap:24px}
+.opt{width:320px;padding:22px 24px 20px;cursor:pointer;position:relative;
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,opacity .3s ease}
+.opt:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(29,37,48,.13)}
+.opt .ltr{position:absolute;top:-13px;left:50%;transform:translateX(-50%);width:30px;height:30px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font:700 15px/1 var(--fd);color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));box-shadow:0 6px 14px rgba(255,107,107,.4)}
+.opt.b .ltr{background:linear-gradient(135deg,var(--accent),var(--accent-dark));box-shadow:0 6px 14px rgba(78,205,196,.4)}
+.opt svg{width:40px;height:40px;color:var(--muted);margin:4px auto 0;display:block;transition:color .3s ease}
+.opt b{display:block;margin-top:10px;font:700 26px/1.1 var(--fd);letter-spacing:-.6px}
+.opt .tally{margin-top:10px;font:700 14px/1 var(--fb);color:var(--faint);letter-spacing:.06em}
+.opt.right{border-color:var(--accent-dark);box-shadow:0 0 0 3px rgba(78,205,196,.28),var(--shadow)}
+.opt.right svg{color:var(--accent-dark)}
+.opt.wrong{opacity:.42}
+
+/* reserved so revealing the answer never shifts the cards above it */
+.revwrap{margin-top:24px;width:100%;max-width:960px;min-height:96px;display:flex;align-items:flex-start;justify-content:center}
+.reveal{width:100%;padding:19px 26px;display:flex;align-items:center;gap:16px;text-align:left;
+  opacity:0;transform:translateY(10px);transition:all .5s ease}
+.reveal.on{opacity:1;transform:none}
+.reveal svg{width:24px;height:24px;flex:none;color:var(--primary-dark)}
+.reveal p{font:500 17px/1.5 var(--fb);color:var(--muted)}
+.reveal p b{color:var(--ink);font-weight:700}
+.reveal p em{font-style:normal;color:var(--primary-dark);font-weight:700}
+.hint{position:absolute;right:84px;bottom:22px;font:600 12.5px/1 var(--fb);color:var(--faint)}
+.hint b{color:var(--accent-dark)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Quick one for the chat</div>
+
+  <div class="sent in d1">
+    The ball didn&rsquo;t fit in the box<br>because <span class="it">it</span> was too <span class="adj" id="adj">big</span>.
+  </div>
+  <div class="q in d1">So &mdash; what was too <span id="qadj">big</span>?</div>
+
+  <div class="opts in d2">
+    <div class="card opt a" data-k="ball">
+      <span class="ltr">A</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M12 3c3 3.4 3 14.6 0 18M12 3C9 6.4 9 17.6 12 21"/><path d="M3.3 9h17.4M3.3 15h17.4"/>
+      </svg>
+      <b>the ball</b>
+      <div class="tally" data-c="0">click to tally</div>
+    </div>
+
+    <div class="card opt b" data-k="box">
+      <span class="ltr">B</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 8.2 12 3.5l9 4.7v7.6L12 20.5 3 15.8V8.2Z"/><path d="M3 8.2 12 13l9-4.8M12 13v7.5"/>
+      </svg>
+      <b>the box</b>
+      <div class="tally" data-c="0">click to tally</div>
+    </div>
+  </div>
+
+  <div class="revwrap">
+    <div class="card reveal" id="rev">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v18M5 8l7-5 7 5"/><path d="M19 16l-7 5-7-5"/>
+      </svg>
+      <p id="revtxt"></p>
+    </div>
+  </div>
+
+  <div class="hint">press <b>&rarr;</b> for the twist</div>
+</div>
+
+<script>
+(function(){
+  var adj=document.getElementById('adj'), qadj=document.getElementById('qadj'),
+      rev=document.getElementById('rev'), revtxt=document.getElementById('revtxt'),
+      opts=[].slice.call(document.querySelectorAll('.opt'));
+
+  /* let the presenter tally the room's A/B split by clicking */
+  opts.forEach(function(o){
+    var t=o.querySelector('.tally');
+    o.addEventListener('click',function(e){
+      e.stopPropagation();
+      var n=(+t.dataset.c)+1; t.dataset.c=n;
+      t.textContent=n+(n===1?' vote':' votes');
+    });
+  });
+
+  var STEPS=[
+    {adj:'big',   right:'ball', txt:''},
+    {adj:'big',   right:'ball', txt:'<b>The ball.</b> Everyone knew instantly &mdash; and nothing in the grammar said so. You used <em>the meaning of the whole sentence.</em>'},
+    {adj:'small', right:'box',  txt:'Change <em>one word</em> &mdash; and &ldquo;it&rdquo; now means <b>the box.</b> Same sentence shape, opposite answer. Whatever your brain just did there is <em>exactly</em> the job of the next box we open.'}
+  ];
+  var step=0;
+
+  function render(){
+    var s=STEPS[step];
+    if(adj.textContent!==s.adj){ adj.textContent=s.adj; qadj.textContent=s.adj;
+      adj.classList.add('flip'); setTimeout(function(){adj.classList.remove('flip')},600); }
+    opts.forEach(function(o){
+      o.classList.toggle('right', step>0 && o.dataset.k===s.right);
+      o.classList.toggle('wrong', step>0 && o.dataset.k!==s.right);
+    });
+    if(step>0){ revtxt.innerHTML=s.txt; rev.classList.add('on'); }
+    else rev.classList.remove('on');
+  }
+  window.sbsStep=function(dir){
+    if(dir>0){ if(step>=STEPS.length-1)return false; step++; render(); return true; }
+    if(step<=0)return false; step--; render(); return true;
+  };
+  render();
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

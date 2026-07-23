@@ -1,0 +1,91 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:52px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}.d4{animation-delay:.58s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.cards{flex:1;margin-top:30px;display:flex;gap:20px;min-height:0}
+.w{flex:1;padding:26px 26px;display:flex;flex-direction:column;position:relative}
+.w .ic{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,107,107,.1);color:var(--primary-dark)}
+.w .ic svg{width:24px;height:24px}
+.w h3{margin-top:16px;font:700 24px/1.2 var(--fd);letter-spacing:-.5px}
+.w .why{margin-top:12px;font:400 15px/1.6 var(--fb);color:var(--muted);flex:1}
+.w .why b{color:var(--ink);font-weight:600}
+.trace{margin-top:14px;display:flex;align-items:center;gap:9px;font:600 12px/1.3 var(--fb);color:var(--faint);
+  border-top:1px dashed var(--line);padding-top:13px}
+.trace i{flex:none;width:19px;height:19px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+  font:700 10px/1 var(--fd);color:#fff;font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.trace b{color:var(--accent-dark);font-weight:700}
+
+.foot{margin-top:20px;padding:18px 28px;display:flex;align-items:center;gap:15px}
+.foot svg{width:22px;height:22px;flex:none;color:var(--primary-dark)}
+.foot p{font:600 18px/1.4 var(--fd);letter-spacing:-.3px}
+.foot p b{background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+.foot .tag{margin-left:auto;flex:none;font:700 12.5px/1 var(--fb);letter-spacing:.06em;color:#fff;
+  background:linear-gradient(92deg,var(--primary),var(--primary-dark));border-radius:20px;padding:11px 16px}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Now you can predict its weaknesses</div>
+  <div class="title in d1">Three things you&rsquo;re about to <span class="grad">break, on purpose.</span></div>
+
+  <div class="cards">
+    <div class="card w in d1">
+      <span class="ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 5h13a2 2 0 0 1 2 2v11a2 2 0 0 0 2 2H5a2 2 0 0 1-2-2V6a1 1 0 0 1 1-1Z"/><path d="M7 9h7M7 13h7M7 17h4"/>
+        </svg>
+      </span>
+      <h3>Recent news</h3>
+      <div class="why">Ask it what happened last week and it will flop &mdash; or invent something. <b>Its knowledge froze the day pretraining ended.</b> Nothing newer is in those dials.</div>
+      <div class="trace"><i>&#9679;</i>traces back to <b>pretraining</b></div>
+    </div>
+
+    <div class="card w in d2">
+      <span class="ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 7h6M8 4v6M5 17h6M13 8.5h6M13 15.5h6M13 15.5 19 12"/><rect x="2" y="2" width="20" height="20" rx="4"/>
+        </svg>
+      </span>
+      <h3>Real arithmetic</h3>
+      <div class="why">Give it a genuine multiplication and it gets wobbly. It is <b>predicting a plausible-looking answer,</b> token by token &mdash; it is not calculating one.</div>
+      <div class="trace"><i>&#9679;</i>traces back to the <b>LM head</b></div>
+    </div>
+
+    <div class="card w in d3">
+      <span class="ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3a6 6 0 0 0-6 6c0 1.6-1 2.4-1 4 0 2.8 3.1 5 7 5s7-2.2 7-5c0-1.6-1-2.4-1-4a6 6 0 0 0-6-6Z"/><path d="M9.5 10.5h.01M14.5 10.5h.01M9.5 15c1.6-1.2 3.4-1.2 5 0"/>
+        </svg>
+      </span>
+      <h3>Hallucination</h3>
+      <div class="why">Ask for a citation or an obscure fact and it will invent one with total confidence. It picks words that <b>sound right</b> &mdash; it never checks a fact.</div>
+      <div class="trace"><i>&#9679;</i>traces back to <b>next-word prediction</b></div>
+    </div>
+  </div>
+
+  <div class="card foot in d4">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3 3 7.5v5c0 4.6 3.8 8.2 9 8.5 5.2-.3 9-3.9 9-8.5v-5L12 3Z"/><path d="M9.5 12.2 11.4 14l3.6-3.8"/>
+    </svg>
+    <p>Not lying. Not broken. <b>Autocompleting</b> &mdash; and fluent is not the same as true.</p>
+    <span class="tag">now go trigger all three, on purpose</span>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

@@ -1,0 +1,203 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:46px 72px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 40px/1.1 var(--fd);letter-spacing:-1px;margin-top:10px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.map{display:inline-flex;flex:none;align-items:center;gap:7px;padding:8px 12px;
+  background:rgba(255,255,255,.75);border:1px solid var(--line);border-radius:14px}
+.map .mb{display:inline-flex;align-items:center;gap:6px;font:600 11.5px/1 var(--fb);color:var(--faint);border-radius:9px;padding:6px 9px;white-space:nowrap}
+.map .mb i{width:15px;height:15px;border-radius:5px;background:#E4E9ED;color:#fff;font:700 9.5px/15px var(--fd);text-align:center;font-style:normal}
+.map .mb.on{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.map .mb.on i{background:rgba(255,255,255,.32)}
+.map .ml{width:9px;height:2px;background:var(--line);border-radius:2px;flex:none}
+
+.prompts{display:flex;gap:11px;margin-top:18px}
+.pb{border:1px solid var(--line);background:#fff;border-radius:13px;padding:13px 18px;cursor:pointer;
+  font:700 16px/1 var(--fd);letter-spacing:-.2px;color:var(--muted);transition:all .16s ease;box-shadow:0 2px 8px rgba(29,37,48,.04)}
+.pb:hover{border-color:var(--accent-dark);color:var(--accent-dark);transform:translateY(-2px)}
+.pb.on{color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-color:transparent;
+  box-shadow:0 8px 20px rgba(255,107,107,.32)}
+
+.body{flex:1;display:flex;gap:22px;margin-top:16px;min-height:0}
+.chart{flex:1.55;padding:22px 28px;display:flex;flex-direction:column;min-height:0}
+.chart .lb{font:600 11px/1 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.bars{margin-top:14px;flex:1;display:flex;flex-direction:column;justify-content:center;gap:11px}
+.brow{display:flex;align-items:center;gap:12px}
+.brow .w{flex:none;width:104px;text-align:right;font:600 16px/1.2 var(--fb);transition:font-weight .3s}
+.brow.top .w{font-weight:800}
+.brow .track{flex:1;height:15px;border-radius:6px;background:#F0F3F5;overflow:hidden}
+.brow .fill{height:100%;border-radius:5px;background:var(--accent-dark);
+  transition:width .45s cubic-bezier(.2,.7,.2,1),background .3s}
+.brow.top .fill{background:linear-gradient(90deg,var(--accent-dark),var(--accent))}
+.brow .pc{flex:none;width:52px;font:700 14.5px/1 var(--fd);color:var(--muted)}
+.brow.top .pc{color:var(--ink)}
+
+.dial{flex:1;padding:22px 24px;display:flex;flex-direction:column;min-height:0}
+.dial .lb{font:600 11px/1 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.tval{margin-top:10px;display:flex;align-items:baseline;gap:9px}
+.tval .n{font:700 44px/1 var(--fd);letter-spacing:-1.6px;transition:color .3s}
+.tval .u{font:600 13px/1 var(--fb);color:var(--faint)}
+#slider{width:100%;margin-top:16px;-webkit-appearance:none;appearance:none;height:8px;border-radius:5px;outline:none;
+  background:linear-gradient(90deg,#7FB3E8 0%,#4ECDC4 35%,#FFC46B 70%,#FF6B6B 100%)}
+#slider::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;
+  border:3px solid var(--ink);cursor:pointer;box-shadow:0 4px 12px rgba(29,37,48,.28)}
+.ends{display:flex;justify-content:space-between;margin-top:9px;font:600 11px/1 var(--fb);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--faint)}
+.mood{margin-top:18px;padding:16px 18px;border-radius:16px;border:1px solid var(--line);background:#FAFBFC;
+  transition:all .35s ease;flex:1;display:flex;flex-direction:column;justify-content:center}
+.mood b{font:700 18px/1.2 var(--fd);letter-spacing:-.3px;transition:color .3s}
+.mood p{margin-top:8px;font:400 14px/1.5 var(--fb);color:var(--muted)}
+.mood .use{margin-top:11px;font:600 12.5px/1 var(--fb);color:var(--faint)}
+
+.foot{margin-top:14px;padding:14px 22px;display:flex;align-items:center;gap:13px}
+.foot svg{width:20px;height:20px;flex:none;color:var(--primary-dark)}
+.foot p{font:500 15px/1.45 var(--fb);color:var(--muted)}
+.foot p b{color:var(--ink);font-weight:700}
+</style>
+
+<div class="slide">
+  <div class="hdr in">
+    <div class="kicker">Station 4 · feel the prediction &mdash; and the dial</div>
+    <div class="map">
+      <span class="mb"><i>1</i>Tokenizer</span><span class="ml"></span>
+      <span class="mb"><i>2</i>Embeddings</span><span class="ml"></span>
+      <span class="mb"><i>3</i>Transformer</span><span class="ml"></span>
+      <span class="mb on"><i>4</i>LM head</span>
+    </div>
+  </div>
+  <div class="title in d1">Pick a prompt. <span class="grad">Then drag the dial.</span></div>
+
+  <div class="prompts in d1" id="prompts"></div>
+
+  <div class="body">
+    <div class="card chart in d1">
+      <div class="lb" id="clb">what probably comes next?</div>
+      <div class="bars" id="bars"></div>
+    </div>
+
+    <div class="card dial in d2">
+      <div class="lb">Temperature</div>
+      <div class="tval"><span class="n" id="tnum">1.0</span><span class="u">the creativity dial</span></div>
+      <input type="range" id="slider" min="10" max="200" value="100">
+      <div class="ends"><span>cold &middot; safe</span><span>hot &middot; wild</span></div>
+      <div class="mood" id="mood">
+        <b id="moodt"></b>
+        <p id="moodp"></p>
+        <div class="use" id="moodu"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card foot in d2">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2v6M12 16v6M2 12h6M16 12h6"/><circle cx="12" cy="12" r="3.4"/>
+    </svg>
+    <p>Same model, same prompt &mdash; <b>only the dial moved.</b> Low: the top guess swallows everything. High: the underdogs get a real chance.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* captured next-token distributions — realistic, and bulletproof with no network */
+  var PROMPTS=[
+    {p:'The sky is', d:[['blue',.61],['gray',.12],['clear',.07],['dark',.04],['falling',.03],['endless',.02],['bright',.02]]},
+    {p:'Once upon a', d:[['time',.89],['midnight',.03],['star',.02],['hill',.015],['dream',.012],['winter',.008]]},
+    {p:'I love programming', d:[['because',.24],['and',.18],[',',.13],['!',.11],['in',.09],['since',.07],['so',.05]]},
+    {p:'The capital of France is', d:[['Paris',.94],['a',.02],['the',.012],['located',.009],['home',.006]]}
+  ];
+
+  var sel=0, T=1.0;
+  var bars=document.getElementById('bars'), clb=document.getElementById('clb'),
+      slider=document.getElementById('slider'), tnum=document.getElementById('tnum'),
+      mood=document.getElementById('mood'), moodt=document.getElementById('moodt'),
+      moodp=document.getElementById('moodp'), moodu=document.getElementById('moodu'),
+      host=document.getElementById('prompts');
+
+  /* temperature reshapes the distribution: p_i ∝ p_i^(1/T).
+     We renormalise back to the ORIGINAL sum of these few tokens (not to 1), so that
+     at T=1 the bars read exactly the real percentages — the rest of the ~50,000
+     tail is simply off-screen. */
+  function reshape(d,t){
+    var target=d.reduce(function(a,x){return a+x[1]},0);
+    var pw=d.map(function(x){ return Math.pow(x[1], 1/t); });
+    var s=pw.reduce(function(a,b){return a+b},0);
+    return d.map(function(x,i){ return [x[0], pw[i]/s*target]; });
+  }
+
+  function build(){
+    bars.innerHTML='';
+    PROMPTS[sel].d.forEach(function(x,i){
+      var r=document.createElement('div');
+      r.className='brow'+(i===0?' top':'');
+      r.innerHTML='<span class="w"></span><div class="track"><div class="fill"></div></div><span class="pc"></span>';
+      r.querySelector('.w').textContent=x[0];
+      bars.appendChild(r);
+    });
+    clb.textContent='“'+PROMPTS[sel].p+' ___”  —  what probably comes next?';
+    paint();
+  }
+
+  function paint(){
+    var d=reshape(PROMPTS[sel].d,T);
+    var max=Math.max.apply(null,d.map(function(x){return x[1]}));
+    var rows=bars.querySelectorAll('.brow');
+    d.forEach(function(x,i){
+      var r=rows[i];
+      r.querySelector('.fill').style.width=(x[1]/max*100)+'%';
+      r.querySelector('.pc').textContent=(x[1]*100).toFixed(x[1]<0.01?1:0)+'%';
+    });
+
+    tnum.textContent=T.toFixed(1);
+    var m;
+    if(T<0.55){
+      m={c:'#3D8BE8',t:'Cold — boringly reliable',
+         p:'The top guess balloons and everything else shrinks to nothing. It will say “blue” essentially every single time.',
+         u:'good for: facts, summaries, code'};
+    } else if(T<1.25){
+      m={c:'#3DB3AB',t:'Balanced — the default',
+         p:'Mostly the likely word, with just enough room for a surprise. This is roughly where ChatGPT sits out of the box.',
+         u:'good for: normal conversation'};
+    } else {
+      m={c:'#E05353',t:'Hot — adventurous',
+         p:'The bars flatten out and the underdogs get a real chance. Sometimes brilliant, sometimes complete nonsense.',
+         u:'good for: brainstorming, poetry, jokes'};
+    }
+    tnum.style.color=m.c; moodt.style.color=m.c;
+    mood.style.borderColor=m.c+'55'; mood.style.background=m.c+'0D';
+    moodt.textContent=m.t; moodp.textContent=m.p; moodu.textContent=m.u;
+  }
+
+  PROMPTS.forEach(function(x,i){
+    var b=document.createElement('button');
+    b.className='pb'+(i===0?' on':'');
+    b.textContent='“'+x.p+'…”';
+    b.addEventListener('click',function(){
+      sel=i;
+      [].slice.call(host.children).forEach(function(c,j){ c.classList.toggle('on',j===i); });
+      build();
+    });
+    host.appendChild(b);
+  });
+
+  slider.addEventListener('input',function(){ T=(+slider.value)/100; paint(); });
+  slider.addEventListener('keydown',function(e){ e.stopPropagation(); });
+  build();
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

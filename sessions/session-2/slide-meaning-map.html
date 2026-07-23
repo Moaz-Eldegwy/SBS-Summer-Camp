@@ -1,0 +1,182 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:46px 72px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 40px/1.1 var(--fd);letter-spacing:-1px;margin-top:10px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.map{display:inline-flex;flex:none;align-items:center;gap:7px;padding:8px 12px;
+  background:rgba(255,255,255,.75);border:1px solid var(--line);border-radius:14px}
+.map .mb{display:inline-flex;align-items:center;gap:6px;font:600 11.5px/1 var(--fb);color:var(--faint);border-radius:9px;padding:6px 9px;white-space:nowrap}
+.map .mb i{width:15px;height:15px;border-radius:5px;background:#E4E9ED;color:#fff;font:700 9.5px/15px var(--fd);text-align:center;font-style:normal}
+.map .mb.on{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-dark))}
+.map .mb.on i{background:rgba(255,255,255,.32)}
+.map .ml{width:9px;height:2px;background:var(--line);border-radius:2px;flex:none}
+
+.body{flex:1;display:flex;gap:24px;margin-top:18px;min-height:0}
+.plot{flex:1.65;padding:14px 16px;min-height:0}
+.plot svg{width:100%;height:100%;display:block}
+.hull{opacity:.13}
+.clbl{font:700 12px var(--fb);letter-spacing:.14em;text-transform:uppercase}
+.dot{transition:all .3s ease}
+.wlbl{font:600 13.5px var(--fb);fill:var(--ink)}
+
+/* the analogy arrows appear on → */
+#arrows{opacity:0;transition:opacity .55s ease}
+#arrows.on{opacity:1}
+.varr{stroke:var(--primary-dark);stroke-width:2.6;fill:none;marker-end:url(#ah);
+  stroke-dasharray:200;stroke-dashoffset:200}
+#arrows.on .varr{animation:drawv .75s cubic-bezier(.2,.7,.2,1) forwards}
+#arrows.on .varr:nth-of-type(2){animation-delay:.35s}
+@keyframes drawv{to{stroke-dashoffset:0}}
+/* sits below its arrow, clear of the word labels above the dots; the white
+   halo keeps it legible where it crosses a cluster hull */
+.vtag{font:700 11.5px var(--fb);fill:var(--primary-dark);
+  stroke:#fff;stroke-width:3.5;paint-order:stroke fill;stroke-linejoin:round}
+
+.side{flex:1;display:flex;flex-direction:column;gap:14px;min-height:0}
+.pt{padding:20px 22px}
+.pt .h{display:flex;align-items:center;gap:10px}
+.pt .h svg{width:18px;height:18px;flex:none;color:var(--accent-dark)}
+.pt .h b{font:700 16.5px/1.2 var(--fd);letter-spacing:-.3px}
+.pt p{margin-top:9px;font:400 14.5px/1.55 var(--fb);color:var(--muted)}
+.pt p b{color:var(--ink);font-weight:600}
+.pt.coral{border-color:rgba(255,107,107,.4)}
+.pt.coral .h svg{color:var(--primary-dark)}
+.eq{margin-top:11px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;font:700 16px/1 var(--fd)}
+.eq span{background:#F4F6F8;border-radius:9px;padding:9px 11px}
+.eq span.hot{color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.eq i{font-style:normal;color:var(--faint);font-weight:600}
+.hint{margin-top:auto;font:600 12.5px/1.4 var(--fb);color:var(--faint);text-align:center}
+.hint b{color:var(--accent-dark)}
+</style>
+
+<div class="slide">
+  <div class="hdr in">
+    <div class="kicker">Station 2 · the map of meaning</div>
+    <div class="map">
+      <span class="mb"><i>1</i>Tokenizer</span><span class="ml"></span>
+      <span class="mb on"><i>2</i>Embeddings</span><span class="ml"></span>
+      <span class="mb"><i>3</i>Transformer</span><span class="ml"></span>
+      <span class="mb"><i>4</i>LM head</span>
+    </div>
+  </div>
+  <div class="title in d1">Every word gets <span class="grad">GPS coordinates for meaning.</span></div>
+
+  <div class="body">
+    <div class="card plot in d1">
+      <svg viewBox="0 0 700 452" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0 0 10 5 0 10z" fill="#E05353"/>
+          </marker>
+        </defs>
+
+        <!-- soft cluster blobs -->
+        <ellipse class="hull" cx="118" cy="96"  rx="98" ry="76" fill="#FF6B6B"/>
+        <ellipse class="hull" cx="576" cy="104" rx="100" ry="78" fill="#4ECDC4"/>
+        <ellipse class="hull" cx="104" cy="356" rx="82" ry="70" fill="#8E7CC3"/>
+        <ellipse class="hull" cx="520" cy="330" rx="120" ry="92" fill="#E0A33F"/>
+        <ellipse class="hull" cx="316" cy="238" rx="76" ry="52" fill="#4ECDC4"/>
+
+        <text class="clbl" x="118" y="26"  fill="#E05353"   text-anchor="middle">fruit</text>
+        <text class="clbl" x="576" y="30"  fill="#3DB3AB"   text-anchor="middle">countries</text>
+        <text class="clbl" x="104" y="440" fill="#6B58A8"   text-anchor="middle">colours</text>
+        <text class="clbl" x="520" y="440" fill="#B8801F"   text-anchor="middle">people &amp; royalty</text>
+        <text class="clbl" x="316" y="182" fill="#3DB3AB"   text-anchor="middle">feelings</text>
+
+        <g id="dots"></g>
+
+        <g id="arrows">
+          <path class="varr" d="M472 300 L566 300"/>
+          <path class="varr" d="M472 386 L566 386"/>
+          <text class="vtag" x="519" y="318" text-anchor="middle">the &ldquo;female&rdquo; direction</text>
+          <text class="vtag" x="519" y="404" text-anchor="middle">&hellip; exactly the same move</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="side">
+      <div class="card pt in d1">
+        <div class="h">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          <b>Placed by meaning, not spelling</b>
+        </div>
+        <p>Apple, banana and mango sit together. Egypt, France and Japan sit somewhere else. <b>&ldquo;Understanding a word&rdquo; just means knowing where it sits.</b></p>
+      </div>
+
+      <div class="card pt coral in d2">
+        <div class="h">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"/></svg>
+          <b>Arithmetic — with meaning</b>
+        </div>
+        <div class="eq">
+          <span class="hot">king</span><i>&minus;</i><span>man</span><i>+</i><span>woman</span><i>&asymp;</i><span class="hot">queen</span>
+        </div>
+        <p>Once meaning is numbers, <b>directions mean something.</b> &ldquo;Royal&rdquo; is a direction. &ldquo;Female&rdquo; is a direction.</p>
+      </div>
+
+      <div class="hint">press <b>&rarr;</b> to draw the two arrows</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* hardcoded so the clusters always read cleanly — no live model needed */
+  var WORDS=[
+    ['apple',   72,  74,'#E05353'],['banana', 158,  52,'#E05353'],
+    ['mango',   96, 138,'#E05353'],['grape',  176, 122,'#E05353'],
+    ['Egypt',  528,  70,'#3DB3AB'],['France', 626,  96,'#3DB3AB'],
+    ['Japan',  530, 146,'#3DB3AB'],['Brazil', 618, 156,'#3DB3AB'],
+    ['red',     72, 322,'#6B58A8'],['blue',   126, 372,'#6B58A8'],
+    ['green',   82, 400,'#6B58A8'],
+    ['happy',  288, 228,'#3DB3AB'],['joyful', 344, 254,'#3DB3AB'],
+    ['king',   458, 300,'#B8801F'],['queen',  580, 300,'#B8801F'],
+    ['man',    458, 386,'#B8801F'],['woman',  580, 386,'#B8801F'],
+    ['prince', 512, 254,'#B8801F'],['boy',    512, 434,'#B8801F']
+  ];
+  var g=document.getElementById('dots'), NS='http://www.w3.org/2000/svg';
+  WORDS.forEach(function(w,i){
+    var c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',w[1]); c.setAttribute('cy',w[2]);
+    c.setAttribute('r',6); c.setAttribute('fill',w[3]);
+    c.setAttribute('class','dot');
+    c.style.opacity=0;
+    c.style.transition='opacity .4s ease '+(0.25+i*0.045)+'s';
+    g.appendChild(c);
+
+    var t=document.createElementNS(NS,'text');
+    t.setAttribute('x',w[1]); t.setAttribute('y',w[2]-12);
+    t.setAttribute('text-anchor','middle');
+    t.setAttribute('class','wlbl');
+    t.textContent=w[0];
+    t.style.opacity=0;
+    t.style.transition='opacity .4s ease '+(0.3+i*0.045)+'s';
+    g.appendChild(t);
+
+    requestAnimationFrame(function(){ c.style.opacity=1; t.style.opacity=1; });
+  });
+
+  var arrows=document.getElementById('arrows'), shown=false;
+  window.sbsStep=function(dir){
+    if(dir>0){ if(shown)return false; shown=true; arrows.classList.add('on'); return true; }
+    if(!shown)return false; shown=false; arrows.classList.remove('on'); return true;
+  };
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

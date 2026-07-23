@@ -1,0 +1,93 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:52px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}.d4{animation-delay:.58s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.body{flex:1;margin-top:30px;display:flex;gap:34px;align-items:stretch;min-height:0}
+
+.hero{flex:1;padding:30px 32px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.hero img{width:min(300px,100%);height:auto;filter:drop-shadow(0 10px 24px rgba(29,37,48,.13))}
+.hero .url{margin-top:26px;font:700 24px/1 ui-monospace,Consolas,monospace;color:var(--accent-dark)}
+.hero .sub{margin-top:14px;font:600 17px/1.5 var(--fd);color:var(--muted);letter-spacing:-.2px}
+.hero .sub b{color:var(--ink)}
+
+.side{flex:1.05;display:flex;flex-direction:column;gap:15px}
+.pt{padding:22px 24px}
+.pt .h{display:flex;align-items:center;gap:11px}
+.pt .h svg{width:20px;height:20px;flex:none;color:var(--accent-dark)}
+.pt .h b{font:700 17.5px/1.2 var(--fd);letter-spacing:-.3px}
+.pt p{margin-top:10px;font:400 15px/1.55 var(--fb);color:var(--muted)}
+.pt p b{color:var(--ink);font-weight:600}
+.pt.coral .h svg{color:var(--primary-dark)}
+
+.stats{display:flex;gap:12px;margin-top:2px}
+.st{flex:1;text-align:center;padding:16px 8px;border-radius:16px;background:#F4F6F8}
+.st b{display:block;font:700 24px/1 var(--fd);letter-spacing:-.7px;color:var(--ink)}
+.st span{display:block;margin-top:7px;font:600 11.5px/1.3 var(--fb);color:var(--faint)}
+
+.free{padding:17px 24px;display:flex;align-items:center;gap:14px;border-color:rgba(78,205,196,.45);
+  background:linear-gradient(92deg,rgba(78,205,196,.07),rgba(255,255,255,0) 70%)}
+.free svg{width:21px;height:21px;flex:none;color:var(--accent-dark)}
+.free p{font:600 16.5px/1.4 var(--fd);letter-spacing:-.2px}
+.free p b{color:var(--accent-dark)}
+</style>
+
+<div class="slide">
+  <div class="kicker in">Run one yourself</div>
+  <div class="title in d1">Where the models actually <span class="grad">live.</span></div>
+
+  <div class="body">
+    <div class="card hero in d1">
+      <img src="assets/hf-logo-with-title.svg" alt="Hugging Face">
+      <div class="url">huggingface.co</div>
+      <div class="sub">The <b>GitHub of AI models.</b></div>
+    </div>
+
+    <div class="side">
+      <div class="card pt in d2">
+        <div class="h">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 1.5Z"/><path d="M8 8h7M8 12h7"/></svg>
+          <b>A giant free library</b>
+        </div>
+        <p>Researchers and companies upload their <b>pretrained models</b> — the finished bags of learned numbers — and anyone can download them.</p>
+        <div class="stats">
+          <div class="st"><b>1M+</b><span>models</span></div>
+          <div class="st"><b>250k+</b><span>datasets</span></div>
+          <div class="st"><b>$0</b><span>to start</span></div>
+        </div>
+      </div>
+
+      <div class="card pt coral in d3">
+        <div class="h">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5"/><path d="M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17"/></svg>
+          <b>Including you. Tonight.</b>
+        </div>
+        <p>No lab. No permission. No waiting list. You pick a model, pull it down, and run it <b>in a few lines of Python.</b></p>
+      </div>
+
+      <div class="card free in d4">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 12.5 9 17.5 20 6.5"/>
+        </svg>
+        <p>Everything we touch tonight is <b>completely free.</b></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

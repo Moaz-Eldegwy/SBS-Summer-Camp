@@ -1,0 +1,237 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:46px 72px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 40px/1.1 var(--fd);letter-spacing:-1px;margin-top:10px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.24s}.d3{animation-delay:.38s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.map{display:inline-flex;flex:none;align-items:center;gap:7px;padding:8px 12px;
+  background:rgba(255,255,255,.75);border:1px solid var(--line);border-radius:14px}
+.map .mb{display:inline-flex;align-items:center;gap:6px;font:600 11.5px/1 var(--fb);color:var(--faint);
+  border-radius:9px;padding:6px 9px;white-space:nowrap}
+.map .mb i{width:15px;height:15px;border-radius:5px;background:#E4E9ED;color:#fff;font:700 9.5px/15px var(--fd);text-align:center;font-style:normal}
+.map .mb.on{color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.map .mb.on i{background:rgba(255,255,255,.32)}
+.map .ml{width:9px;height:2px;background:var(--line);border-radius:2px;flex:none}
+
+/* ---- input row ---- */
+.inrow{display:flex;gap:14px;margin-top:20px;align-items:stretch}
+.inbox{flex:1;padding:12px 18px 14px;display:flex;flex-direction:column;gap:7px}
+.inbox .lb{flex:none;font:600 11px/1 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+#txt{flex:1;border:1px solid var(--line);border-radius:12px;padding:12px 14px;height:48px;resize:none;
+  font:600 17px/1.35 var(--fd);color:var(--ink);background:#FAFBFC;outline:none}
+#txt:focus{border-color:var(--accent-dark);box-shadow:0 0 0 3px rgba(78,205,196,.18)}
+.presets{flex:none;display:flex;flex-direction:column;gap:7px;justify-content:center}
+.pbtn{border:1px solid var(--line);background:#fff;border-radius:11px;padding:8px 14px;cursor:pointer;
+  font:600 12.5px/1 var(--fb);color:var(--muted);transition:all .14s ease;white-space:nowrap;text-align:left}
+.pbtn:hover{border-color:var(--accent-dark);color:var(--accent-dark);transform:translateX(-2px)}
+.pbtn.hot{border-color:rgba(255,107,107,.45);color:var(--primary-dark);background:rgba(255,107,107,.05)}
+.pbtn.hot:hover{border-color:var(--primary);color:var(--primary-dark)}
+
+/* ---- token pills ---- */
+/* capped so three tokens don't float in a half-empty card; 25 Arabic tokens
+   still wrap comfortably inside, and anything longer scrolls */
+.stage{flex:1;max-height:286px;margin-top:14px;padding:20px 24px;display:flex;flex-direction:column;min-height:0}
+.stage .lb{font:600 11px/1 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+/* align-content:center keeps a 3-token sentence optically centred instead of
+   stranded at the top of a tall card, while 25 Arabic tokens still fill it */
+#pills{margin-top:14px;flex:1;display:flex;flex-wrap:wrap;align-content:center;gap:9px;overflow:auto;padding-right:4px}
+.tk{display:flex;flex-direction:column;align-items:center;gap:5px;animation:pop .34s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes pop{from{opacity:0;transform:translateY(9px) scale(.9)}to{opacity:1;transform:none}}
+.tk .p{font:700 19px/1 var(--fd);color:#fff;border-radius:11px;padding:11px 13px;white-space:pre;
+  box-shadow:0 5px 14px rgba(29,37,48,.13);direction:ltr;unicode-bidi:isolate}
+.tk .id{font:600 11.5px/1 ui-monospace,Consolas,monospace;color:var(--faint)}
+.tk .p .sp{opacity:.5}
+
+/* ---- readout ---- */
+.readout{display:flex;gap:14px;margin-top:12px}
+.stat{flex:1;padding:14px 20px;display:flex;align-items:baseline;gap:10px}
+.stat .n{font:700 30px/1 var(--fd);letter-spacing:-1px}
+.stat .k{font:600 12.5px/1.3 var(--fb);color:var(--muted)}
+.stat.a .n{color:var(--primary-dark)}
+.stat.b .n{color:var(--accent-dark)}
+.punch{flex:2.1;padding:14px 20px;display:flex;align-items:center;gap:13px}
+.punch svg{width:21px;height:21px;flex:none;color:var(--primary-dark)}
+.punch p{font:500 14.5px/1.45 var(--fb);color:var(--muted)}
+.punch p b{color:var(--ink);font-weight:700}
+#note{margin-left:auto;font:600 12px/1.3 var(--fb);color:var(--faint);text-align:right;flex:none}
+</style>
+
+<div class="slide">
+  <div class="hdr in">
+    <div class="kicker">Station 1 · watch words become numbers</div>
+    <div class="map">
+      <span class="mb on"><i>1</i>Tokenizer</span><span class="ml"></span>
+      <span class="mb"><i>2</i>Embeddings</span><span class="ml"></span>
+      <span class="mb"><i>3</i>Transformer</span><span class="ml"></span>
+      <span class="mb"><i>4</i>LM head</span>
+    </div>
+  </div>
+  <div class="title in d1">The model never sees words. <span class="grad">It sees numbers.</span></div>
+
+  <div class="inrow in d1">
+    <div class="card inbox">
+      <span class="lb">Type anything — or take a sentence from the chat</span>
+      <textarea id="txt" spellcheck="false">The sky is</textarea>
+    </div>
+    <div class="presets">
+      <button class="pbtn" data-t="The sky is">“The sky is”</button>
+      <button class="pbtn hot" data-t="strawberry">strawberry</button>
+      <button class="pbtn" data-t="الذكاء الاصطناعي يتعلم من الإنترنت">Arabic sentence</button>
+    </div>
+  </div>
+
+  <div class="card stage in d2">
+    <div class="lb">Every brick, and the number the model actually reads</div>
+    <div id="pills"></div>
+  </div>
+
+  <div class="readout in d3">
+    <div class="card stat a"><span class="n" id="nchars">0</span><span class="k">characters<br>you typed</span></div>
+    <div class="card stat b"><span class="n" id="ntoks">0</span><span class="k">tokens<br>it actually reads</span></div>
+    <div class="card punch">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2h.01"/>
+      </svg>
+      <p id="msg">Real <b>cl100k</b> tokenizer — the same one behind GPT-3.5 and GPT-4.</p>
+      <span id="note"></span>
+    </div>
+  </div>
+</div>
+
+<script src="assets/bpe-cl100k.js"></script>
+<script>
+(function(){
+  /* ---- real byte-level BPE, running fully offline on the bundled cl100k vocab ---- */
+  var RANKS = window.BPE_RANKS || {};
+
+  function bytesToUnicode(){
+    var bs=[],i;
+    for(i=33;i<=126;i++)bs.push(i);
+    for(i=161;i<=172;i++)bs.push(i);
+    for(i=174;i<=255;i++)bs.push(i);
+    var cs=bs.slice(), n=0, seen={};
+    for(i=0;i<bs.length;i++)seen[bs[i]]=1;
+    for(var b=0;b<256;b++){ if(!seen[b]){ bs.push(b); cs.push(256+n); n++; } }
+    var d={};
+    for(i=0;i<bs.length;i++)d[bs[i]]=String.fromCharCode(cs[i]);
+    return d;
+  }
+  var B2U=bytesToUnicode(), U2B={};
+  for(var k in B2U)U2B[B2U[k]]=+k;
+
+  var ENC=new TextEncoder(), DEC=new TextDecoder('utf-8');
+  function toUni(s){
+    var by=ENC.encode(s), o='';
+    for(var i=0;i<by.length;i++)o+=B2U[by[i]];
+    return o;
+  }
+  function fromUni(u){
+    var by=new Uint8Array(u.length);
+    for(var i=0;i<u.length;i++)by[i]=U2B[u[i]];
+    return DEC.decode(by);
+  }
+
+  /* greedy lowest-rank pair merge — exactly what tiktoken does */
+  function bpe(tok){
+    if(RANKS[tok]!==undefined)return [tok];
+    var parts=tok.split('');
+    while(parts.length>1){
+      var bestIdx=-1,bestRank=Infinity;
+      for(var i=0;i<parts.length-1;i++){
+        var r=RANKS[parts[i]+parts[i+1]];
+        if(r!==undefined&&r<bestRank){bestRank=r;bestIdx=i;}
+      }
+      if(bestIdx<0)break;
+      parts.splice(bestIdx,2,parts[bestIdx]+parts[bestIdx+1]);
+    }
+    return parts;
+  }
+
+  var PAT=/'(?:[sStTdDmM]|[lL][lL]|[vV][eE]|[rR][eE])|[^\r\n\p{L}\p{N}]?\p{L}+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n]*|\s*[\r\n]+|\s+(?!\S)|\s+/gu;
+
+  function encode(text){
+    var out=[],m;
+    PAT.lastIndex=0;
+    while((m=PAT.exec(text))!==null){
+      if(!m[0])break;
+      var pieces=bpe(toUni(m[0]));
+      for(var i=0;i<pieces.length;i++){
+        out.push({uni:pieces[i], id:RANKS[pieces[i]], text:fromUni(pieces[i])});
+      }
+    }
+    return out;
+  }
+
+  /* ---- render ---- */
+  var COLORS=[
+    'linear-gradient(135deg,#FF6B6B,#E05353)',
+    'linear-gradient(135deg,#4ECDC4,#3DB3AB)',
+    'linear-gradient(135deg,#7C8CA0,#5F6C7B)',
+    'linear-gradient(135deg,#FFA36B,#E07E3F)',
+    'linear-gradient(135deg,#8E7CC3,#6B58A8)'
+  ];
+  var pills=document.getElementById('pills'), txt=document.getElementById('txt'),
+      nchars=document.getElementById('nchars'), ntoks=document.getElementById('ntoks'),
+      msg=document.getElementById('msg'), note=document.getElementById('note');
+
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+  function render(){
+    var s=txt.value;
+    var toks=encode(s);
+    pills.innerHTML='';
+    toks.forEach(function(t,i){
+      var d=document.createElement('div');
+      d.className='tk';
+      d.style.animationDelay=Math.min(i*0.022,0.7)+'s';
+      /* make leading spaces visible so the room sees they belong to the token */
+      var shown=esc(t.text).replace(/^ /,'<span class="sp">&middot;</span>');
+      d.innerHTML='<span class="p" style="background:'+COLORS[i%COLORS.length]+'">'+shown+'</span>'+
+                  '<span class="id">'+(t.id===undefined?'?':t.id)+'</span>';
+      pills.appendChild(d);
+    });
+    nchars.textContent=[].concat(Array.from(s)).length;
+    ntoks.textContent=toks.length;
+
+    /* contextual punchline for the three scripted moments */
+    var low=s.trim().toLowerCase();
+    if(low==='strawberry'){
+      msg.innerHTML='It sees <b>3 bricks</b>, never the letters. That is <b>why it miscounts the R&rsquo;s</b> — it literally cannot see them.';
+      note.innerHTML='str&middot;aw&middot;berry';
+    } else if(/[؀-ۿ]/.test(s)){
+      msg.innerHTML='Arabic costs <b>far more tokens per word</b> than English — same machine, more bricks.';
+      note.innerHTML='slower &amp; pricier in Arabic';
+    } else if(low==='the sky is'){
+      /* the deck's running sentence — hand it straight to Station 2 */
+      msg.innerHTML='Our sentence, as the model receives it: <b>three numbers.</b> Next box turns each one into <b>meaning</b>.';
+      note.innerHTML='791 &middot; 13180 &middot; 374';
+    } else {
+      msg.innerHTML='Real <b>cl100k</b> tokenizer — the same one behind GPT-3.5 and GPT-4.';
+      note.textContent='';
+    }
+  }
+
+  txt.addEventListener('input',render);
+  txt.addEventListener('keydown',function(e){ e.stopPropagation(); });
+  [].slice.call(document.querySelectorAll('.pbtn')).forEach(function(b){
+    b.addEventListener('click',function(){ txt.value=b.dataset.t; render(); });
+  });
+  render();
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

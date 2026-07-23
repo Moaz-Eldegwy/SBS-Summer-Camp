@@ -1,0 +1,114 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:52px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}.d3{animation-delay:.42s}.d4{animation-delay:.58s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+/* ---- THE MAP progress strip (shared across station slides) ---- */
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.map{display:inline-flex;flex:none;align-items:center;gap:7px;padding:8px 12px;
+  background:rgba(255,255,255,.75);border:1px solid var(--line);border-radius:14px}
+.map .mb{display:inline-flex;align-items:center;gap:6px;font:600 11.5px/1 var(--fb);color:var(--faint);
+  border-radius:9px;padding:6px 9px;white-space:nowrap}
+.map .mb i{width:15px;height:15px;border-radius:5px;background:#E4E9ED;color:#fff;font:700 9.5px/15px var(--fd);
+  text-align:center;font-style:normal}
+.map .mb.on{color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.map .mb.on i{background:rgba(255,255,255,.32)}
+.map .ml{width:9px;height:2px;background:var(--line);border-radius:2px;flex:none}
+
+.body{flex:1;display:flex;gap:34px;margin-top:34px;align-items:center}
+.left{flex:1.4;display:flex;flex-direction:column;align-items:center}
+
+.word{font:700 54px/1 var(--fd);letter-spacing:-1.6px;color:var(--muted)}
+.down{margin:20px 0;display:flex;flex-direction:column;align-items:center;gap:6px}
+.down svg{width:22px;height:22px;color:var(--primary);opacity:.75}
+.down span{font:600 11.5px/1 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.bricks{display:flex;gap:12px}
+.brick{font:700 34px/1 var(--fd);letter-spacing:-.8px;color:#fff;border-radius:16px;padding:20px 24px;
+  box-shadow:0 12px 26px rgba(29,37,48,.16);animation:pop .55s cubic-bezier(.2,1.3,.4,1) both}
+.brick:nth-child(1){background:linear-gradient(135deg,var(--primary),var(--primary-dark));animation-delay:.5s}
+.brick:nth-child(2){background:linear-gradient(135deg,var(--accent),var(--accent-dark));animation-delay:.66s}
+.brick:nth-child(3){background:linear-gradient(135deg,#7C8CA0,#5F6C7B);animation-delay:.82s}
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.85)}to{opacity:1;transform:none}}
+.named{margin-top:26px;font:500 19px/1.5 var(--fb);color:var(--muted);text-align:center}
+.named b{font:700 21px/1 var(--fd);background:linear-gradient(92deg,var(--primary),var(--accent-dark));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+
+.right{flex:1;display:flex;flex-direction:column;gap:16px}
+.pt{padding:22px 24px}
+.pt .h{display:flex;align-items:center;gap:11px}
+.pt .h svg{width:19px;height:19px;flex:none;color:var(--accent-dark)}
+.pt .h b{font:700 17px/1.2 var(--fd);letter-spacing:-.3px}
+.pt p{margin-top:10px;font:400 15px/1.55 var(--fb);color:var(--muted)}
+.pt p b{color:var(--ink);font-weight:600}
+.pt.coral .h svg{color:var(--primary-dark)}
+</style>
+
+<div class="slide">
+  <div class="hdr in">
+    <div class="kicker">Station 1 · tokens</div>
+    <div class="map">
+      <span class="mb on"><i>1</i>Tokenizer</span><span class="ml"></span>
+      <span class="mb"><i>2</i>Embeddings</span><span class="ml"></span>
+      <span class="mb"><i>3</i>Transformer</span><span class="ml"></span>
+      <span class="mb"><i>4</i>LM head</span>
+    </div>
+  </div>
+  <div class="title in d1">It doesn&rsquo;t read letters. <span class="grad">It reads chunks.</span></div>
+
+  <div class="body">
+    <div class="left in d1">
+      <div class="word">understanding</div>
+      <div class="down">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5.5 12.5 12 19l6.5-6.5"/></svg>
+        <span>the tokenizer cuts</span>
+      </div>
+      <div class="bricks">
+        <span class="brick">under</span><span class="brick">stand</span><span class="brick">ing</span>
+      </div>
+      <div class="named">These pieces are called <b>tokens.</b></div>
+    </div>
+
+    <div class="right">
+      <div class="card pt in d2">
+        <div class="h">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="1.5" y="7" width="6" height="10" rx="1.8"/><rect x="9" y="7" width="6" height="10" rx="1.8"/><rect x="16.5" y="7" width="6" height="10" rx="1.8"/></svg>
+          <b>Think Lego bricks</b>
+        </div>
+        <p>The model doesn&rsquo;t see a smooth stream of words. It sees a box of <b>standard bricks</b> it already knows how to handle.</p>
+      </div>
+
+      <div class="card pt in d3">
+        <div class="h">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/><circle cx="18" cy="18" r="3"/></svg>
+          <b>Sometimes a word, sometimes a piece</b>
+        </div>
+        <p>&ldquo;cat&rdquo; is one whole token. &ldquo;understanding&rdquo; is three. The split isn&rsquo;t about grammar — it&rsquo;s about <b>what shows up often.</b></p>
+      </div>
+
+      <div class="card pt coral in d4">
+        <div class="h">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 18 0 9 9 0 0 1-18 0Z"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></svg>
+          <b>Why chunks and not whole words?</b>
+        </div>
+        <p>With a few thousand reusable pieces it can build <b>any word, in any language</b> — even ones it has never seen before.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>

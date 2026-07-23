@@ -1,0 +1,192 @@
+<meta charset="utf-8">
+<style>
+@font-face{font-family:'Space Grotesk';src:url('assets/SpaceGrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/Inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{--primary:#FF6B6B;--primary-dark:#E05353;--primary-light:#FF8E8E;--accent:#4ECDC4;--accent-dark:#3DB3AB;--ink:#1D2530;--muted:#5F6C7B;--faint:#8E9AA8;--line:rgba(29,37,48,.09);--card:#fff;--shadow:0 12px 32px rgba(29,37,48,.09),0 2px 8px rgba(29,37,48,.05);--r:22px;--fd:'Space Grotesk','Segoe UI',system-ui,sans-serif;--fb:'Inter','Segoe UI',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px;overflow:hidden;background:transparent}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;padding:52px 84px;display:flex;flex-direction:column}
+.kicker{display:flex;align-items:center;gap:12px;font:600 14px/1 var(--fb);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kicker::before{content:'';width:28px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.title{font:700 44px/1.1 var(--fd);letter-spacing:-1px;margin-top:12px}
+.grad{background:linear-gradient(92deg,var(--primary) 5%,var(--accent-dark) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.in{animation:in .7s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.26s}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.map{display:inline-flex;flex:none;align-items:center;gap:7px;padding:8px 12px;
+  background:rgba(255,255,255,.75);border:1px solid var(--line);border-radius:14px}
+.map .mb{display:inline-flex;align-items:center;gap:6px;font:600 11.5px/1 var(--fb);color:var(--faint);border-radius:9px;padding:6px 9px;white-space:nowrap}
+.map .mb i{width:15px;height:15px;border-radius:5px;background:#E4E9ED;color:#fff;font:700 9.5px/15px var(--fd);text-align:center;font-style:normal}
+.map .mb.on{color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+.map .mb.on i{background:rgba(255,255,255,.32)}
+.map .ml{width:9px;height:2px;background:var(--line);border-radius:2px;flex:none}
+
+.body{flex:1;margin-top:26px;display:flex;gap:24px;min-height:0}
+.left{flex:1;display:flex;flex-direction:column;gap:14px}
+.sent{padding:20px 24px}
+.sent .txt{font:600 20px/1.45 var(--fd);letter-spacing:-.3px}
+.sent .txt .bank{border-radius:8px;padding:2px 8px;font-weight:700}
+.sent.a .txt .bank{color:var(--accent-dark);background:rgba(78,205,196,.16)}
+.sent.b .txt .bank{color:var(--primary-dark);background:rgba(255,107,107,.13)}
+.sent .mean{margin-top:12px;display:flex;align-items:center;gap:9px;font:600 13.5px/1 var(--fb);color:var(--faint);
+  opacity:0;transform:translateY(6px);transition:all .45s ease}
+.sent.reveal .mean{opacity:1;transform:none}
+.sent .mean svg{width:15px;height:15px}
+.sent.a .mean{color:var(--accent-dark)}
+.sent.b .mean{color:var(--primary-dark)}
+.same{display:flex;align-items:center;gap:11px;padding:15px 22px}
+.same svg{width:19px;height:19px;flex:none;color:var(--muted)}
+.same p{font:500 14.5px/1.45 var(--fb);color:var(--muted)}
+.same p b{color:var(--ink);font-weight:700}
+
+.right{flex:1.12;display:flex;flex-direction:column;gap:14px}
+.att{flex:1;padding:22px 26px;display:flex;flex-direction:column;justify-content:center}
+.att .lb{font:600 11px/1 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+/* the attention arc is drawn ~40px above this line — leave it room, or it
+   crosses straight through the section label */
+.att .line{margin-top:54px;position:relative;font:600 21px/1.6 var(--fd);letter-spacing:-.3px}
+.att .w{position:relative;padding:2px 3px;border-radius:6px;transition:all .4s ease}
+.att .w.src{color:var(--primary-dark);font-weight:800}
+.att .w.tgt{transition-delay:.15s}
+.att.reveal .w.tgt{color:var(--accent-dark);font-weight:800;background:rgba(78,205,196,.16)}
+/* The arc is measured from the live on-screen positions of "it" and "animal"
+   (see the script below) rather than hardcoded, so it always lands on the words
+   even after the font loads or the wording changes. */
+.att svg.arc{position:absolute;left:0;top:-54px;width:100%;height:calc(100% + 54px);overflow:visible;pointer-events:none}
+.att svg.arc path.a{fill:none;stroke:var(--primary);stroke-width:2.6;stroke-linecap:round;marker-end:url(#ah2)}
+.att.reveal svg.arc path.a{animation:draw .8s cubic-bezier(.2,.7,.2,1) .25s forwards}
+/* a marker is painted even while the line is fully dashed out, so the arrowhead
+   used to sit there alone before the reveal. Hold it until the line reaches it
+   (draw = .25s delay + .8s run). */
+.att svg.arc #ah2 path{opacity:0}
+.att.reveal svg.arc #ah2 path{opacity:1;transition:opacity .16s ease 1s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.att .ans{margin-top:22px;font:500 15.5px/1.5 var(--fb);color:var(--muted);opacity:0;transition:opacity .5s ease .8s}
+.att.reveal .ans{opacity:1}
+.att .ans b{color:var(--ink);font-weight:700}
+
+.def{padding:18px 24px;display:flex;align-items:center;gap:14px}
+.def svg{width:21px;height:21px;flex:none;color:var(--primary-dark)}
+.def p{font:600 17px/1.4 var(--fd);letter-spacing:-.2px}
+.def p b{background:linear-gradient(92deg,var(--primary),var(--accent-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hint{position:absolute;right:84px;bottom:26px;font:600 12.5px/1 var(--fb);color:var(--faint)}
+.hint b{color:var(--accent-dark)}
+</style>
+
+<div class="slide">
+  <div class="hdr in">
+    <div class="kicker">Station 3 · the transformer</div>
+    <div class="map">
+      <span class="mb"><i>1</i>Tokenizer</span><span class="ml"></span>
+      <span class="mb"><i>2</i>Embeddings</span><span class="ml"></span>
+      <span class="mb on"><i>3</i>Transformer</span><span class="ml"></span>
+      <span class="mb"><i>4</i>LM head</span>
+    </div>
+  </div>
+  <div class="title in d1">One idea: it reads each word <span class="grad">in context.</span></div>
+
+  <div class="body">
+    <div class="left">
+      <div class="card sent a in d1" id="s1">
+        <div class="txt">I sat by the river <span class="bank">bank</span>.</div>
+        <div class="mean">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c3-4 6-4 9 0s6 4 9 0M3 11c3-4 6-4 9 0s6 4 9 0"/></svg>
+          the edge of a river
+        </div>
+      </div>
+
+      <div class="card sent b in d1" id="s2">
+        <div class="txt">I withdrew cash from the <span class="bank">bank</span>.</div>
+        <div class="mean">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 4l9 5.5M5 10v8M19 10v8M3 21h18M9.5 10v8M14.5 10v8"/></svg>
+          a place that holds money
+        </div>
+      </div>
+
+      <div class="card same in d1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9h16M4 15h16"/></svg>
+        <p>Same four letters. <b>You knew instantly</b> — from the words around it.</p>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="card att in d2" id="att">
+        <div class="lb">The clearest example ever written</div>
+        <div class="line">
+          <svg class="arc">
+            <defs><marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#FF6B6B"/></marker></defs>
+            <path class="a"/>
+          </svg>
+          The <span class="w tgt">animal</span> didn&rsquo;t cross the street because <span class="w src">it</span> was too tired.
+        </div>
+        <div class="ans">What is &ldquo;it&rdquo;? <b>The animal</b> — and you didn&rsquo;t even have to think. But <b>how</b> did you rule out the street? You paid attention to the whole sentence.</div>
+      </div>
+
+      <div class="card def in d2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+        </svg>
+        <p>Every word looks around and asks &ldquo;who changes what I mean?&rdquo; That looking-around is called <b>attention.</b></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="hint">press <b>&rarr;</b> to reveal</div>
+</div>
+
+<script>
+/* ---- aim the attention arc at the actual words ---- */
+(function(){
+  var att=document.getElementById('att'), line=att&&att.querySelector('.line');
+  if(!line)return;
+  var svg=line.querySelector('svg.arc'), path=svg.querySelector('path.a'),
+      src=line.querySelector('.w.src'), tgt=line.querySelector('.w.tgt');
+  var OVER=54;                       /* px the svg overhangs above the text box */
+
+  function draw(){
+    var lr=line.getBoundingClientRect();
+    if(!lr.width)return;
+    var sr=src.getBoundingClientRect(), tr=tgt.getBoundingClientRect();
+    svg.setAttribute('viewBox','0 0 '+lr.width+' '+(lr.height+OVER));
+    /* start just above "it", land just above "animal" */
+    var x1=sr.left-lr.left+sr.width/2, y1=sr.top-lr.top+OVER-2,
+        x2=tr.left-lr.left+tr.width/2, y2=tr.top-lr.top+OVER-2,
+        peak=Math.min(y1,y2)-38;
+    path.setAttribute('d','M'+x1.toFixed(1)+' '+y1.toFixed(1)+
+                         ' C'+x1.toFixed(1)+' '+peak.toFixed(1)+
+                         ','+x2.toFixed(1)+' '+peak.toFixed(1)+
+                         ','+x2.toFixed(1)+' '+y2.toFixed(1));
+    var L=path.getTotalLength();
+    path.style.strokeDasharray=L;
+    path.style.strokeDashoffset=att.classList.contains('reveal')?0:L;
+  }
+
+  draw();
+  /* metrics shift once the webfont swaps in, so measure again after it lands */
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(draw);
+  addEventListener('resize',draw);
+  setTimeout(draw,400);
+})();
+
+(function(){
+  var els=[document.getElementById('s1'),document.getElementById('s2'),document.getElementById('att')];
+  var step=0, MAX=2;
+  function render(){
+    els[0].classList.toggle('reveal',step>=1);
+    els[1].classList.toggle('reveal',step>=1);
+    els[2].classList.toggle('reveal',step>=2);
+  }
+  window.sbsStep=function(dir){
+    if(dir>0){ if(step>=MAX)return false; step++; render(); return true; }
+    if(step<=0)return false; step--; render(); return true;
+  };
+  render();
+})();
+</script>
+<script>
+(function(){addEventListener('keydown',function(e){parent.postMessage({type:'sbs-key',key:e.key},'*')});addEventListener('message',function(e){var d=e.data||{};if(d.type==='sbs-nav'){var c=false;try{if(window.sbsStep)c=!!window.sbsStep(d.dir)}catch(_){}parent.postMessage({type:'sbs-nav-ack',id:d.id,consumed:c},'*')}})})();
+</script>
