@@ -38,14 +38,14 @@ var QUIZZES       = ['Quiz 1', 'Quiz 2', 'Quiz 3', 'Quiz 4'];
 /* Bump this whenever ANSWER_KEYS changes, then re-deploy. Open the /exec URL
    in a browser: if the keyVersion it reports is behind this file, the live
    deployment is stale and is grading against the old key. */
-var KEY_VERSION = 2;
+var KEY_VERSION = 3;
 
 /* Correct answers, 0-based, in question order — mirror of `correct` in each
    quizN.html. Leave an array empty until that quiz has questions; the script
    then falls back to the score the browser reported. */
 var ANSWER_KEYS = {
   'Quiz 1': [2, 1, 1, 2, 0, 2, 2, 2, 1, 0],
-  'Quiz 2': [],
+  'Quiz 2': [1, 1, 2, 1, 0, 1, 1, 2, 2, 1],
   'Quiz 3': [],
   'Quiz 4': []
 };

@@ -56,7 +56,101 @@
    ───────────────────────────────────────────────────────────── */
 window.QUIZ_ID = 'Quiz 2';   // must match the Google Sheet tab name
 window.QUESTIONS = [
-  // Add questions here — same shape as quiz1.html
+  /* ── 1–5 · easy ─────────────────────────────────────────────── */
+  {
+    q: "At its core, what does a large language model (LLM) actually do to produce text?",
+    a: ["It looks up the answer in a giant stored database of finished sentences",
+        "It predicts the most likely next word (token), one piece at a time",
+        "It copies and pastes the closest matching text from the internet",
+        "It understands the question like a human and reasons its way to an answer"],
+    correct: 1,
+    why: "There is no stored answer and no plan. Every reply is built one token at a time, each one chosen as “what probably comes next?” given everything so far."
+  },
+  {
+    q: "In an LLM, what is a “token”?",
+    a: ["A password the model needs before it can run",
+        "A chunk of text — a whole word or a piece of a word — that the model processes",
+        "A single letter of the alphabet",
+        "The final sentence the model gives back to you"],
+    correct: 1,
+    why: "Common words are usually one token; rarer ones get split into pieces. That is why the tokenizer demo chopped some of your words into fragments and left others whole."
+  },
+  {
+    q: "What does the “temperature” setting control when a model generates text?",
+    a: ["How fast the model runs",
+        "How much memory the model uses",
+        "How random and creative the output is, versus safe and predictable",
+        "The maximum number of words the model can output"],
+    correct: 2,
+    why: "Low temperature keeps picking the top-ranked token — safe, repetitive. Raise it and the model starts taking the less likely options, which reads as creative until it reads as nonsense."
+  },
+  {
+    q: "Which sentence best describes “pretraining” in one line?",
+    a: ["A human writes out every answer the model will ever give",
+        "The model learns by repeatedly guessing the next word across enormous amounts of text",
+        "Engineers set each of the model's numbers by hand",
+        "The model memorizes the whole internet word-for-word so it can quote it back"],
+    correct: 1,
+    why: "Guess the next word, check the real one, nudge the weights — billions of times. Nobody writes the answers and nobody sets the numbers by hand; the pattern falls out of the practice."
+  },
+  {
+    q: "An “embedding” turns each token into a list of numbers so that:",
+    a: ["Words with similar meanings end up with similar numbers (close together)",
+        "Every word gets the exact same set of numbers",
+        "The text is encrypted for privacy",
+        "The model can count the letters inside each word"],
+    correct: 0,
+    why: "That is the meaning map from class: “king” sits near “queen”, and both sit far from “banana”. Meaning becomes distance, and distance is something maths can work with."
+  },
+
+  /* ── 6–8 · intermediate ─────────────────────────────────────── */
+  {
+    q: "In the sentence “The animal didn't cross the street because it was too tired,” how does the model work out that “it” refers to the animal?",
+    a: ["It always assumes “it” means the first noun in the sentence",
+        "Through attention — each word looks at the other words to understand it in context",
+        "It stops and asks the user to clarify",
+        "It searches its training data for the exact sentence"],
+    correct: 1,
+    why: "Attention is the 2017 breakthrough: every word gets to look at every other word and decide which ones matter. Swap “tired” for “wide” and the same mechanism points “it” at the street instead."
+  },
+  {
+    q: "After processing your text, what does the model's final step (the LM head) actually produce?",
+    a: ["A single, guaranteed-correct next word",
+        "A probability distribution — a ranked list of possible next words, each with a confidence score",
+        "A picture of the answer",
+        "A simple yes/no decision"],
+    correct: 1,
+    why: "The model never outputs a word — it outputs a scoreboard over its whole vocabulary. Something else (sampling, steered by temperature) then picks one off that list."
+  },
+  {
+    q: "Which of these is a “hyper-parameter” (a knob YOU set), not a “parameter” the model learned during training?",
+    a: ["The billions of weights inside the transformer",
+        "The embedding numbers for each word",
+        "The temperature",
+        "The attention patterns the model forms"],
+    correct: 2,
+    why: "Parameters are learned and frozen inside the file you downloaded. Hyper-parameters are the dials on the outside — temperature, max tokens, top-p — and you can turn them per request."
+  },
+
+  /* ── 9–10 · tricky ──────────────────────────────────────────── */
+  {
+    q: "You load a raw “base” model (straight from pretraining, before any fine-tuning) and ask it, “How do I boil an egg?” What is the most likely result?",
+    a: ["It refuses to answer until you log in",
+        "It gives a polished, helpful, step-by-step answer just like ChatGPT would",
+        "It simply continues the text pattern — for example, listing more similar questions — instead of helpfully answering",
+        "It returns an error, because base models can't generate text"],
+    correct: 2,
+    why: "A base model only knows how to continue text. On the web, a question is often followed by more questions — so that is what you get. Being helpful is a separate lesson taught afterwards, in fine-tuning."
+  },
+  {
+    q: "Based on how the model works, why does it sometimes state false information with complete confidence (“hallucination”)?",
+    a: ["It is deliberately lying to the user",
+        "It picks the words that sound most likely to come next and never actually checks whether they are true",
+        "Its internet connection dropped while answering",
+        "Someone typed a wrong fact into its database that morning"],
+    correct: 1,
+    why: "There is no truth-check anywhere in the pipeline — only “what is likely next”. A fake citation scores just as well as a real one, which is why it sounds exactly as confident either way."
+  }
 ];
 </script>
 <script src="quiz-config.js"></script>
